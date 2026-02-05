@@ -1,97 +1,73 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "Toku Documentation"
+description: "The API for stablecoin payroll - instant, compliant payroll for global teams"
 ---
 
-## Setting up
+## Overview
 
-Get your documentation site up and running in minutes.
+Toku is the API for stablecoin payroll, enabling companies to pay employees and contractors globally using fiat currency or stablecoins. Our platform handles compliance, tax withholding, and benefits administration across 100+ countries.
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
-
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
-
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+<CardGroup cols={2}>
+  <Card title="Installation" icon="download" href="/getting-started/installation">
+    Get started with the Toku API
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
+  <Card title="Quick Start" icon="rocket" href="/getting-started/quick-start">
+    Run your first payroll in minutes
   </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
+</CardGroup>
 
-## Create beautiful pages
+## Key Features
 
-Everything you need to create world-class documentation.
+<CardGroup cols={2}>
+  <Card title="Global Payroll" icon="globe">
+    Pay employees in 100+ countries with automatic tax compliance
+  </Card>
+  <Card title="Stablecoin Payments" icon="coins">
+    Pay in fiat or stablecoins with instant settlement
+  </Card>
+  <Card title="Employer of Record" icon="building">
+    Hire globally without setting up local entities
+  </Card>
+  <Card title="Contractor Management" icon="users">
+    Onboard and pay contractors worldwide
+  </Card>
+</CardGroup>
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
+## Quick Example
 
-## Need inspiration?
+```javascript
+import { Toku } from '@toku/sdk';
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
+const toku = new Toku({
+  apiKey: process.env.TOKU_API_KEY,
+});
+
+// Run payroll for your team
+const payroll = await toku.payroll.run({
+  employeeId: 'emp_123',
+  amount: 5000,
+  currency: 'USDC',
+});
+
+console.log(`Payroll processed: ${payroll.id}`);
+```
+
+## Explore the Docs
+
+<CardGroup cols={3}>
+  <Card title="Guides" icon="map" href="/guides/basic-usage">
+    Learn integration patterns and best practices
+  </Card>
+  <Card title="API Reference" icon="terminal" href="/api-reference/overview">
+    Complete API documentation
+  </Card>
+  <Card title="Examples" icon="code" href="/examples">
+    Real-world integration examples
+  </Card>
+</CardGroup>
+
+## Need Help?
+
+<Card title="Contact Support" icon="envelope" href="mailto:support@toku.com">
+  Reach out to our team for assistance
 </Card>

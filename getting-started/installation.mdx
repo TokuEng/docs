@@ -1,0 +1,60 @@
+---
+title: 'Installation'
+description: 'Get started by installing the library'
+---
+
+## Prerequisites
+
+Before installing, make sure you have:
+
+- Node.js 18 or higher
+- npm, yarn, or pnpm
+
+## Installation
+
+Install the library using your preferred package manager:
+
+<CodeGroup>
+```bash npm
+npm install your-library
+```
+```bash yarn
+yarn add your-library
+```
+```bash pnpm
+pnpm add your-library
+```
+</CodeGroup>
+
+## TypeScript Support
+
+This library includes built-in TypeScript definitions. No additional `@types` packages are required.
+
+```typescript
+import { YourFunction } from 'your-library';
+
+// Full type support out of the box
+const result = YourFunction();
+```
+
+## Verify Installation
+
+To verify the installation was successful, create a simple test file:
+
+```javascript
+import { version } from 'your-library';
+
+console.log(`Library version: ${version}`);
+```
+
+Run the file to confirm everything is working:
+
+```bash
+node test.js
+```
+
+## Next Steps
+
+<Card title="Quick Start" icon="rocket" href="/getting-started/quick-start">
+  Build your first project with the library
+</Card>

@@ -1,0 +1,82 @@
+---
+title: 'Configuration'
+description: 'Configure the library for your needs'
+---
+
+## Configuration Options
+
+The library accepts a configuration object when initialized:
+
+```javascript
+import { createClient } from 'your-library';
+
+const client = createClient({
+  // Configuration options here
+});
+```
+
+## Available Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `apiKey` | `string` | - | Your API key (required) |
+| `baseUrl` | `string` | `https://api.example.com` | API base URL |
+| `timeout` | `number` | `30000` | Request timeout in milliseconds |
+| `debug` | `boolean` | `false` | Enable debug logging |
+
+## Environment Variables
+
+You can also configure the library using environment variables:
+
+```bash
+# .env
+YOUR_LIBRARY_API_KEY=your-api-key-here
+YOUR_LIBRARY_DEBUG=true
+```
+
+```javascript
+import { createClient } from 'your-library';
+
+// Automatically reads from environment variables
+const client = createClient();
+```
+
+## Configuration Examples
+
+### Basic Setup
+
+```javascript
+const client = createClient({
+  apiKey: 'your-api-key',
+});
+```
+
+### Full Configuration
+
+```javascript
+const client = createClient({
+  apiKey: process.env.API_KEY,
+  baseUrl: 'https://custom-api.example.com',
+  timeout: 60000,
+  debug: process.env.NODE_ENV === 'development',
+});
+```
+
+## TypeScript Configuration
+
+For TypeScript projects, you can import the configuration type:
+
+```typescript
+import { createClient, type Config } from 'your-library';
+
+const config: Config = {
+  apiKey: 'your-api-key',
+  debug: true,
+};
+
+const client = createClient(config);
+```
+
+<Tip>
+Store sensitive configuration like API keys in environment variables, not in your code.
+</Tip>

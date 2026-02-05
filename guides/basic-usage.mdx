@@ -1,0 +1,99 @@
+---
+title: 'Basic Usage'
+description: 'Learn the fundamentals of using the library'
+---
+
+## Overview
+
+This guide covers the core functionality and common patterns you'll use when working with the library.
+
+## Initializing the Client
+
+First, create a client instance:
+
+```javascript
+import { createClient } from 'your-library';
+
+const client = createClient({
+  apiKey: process.env.API_KEY,
+});
+```
+
+## Core Operations
+
+### Reading Data
+
+```javascript
+// Fetch a single item
+const item = await client.get('item-id');
+console.log(item);
+
+// Fetch multiple items
+const items = await client.list({
+  limit: 10,
+  offset: 0,
+});
+```
+
+### Creating Data
+
+```javascript
+const newItem = await client.create({
+  name: 'My Item',
+  description: 'A description',
+});
+
+console.log(`Created item with ID: ${newItem.id}`);
+```
+
+### Updating Data
+
+```javascript
+const updatedItem = await client.update('item-id', {
+  name: 'Updated Name',
+});
+```
+
+### Deleting Data
+
+```javascript
+await client.delete('item-id');
+```
+
+## Error Handling
+
+The library throws typed errors that you can catch and handle:
+
+```javascript
+import { createClient, LibraryError } from 'your-library';
+
+try {
+  const result = await client.get('invalid-id');
+} catch (error) {
+  if (error instanceof LibraryError) {
+    console.error(`Error ${error.code}: ${error.message}`);
+  } else {
+    throw error;
+  }
+}
+```
+
+## Working with Promises
+
+All async operations return Promises:
+
+```javascript
+// Using async/await
+const result = await client.get('id');
+
+// Using .then()
+client.get('id')
+  .then(result => console.log(result))
+  .catch(error => console.error(error));
+```
+
+## Next Steps
+
+<Card title="Advanced Usage" icon="wand-magic-sparkles" href="/guides/advanced-usage">
+  Learn advanced patterns and techniques
+</Card>

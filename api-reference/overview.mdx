@@ -1,0 +1,208 @@
+---
+title: 'API Overview'
+description: 'Complete API reference for the library'
+---
+
+## Introduction
+
+This section provides detailed documentation for all exported functions, classes, and types.
+
+## Client
+
+### `createClient(config)`
+
+Creates a new client instance.
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `config` | `Config` | Yes | Configuration object |
+
+**Returns:** `Client`
+
+**Example:**
+
+```javascript
+import { createClient } from 'your-library';
+
+const client = createClient({
+  apiKey: 'your-api-key',
+});
+```
+
+---
+
+## Client Methods
+
+### `client.get(id)`
+
+Retrieves an item by ID.
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `id` | `string` | Yes | The item ID |
+
+**Returns:** `Promise<Item>`
+
+**Example:**
+
+```javascript
+const item = await client.get('item-123');
+```
+
+---
+
+### `client.list(options)`
+
+Lists items with optional filtering and pagination.
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `options.limit` | `number` | No | Maximum items to return (default: 20) |
+| `options.offset` | `number` | No | Number of items to skip (default: 0) |
+| `options.filter` | `object` | No | Filter criteria |
+
+**Returns:** `Promise<ListResponse<Item>>`
+
+**Example:**
+
+```javascript
+const { items, total } = await client.list({
+  limit: 10,
+  offset: 0,
+});
+```
+
+---
+
+### `client.create(data)`
+
+Creates a new item.
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `data` | `CreateInput` | Yes | Item data |
+
+**Returns:** `Promise<Item>`
+
+**Example:**
+
+```javascript
+const newItem = await client.create({
+  name: 'My Item',
+  description: 'Description here',
+});
+```
+
+---
+
+### `client.update(id, data)`
+
+Updates an existing item.
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `id` | `string` | Yes | The item ID |
+| `data` | `UpdateInput` | Yes | Fields to update |
+
+**Returns:** `Promise<Item>`
+
+**Example:**
+
+```javascript
+const updated = await client.update('item-123', {
+  name: 'Updated Name',
+});
+```
+
+---
+
+### `client.delete(id)`
+
+Deletes an item.
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `id` | `string` | Yes | The item ID |
+
+**Returns:** `Promise<void>`
+
+**Example:**
+
+```javascript
+await client.delete('item-123');
+```
+
+---
+
+## Types
+
+### `Config`
+
+```typescript
+interface Config {
+  apiKey: string;
+  baseUrl?: string;
+  timeout?: number;
+  debug?: boolean;
+}
+```
+
+### `Item`
+
+```typescript
+interface Item {
+  id: string;
+  name: string;
+  description?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+```
+
+### `ListResponse<T>`
+
+```typescript
+interface ListResponse<T> {
+  items: T[];
+  total: number;
+  limit: number;
+  offset: number;
+}
+```
+
+---
+
+## Error Types
+
+### `LibraryError`
+
+Base error class for all library errors.
+
+```typescript
+class LibraryError extends Error {
+  code: string;
+  statusCode?: number;
+}
+```
+
+### Common Error Codes
+
+| Code | Description |
+|------|-------------|
+| `NOT_FOUND` | The requested resource was not found |
+| `UNAUTHORIZED` | Invalid or missing API key |
+| `RATE_LIMITED` | Too many requests |
+| `VALIDATION_ERROR` | Invalid input data |
+| `INTERNAL_ERROR` | Server error |
