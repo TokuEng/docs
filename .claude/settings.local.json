@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "Bash(npx mintlify dev:*)",
+      "Bash(cat:*)",
+      "WebFetch(domain:www.toku.com)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nSet up Toku documentation with Mintlify\n\n- Remove Mintlify starter template content \\(essentials/, ai-tools/, example endpoints\\)\n- Add Toku branding: name, colors \\(#1646CE\\), social links\n- Create documentation structure:\n  - Getting started: installation, quick-start, configuration\n  - Guides: basic-usage, advanced-usage\n  - API reference: overview\n  - Examples: index\n- Update homepage with Toku description and features\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(unzip:*)",
+      "Bash(mkdir:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd TGA documentation with admin guides, recipient guides, and integrations\n\n- Restructure navigation for Token Grant Administration\n- Add admin guides: complete grant workflow, creating grants, vesting schedules, distributions\n- Add recipient guides: viewing grants, claiming tokens\n- Add integration guides: Fireblocks, Safe \\(Gnosis\\), Anchorage\n- Include screenshots from Notion export for grant workflow\n- Remove starter template content \\(api-reference, examples, guides\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(wc:*)",
+      "Bash(ls:*)",
+      "Bash(grep:*)",
+      "Bash(git commit:*)",
+      "Bash(git -C \"C:\\\\docs\" status)",
+      "Bash(git -C \"C:\\\\docs\" add features/ docs.json)",
+      "Bash(git -C \"C:\\\\docs\" log:*)",
+      "Bash(git -C \"C:\\\\docs\" commit -m \"$\\(cat <<''EOF''\nAdd feature documentation for grants, payroll, wallets, staking, invoices, compliance\n\nFeatures documented:\n- Grants: overview, grant-types \\(14 types\\), vesting, exercises\n- Payroll: overview, token-payroll, stablecoin-payroll, settlement\n- Wallets: overview, embedded \\(Privy/Crossmint\\), custody providers, Safe multi-sig\n- Staking: overview, configuration\n- Invoices: overview, contractor portal\n- Compliance: KYC \\(Persona\\), tax withholding\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git -C:*)",
+      "Bash(git -C \"C:\\\\docs\" commit -m \"$\\(cat <<''EOF''\nAdd technical reference documentation for webhooks, data models, and developers\n\nPhase 5 - Technical Reference:\n- Webhooks: overview, Fireblocks, DocuSign, Persona webhook handlers\n- Data Models: overview, grants, payroll, wallets, users schemas\n- Developers: setup guide, operations framework, services, cron jobs\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "WebFetch(domain:docs.privy.io)",
+      "Bash(git checkout:*)",
+      "Bash(git reset:*)",
+      "Bash(git push:*)",
+      "Bash(gh pr create --title \"Comprehensive TGA Documentation Suite\" --body \"$\\(cat <<''EOF''\n## Summary\n\nComplete documentation overhaul for TGA \\(Token Grant Administration\\) platform, generated from codebase analysis.\n\n### What''s Included\n\n**Getting Started**\n- Platform overview\n- Quick start guide\n\n**Admin Guides**\n- Complete grant workflow\n- Creating grants\n- Vesting schedules\n- Token distributions\n\n**Recipient Guides**  \n- Viewing grants\n- Claiming tokens\n\n**Integrations \\(14 docs\\)**\n- Custody: Fireblocks, Anchorage, Coinbase Prime, Paxos\n- Multi-sig: Safe \\(Gnosis\\), Squads \\(Solana\\)\n- Fiat: Bridge \\(on/off-ramp\\)\n- Documents: DocuSign\n- KYC: Persona\n- HRIS: ADP, Workday, UKG, BambooHR\n\n**Platform Documentation**\n- System architecture\n- Roles & permissions\n- Multi-tenancy\n- Security model\n\n**Feature Documentation \\(18 docs\\)**\n- Grants: overview, grant types, vesting, exercises\n- Payroll: overview, token payroll, stablecoin payroll, settlement\n- Wallets: overview, embedded wallets, custody wallets, Safe wallets\n- Staking: overview, configuration\n- Invoices: overview, contractor portal\n- Compliance: KYC, tax withholding\n\n**Technical Reference \\(13 docs\\)**\n- Webhooks: overview, Fireblocks, DocuSign, Persona\n- Data Models: overview, grants, payroll, wallets, users\n- Developers: setup, operations, services, cron jobs\n\n### Stats\n- **58 documentation files**\n- **~15,000 lines of documentation**\n- Covers all major features and integrations\n\n## Test plan\n- [ ] Review documentation structure in Mintlify preview\n- [ ] Verify all internal links work\n- [ ] Check code examples are accurate\n- [ ] Validate mermaid diagrams render correctly\n- [ ] Test navigation in docs.json\n\n🤖 Generated with [Claude Code]\\(https://claude.ai/code\\)\nEOF\n\\)\")",
+      "Bash(git pull:*)"
+    ]
+  }
+}
