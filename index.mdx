@@ -1,57 +1,182 @@
 ---
-title: "Toku TGA Documentation"
-description: "Token Grant Administration - Manage and distribute token grants for your organization"
+title: "Welcome to TGA"
+description: "The complete platform for token-based compensation management"
 ---
 
-## Welcome to TGA
+<img
+  className="block dark:hidden"
+  src="/images/hero-light.svg"
+  alt="TGA Hero"
+  style={{ borderRadius: '8px', marginBottom: '24px' }}
+/>
+<img
+  className="hidden dark:block"
+  src="/images/hero-dark.svg"
+  alt="TGA Hero"
+  style={{ borderRadius: '8px', marginBottom: '24px' }}
+/>
 
-Toku TGA (Token Grant Administration) is the platform for managing token-based compensation. Create grants, configure vesting schedules, and distribute tokens to your team members with ease.
+# Build your token compensation program with TGA
 
-<CardGroup cols={2}>
-  <Card title="I'm an Admin" icon="user-gear" href="/admin/creating-grants">
-    Set up and manage token grants for your organization
-  </Card>
-  <Card title="I'm a Recipient" icon="user" href="/recipients/viewing-grants">
-    View your grants and claim your vested tokens
-  </Card>
-</CardGroup>
-
-## For Administrators
-
-Manage your organization's token grant program:
+TGA (Token Grant Administration) is Toku's comprehensive platform for managing token-based compensation. From creating grants and configuring vesting schedules to processing payroll and settling tokens - TGA handles the entire lifecycle of token compensation.
 
 <CardGroup cols={3}>
-  <Card title="Creating Grants" icon="file-plus" href="/admin/creating-grants">
-    Create and configure token grants for team members
+  <Card title="Get Started" icon="rocket" href="/getting-started/quick-start">
+    Set up your first grant in minutes
   </Card>
-  <Card title="Vesting Schedules" icon="calendar" href="/admin/vesting-schedules">
-    Set up cliff, linear, or milestone-based vesting
+  <Card title="Explore Features" icon="compass" href="/features/grants/overview">
+    Discover what TGA can do
   </Card>
-  <Card title="Distributions" icon="paper-plane" href="/admin/distributions">
-    Process and track token distributions
-  </Card>
-</CardGroup>
-
-## For Recipients
-
-Access and manage your token grants:
-
-<CardGroup cols={2}>
-  <Card title="Viewing Grants" icon="eye" href="/recipients/viewing-grants">
-    Check your grant details and vesting progress
-  </Card>
-  <Card title="Claiming Tokens" icon="wallet" href="/recipients/claiming-tokens">
-    Claim your vested tokens to your wallet
+  <Card title="Open TGA" icon="arrow-up-right-from-square" href="https://tga.app.toku.com">
+    Launch the application
   </Card>
 </CardGroup>
 
-## Quick Links
+---
+
+## Quick Start by Role
+
+Choose your path based on how you'll use TGA:
+
+<CardGroup cols={3}>
+  <Card title="Organization Admin" icon="building" href="/admin/complete-grant-workflow">
+    Set up grants, configure vesting, manage distributions, and oversee your token compensation program.
+  </Card>
+  <Card title="Grant Recipient" icon="user" href="/recipients/viewing-grants">
+    View your grants, track vesting progress, configure wallets, and claim your tokens.
+  </Card>
+  <Card title="Developer" icon="code" href="/developers/setup">
+    Integrate with TGA APIs, understand the architecture, and extend functionality.
+  </Card>
+</CardGroup>
+
+---
+
+## Core Features
 
 <CardGroup cols={2}>
-  <Card title="Open TGA App" icon="arrow-up-right-from-square" href="https://tga.app.toku.com">
-    Log in to the TGA platform
+  <Card title="Token Grants" icon="gift" href="/features/grants/overview">
+    Create and manage token grants with flexible vesting schedules. Support for RTUs, Options, Warrants, and 10+ grant types.
   </Card>
-  <Card title="Contact Support" icon="envelope" href="mailto:support@toku.com">
+  <Card title="Token Payroll" icon="money-bill-transfer" href="/features/payroll/overview">
+    Pay employees in tokens or stablecoins with HRIS integration, exchange rate management, and automated settlements.
+  </Card>
+  <Card title="Wallet Management" icon="wallet" href="/features/wallets/overview">
+    Embedded wallets for easy onboarding, custody provider integration, and multi-sig support.
+  </Card>
+  <Card title="Compliance" icon="shield-check" href="/features/compliance/kyc">
+    Built-in KYC verification, tax withholding calculations, and regulatory compliance tools.
+  </Card>
+</CardGroup>
+
+---
+
+## Custody & Settlement Integrations
+
+Connect TGA to your preferred custody providers for secure token management and settlement.
+
+<CardGroup cols={4}>
+  <Card title="Fireblocks" icon="fire" href="/integrations/fireblocks">
+    MPC custody
+  </Card>
+  <Card title="Anchorage" icon="anchor" href="/integrations/anchorage">
+    Qualified custody
+  </Card>
+  <Card title="Coinbase Prime" icon="coins" href="/integrations/coinbase-prime">
+    Prime broker
+  </Card>
+  <Card title="Safe" icon="vault" href="/integrations/safe-multisig">
+    Multi-sig wallets
+  </Card>
+</CardGroup>
+
+<CardGroup cols={4}>
+  <Card title="Squads" icon="users" href="/integrations/squads">
+    Solana multi-sig
+  </Card>
+  <Card title="Paxos" icon="building-columns" href="/integrations/paxos">
+    Regulated custody
+  </Card>
+  <Card title="Bridge" icon="bridge" href="/integrations/bridge">
+    Fiat on/off-ramp
+  </Card>
+  <Card title="All Integrations" icon="plug" href="/integrations/fireblocks">
+    View all →
+  </Card>
+</CardGroup>
+
+---
+
+## HRIS Integrations
+
+Sync employee data and payroll information from your existing HR systems.
+
+<CardGroup cols={4}>
+  <Card title="ADP" icon="a" href="/integrations/hris/adp">
+    Workforce Now
+  </Card>
+  <Card title="Workday" icon="w" href="/integrations/hris/workday">
+    HCM
+  </Card>
+  <Card title="UKG" icon="u" href="/integrations/hris/ukg">
+    Pro & Ready
+  </Card>
+  <Card title="BambooHR" icon="leaf" href="/integrations/hris/bamboohr">
+    HR Platform
+  </Card>
+</CardGroup>
+
+---
+
+## Platform Architecture
+
+Understand how TGA is built and how to extend it.
+
+<CardGroup cols={3}>
+  <Card title="Architecture" icon="sitemap" href="/platform/architecture">
+    System design, tech stack, and data flow
+  </Card>
+  <Card title="Security" icon="lock" href="/platform/security">
+    Authentication, encryption, and compliance
+  </Card>
+  <Card title="Multi-Tenancy" icon="buildings" href="/platform/multi-tenancy">
+    Organization isolation and data scoping
+  </Card>
+</CardGroup>
+
+---
+
+## Developer Resources
+
+Build on top of TGA with our comprehensive developer documentation.
+
+<CardGroup cols={2}>
+  <Card title="Local Development Setup" icon="laptop-code" href="/developers/setup">
+    Get TGA running locally for development and testing
+  </Card>
+  <Card title="Operations Framework" icon="gears" href="/developers/operations">
+    Learn the tRPC operation patterns and authorization model
+  </Card>
+  <Card title="Service Layer" icon="layer-group" href="/developers/services">
+    Understand the service architecture and integration patterns
+  </Card>
+  <Card title="Data Models" icon="database" href="/data-models/overview">
+    Explore the database schema and entity relationships
+  </Card>
+</CardGroup>
+
+---
+
+## Resources
+
+<CardGroup cols={3}>
+  <Card title="Support" icon="life-ring" href="mailto:support@toku.com">
     Get help from the Toku team
+  </Card>
+  <Card title="Toku Website" icon="globe" href="https://www.toku.com">
+    Learn more about Toku
+  </Card>
+  <Card title="Status" icon="signal" href="https://status.toku.com">
+    Check system status
   </Card>
 </CardGroup>
