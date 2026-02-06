@@ -1,95 +1,141 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Toku TGA",
-  "colors": {
-    "primary": "#1646CE",
-    "light": "#1646CE",
-    "dark": "#1646CE"
-  },
-  "favicon": "/favicon.svg",
+  "name": "Toku Docs",
   "logo": {
     "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "dark": "/logo/dark.svg",
+    "href": "https://www.toku.com"
   },
-  "navigation": {
-    "tabs": [
-      {
-        "tab": "Documentation",
-        "groups": [
-          {
-            "group": "Getting Started",
-            "pages": [
-              "index",
-              "quickstart"
-            ]
-          },
-          {
-            "group": "For Admins",
-            "pages": [
-              "admins/overview",
-              "admins/grants",
-              "admins/payroll",
-              "admins/distributions"
-            ]
-          },
-          {
-            "group": "For Recipients",
-            "pages": [
-              "recipients/overview",
-              "recipients/grants",
-              "recipients/wallets",
-              "recipients/claiming"
-            ]
-          },
-          {
-            "group": "Integrations",
-            "pages": [
-              "integrations"
-            ]
-          },
-          {
-            "group": "Support",
-            "pages": [
-              "support/faq",
-              "support/contact"
-            ]
-          }
-        ]
-      }
-    ],
-    "global": {
-      "anchors": [
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#0057FF",
+    "light": "#4D8AFF",
+    "dark": "#0057FF",
+    "background": {
+      "light": "#FFFFFF",
+      "dark": "#0A0A0A"
+    }
+  },
+  "topbarLinks": [
+    { "name": "Support", "url": "https://www.toku.com/contact" },
+    { "name": "toku.com", "url": "https://www.toku.com" }
+  ],
+  "topbarCtaButton": {
+    "name": "Dashboard",
+    "url": "https://app.toku.com"
+  },
+  "tabs": [
+    { "name": "Changelog", "url": "changelog" }
+  ],
+  "navigation": [
+    {
+      "group": "Welcome",
+      "pages": ["welcome"]
+    },
+    {
+      "group": "Getting Started",
+      "pages": [
+        "getting-started/overview",
+        "getting-started/onboarding-checklist",
+        "getting-started/key-concepts",
+        "getting-started/support"
+      ]
+    },
+    {
+      "group": "Token Grant Administration",
+      "pages": [
+        "tga/overview",
         {
-          "anchor": "TGA App",
-          "href": "https://tga.app.toku.com",
-          "icon": "arrow-up-right-from-square"
+          "group": "Client Guides",
+          "pages": [
+            "tga/client/setting-up-your-account",
+            "tga/client/creating-grants",
+            "tga/client/managing-vesting-schedules",
+            "tga/client/token-distributions",
+            "tga/client/reporting-and-compliance",
+            "tga/client/cap-table-management"
+          ]
         },
         {
-          "anchor": "Website",
-          "href": "https://www.toku.com",
-          "icon": "globe"
-        }
+          "group": "User Guides",
+          "pages": [
+            "tga/user/employee-portal",
+            "tga/user/viewing-your-grants",
+            "tga/user/understanding-vesting",
+            "tga/user/tax-documents"
+          ]
+        },
+        "tga/faq"
+      ]
+    },
+    {
+      "group": "Toku Contractor",
+      "pages": [
+        "contractor/overview",
+        {
+          "group": "Client Guides",
+          "pages": [
+            "contractor/client/onboarding-contractors",
+            "contractor/client/managing-contractors",
+            "contractor/client/payments-and-invoicing",
+            "contractor/client/compliance-basics"
+          ]
+        },
+        {
+          "group": "Contractor Guides",
+          "pages": [
+            "contractor/user/getting-started",
+            "contractor/user/submitting-invoices",
+            "contractor/user/receiving-payments",
+            "contractor/user/tax-information"
+          ]
+        },
+        "contractor/faq"
+      ]
+    },
+    {
+      "group": "Stablecoin Payroll",
+      "pages": [
+        "payroll/overview",
+        {
+          "group": "Client Guides",
+          "pages": [
+            "payroll/client/enabling-stablecoin-payroll",
+            "payroll/client/supported-stablecoins",
+            "payroll/client/payroll-integration-setup",
+            "payroll/client/running-payroll",
+            "payroll/client/reporting"
+          ]
+        },
+        {
+          "group": "Employee Guides",
+          "pages": [
+            "payroll/user/choosing-payout-method",
+            "payroll/user/setting-up-wallet",
+            "payroll/user/understanding-payslip"
+          ]
+        },
+        "payroll/faq"
+      ]
+    },
+    {
+      "group": "Integrations",
+      "pages": [
+        "integrations/overview",
+        "integrations/anchorage",
+        "integrations/wallet-setup"
       ]
     }
+  ],
+  "footerSocials": {
+    "linkedin": "https://www.linkedin.com/company/tokupay",
+    "x": "https://x.com/tokupay"
   },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:support@toku.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Open TGA",
-      "href": "https://tga.app.toku.com"
-    }
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true
   },
-  "footer": {
-    "socials": {
-      "linkedin": "https://linkedin.com/company/usetoku",
-      "x": "https://twitter.com/usetoku"
-    }
+  "search": {
+    "prompt": "Search Toku docs..."
   }
 }

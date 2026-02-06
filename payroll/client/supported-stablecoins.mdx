@@ -1,0 +1,132 @@
+---
+title: "Supported Stablecoins"
+sidebarTitle: "Stablecoins"
+description: "Stablecoins and networks available for payroll"
+---
+
+## Overview
+
+Toku supports multiple stablecoins across various blockchain networks, giving you flexibility in how you pay employees.
+
+---
+
+## Available Stablecoins
+
+### USDC (USD Coin)
+
+The most widely supported stablecoin, issued by Circle.
+
+| Attribute | Details |
+|-----------|---------|
+| **Issuer** | Circle |
+| **Peg** | 1:1 with USD |
+| **Networks** | Ethereum, Polygon, Arbitrum, Optimism, Solana |
+| **Compliance** | Regulated, audited reserves |
+
+**Recommended for:** Most organizations due to wide support and regulatory clarity.
+
+---
+
+### USDT (Tether)
+
+The largest stablecoin by market cap.
+
+| Attribute | Details |
+|-----------|---------|
+| **Issuer** | Tether |
+| **Peg** | 1:1 with USD |
+| **Networks** | Ethereum, Polygon, Tron |
+| **Compliance** | Widely used, some regulatory considerations |
+
+**Recommended for:** Organizations with employees who prefer Tether or specific network support.
+
+---
+
+### DAI
+
+A decentralized, crypto-collateralized stablecoin.
+
+| Attribute | Details |
+|-----------|---------|
+| **Issuer** | MakerDAO |
+| **Peg** | 1:1 with USD |
+| **Networks** | Ethereum, Polygon |
+| **Compliance** | Decentralized, no single issuer |
+
+**Recommended for:** Organizations wanting decentralized options.
+
+---
+
+## Network Comparison
+
+| Network | Speed | Cost | Best For |
+|---------|-------|------|----------|
+| **Ethereum** | ~12 seconds | Higher fees | Maximum security |
+| **Polygon** | ~2 seconds | Very low fees | Cost efficiency |
+| **Arbitrum** | ~2 seconds | Low fees | Ethereum ecosystem |
+| **Optimism** | ~2 seconds | Low fees | Ethereum ecosystem |
+| **Solana** | ~0.4 seconds | Very low fees | Speed priority |
+
+---
+
+## Choosing a Stablecoin
+
+### Considerations
+
+| Factor | Recommendation |
+|--------|----------------|
+| **Employee preference** | USDC is most familiar to newcomers |
+| **Geographic availability** | USDC has widest exchange support |
+| **Cost** | Layer 2 networks (Polygon, Arbitrum) are cheapest |
+| **Speed** | All options offer fast settlement |
+
+### Common Configurations
+
+**Simple (recommended for most):**
+- USDC on Polygon
+- Single option for employees
+
+**Flexible:**
+- USDC on Ethereum, Polygon, and Arbitrum
+- Employee chooses network
+
+**Maximum choice:**
+- USDC + USDT
+- Multiple networks
+- Employee selects preferred combination
+
+---
+
+## Exchange Rate Handling
+
+### Rate Source
+Toku uses real-time rates from major exchanges to convert fiat to stablecoins.
+
+### Rate Locking
+- Rate is locked at time of payroll processing
+- Employees receive the exact amount specified
+- No exposure to rate fluctuation after locking
+
+---
+
+## Custody and Security
+
+All stablecoins are held in institutional custody:
+- Fireblocks
+- Anchorage
+- Coinbase Prime
+
+Funds are secured until payroll is processed and distributed.
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Integration Setup" icon="plug" href="/payroll/client/payroll-integration-setup">
+    Connect your payroll system
+  </Card>
+  <Card title="Run Payroll" icon="play" href="/payroll/client/running-payroll">
+    Process stablecoin payroll
+  </Card>
+</CardGroup>

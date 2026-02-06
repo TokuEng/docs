@@ -1,0 +1,133 @@
+---
+title: "Token Distributions"
+sidebarTitle: "Distributions"
+description: "Process and track token distributions to grant recipients"
+---
+
+## Overview
+
+Token distributions are the process of sending vested tokens from your organization to recipients' wallets. TGA handles distributions through integrated custody providers for security and compliance.
+
+---
+
+## Distribution Workflow
+
+<Steps>
+  <Step title="Recipient claims tokens">
+    Recipients request to claim their vested tokens in the TGA portal.
+  </Step>
+  <Step title="Admin reviews claims">
+    Review pending claims in the **Distributions** dashboard.
+  </Step>
+  <Step title="Approve distribution">
+    Approve individual claims or batch multiple claims together.
+  </Step>
+  <Step title="Process payment">
+    Tokens are sent via your custody provider to recipient wallets.
+  </Step>
+  <Step title="Confirm completion">
+    Track transaction status until tokens are delivered.
+  </Step>
+</Steps>
+
+---
+
+## Processing Distributions
+
+### Individual Distribution
+
+1. Navigate to **Distributions**
+2. Find the pending claim
+3. Review recipient details and wallet address
+4. Click **Approve** to process
+
+### Batch Distribution
+
+Process multiple claims at once:
+
+1. Navigate to **Distributions**
+2. Select multiple pending claims
+3. Click **Batch Approve**
+4. Review the summary
+5. Confirm to process all selected claims
+
+---
+
+## Distribution Status
+
+| Status | Description |
+|--------|-------------|
+| **Pending** | Claim submitted, awaiting approval |
+| **Approved** | Approved by admin, pending transaction |
+| **Processing** | Transaction submitted to custody provider |
+| **Completed** | Tokens delivered to recipient wallet |
+| **Failed** | Transaction failed — requires attention |
+
+---
+
+## Tax Withholding
+
+TGA automatically calculates and applies tax withholding when required:
+
+- **Withholding rates** are configured per jurisdiction
+- **Withheld tokens** are held separately for tax remittance
+- **Net tokens** are sent to the recipient
+
+### Viewing Withholding Details
+
+Each distribution shows:
+- Gross tokens (total claimed)
+- Withheld tokens (for taxes)
+- Net tokens (sent to recipient)
+
+---
+
+## Custody Integration
+
+Distributions are processed through your connected custody provider:
+
+| Provider | Settlement Time |
+|----------|-----------------|
+| Fireblocks | Near-instant |
+| Anchorage | Same day |
+| Coinbase Prime | Same day |
+| Safe (Multi-sig) | After approvals |
+
+<Card title="Integration Setup" icon="plug" href="/integrations/overview">
+  Connect your custody provider
+</Card>
+
+---
+
+## Transaction Tracking
+
+After approval, track the distribution:
+
+1. **Transaction ID** — Internal reference number
+2. **Blockchain hash** — On-chain transaction hash
+3. **Status updates** — Real-time status from custody provider
+4. **Confirmation** — Final confirmation when complete
+
+---
+
+## Failed Distributions
+
+If a distribution fails:
+
+1. Check the error message in the distribution details
+2. Verify the recipient's wallet address is correct
+3. Ensure sufficient tokens are available in custody
+4. Contact support if the issue persists
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Reporting" icon="chart-bar" href="/tga/client/reporting-and-compliance">
+    Generate distribution reports
+  </Card>
+  <Card title="Cap Table" icon="chart-pie" href="/tga/client/cap-table-management">
+    View ownership changes
+  </Card>
+</CardGroup>

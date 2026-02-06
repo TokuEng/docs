@@ -1,0 +1,132 @@
+---
+title: "Cap Table Management"
+sidebarTitle: "Cap Table"
+description: "Track token ownership and grants across your organization"
+---
+
+## Overview
+
+The cap table in TGA provides a complete view of token ownership, including all grants, vesting status, and distributions.
+
+---
+
+## Viewing the Cap Table
+
+Navigate to **Cap Table** from the sidebar to see:
+
+- **Total tokens** allocated across all grants
+- **Vested tokens** by holder
+- **Unvested tokens** still in vesting periods
+- **Distributed tokens** already sent to recipients
+
+---
+
+## Cap Table Views
+
+### By Holder
+See ownership grouped by individual:
+- Name and email
+- Total grants
+- Vested and unvested amounts
+- Percentage of total allocation
+
+### By Grant Type
+See ownership by grant type:
+- RTU totals
+- Option pools
+- Warrant allocations
+- Bonus awards
+
+### By Department
+If department data is available:
+- Engineering allocation
+- Sales allocation
+- Executive allocation
+- Etc.
+
+---
+
+## Key Metrics
+
+| Metric | Description |
+|--------|-------------|
+| **Fully Diluted** | Total tokens if all grants fully vest |
+| **Currently Vested** | Tokens that have vested to date |
+| **Outstanding** | Vested but not yet distributed |
+| **Distributed** | Tokens already sent to recipients |
+| **Forfeited** | Tokens from cancelled grants |
+
+---
+
+## Tracking Changes
+
+### New Grants
+When a grant is created, the cap table updates to show:
+- Increased allocation to the recipient
+- Updated totals for the grant type
+
+### Vesting Events
+As tokens vest:
+- Unvested decreases
+- Vested increases
+- No change to total allocation
+
+### Distributions
+When tokens are distributed:
+- Distributed amount increases
+- Outstanding amount decreases
+
+### Cancellations
+When a grant is cancelled:
+- Unvested tokens are forfeited
+- Forfeited total increases
+
+---
+
+## Filtering and Search
+
+Use filters to find specific information:
+- **Date range** — View cap table as of a specific date
+- **Grant type** — Filter by RTU, Options, etc.
+- **Status** — Active, completed, or cancelled
+- **Recipient** — Search by name or email
+
+---
+
+## Exporting Cap Table
+
+Export the cap table for external use:
+
+1. Apply any desired filters
+2. Click **Export**
+3. Choose format (CSV, Excel, PDF)
+4. Download the file
+
+---
+
+## Historical Views
+
+View the cap table at any point in time:
+
+1. Navigate to **Cap Table**
+2. Click **As of Date**
+3. Select the date
+4. View the cap table as it existed on that date
+
+Useful for:
+- Board meetings
+- Audit requests
+- Historical comparisons
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Reporting" icon="chart-bar" href="/tga/client/reporting-and-compliance">
+    Generate detailed reports
+  </Card>
+  <Card title="TGA FAQ" icon="circle-question" href="/tga/faq">
+    Common questions
+  </Card>
+</CardGroup>

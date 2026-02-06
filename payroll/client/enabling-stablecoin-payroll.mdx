@@ -1,0 +1,148 @@
+---
+title: "Enabling Stablecoin Payroll"
+sidebarTitle: "Enable Payroll"
+description: "Set up stablecoin payroll for your organization"
+---
+
+## Overview
+
+Enable stablecoin payroll to offer employees the option to receive part or all of their compensation in stablecoins.
+
+---
+
+## Setup Process
+
+<Steps>
+  <Step title="Navigate to Payroll Settings">
+    Go to **Settings** > **Payroll**
+  </Step>
+  <Step title="Enable Stablecoin Payroll">
+    Toggle on **Stablecoin Payroll** feature
+  </Step>
+  <Step title="Configure stablecoins">
+    Select which stablecoins to offer:
+    - USDC
+    - USDT
+    - DAI
+    - Others
+  </Step>
+  <Step title="Set network options">
+    Choose supported blockchain networks:
+    - Ethereum
+    - Polygon
+    - Arbitrum
+    - Optimism
+  </Step>
+  <Step title="Configure limits">
+    Set employee options:
+    - Maximum percentage allowed in stablecoins
+    - Minimum dollar threshold
+    - Opt-in requirements
+  </Step>
+  <Step title="Connect funding source">
+    Link your treasury or custody account for funding
+  </Step>
+</Steps>
+
+---
+
+## Configuration Options
+
+### Stablecoin Selection
+
+Choose which stablecoins employees can receive:
+
+| Option | Recommendation |
+|--------|----------------|
+| **USDC only** | Simplest, widest support |
+| **USDC + USDT** | More choice, still straightforward |
+| **Multiple options** | Maximum flexibility, more complexity |
+
+### Employee Limits
+
+Configure how much employees can receive in stablecoins:
+
+| Setting | Description |
+|---------|-------------|
+| **Maximum %** | Highest percentage of pay in stablecoins (e.g., 100%) |
+| **Minimum %** | Lowest percentage if opted in (e.g., 10%) |
+| **Minimum amount** | Dollar floor for stablecoin payments |
+
+---
+
+## Funding Setup
+
+### Treasury Connection
+
+Connect your funding source:
+1. Link your custody provider (Fireblocks, Coinbase, etc.)
+2. Configure the funding wallet
+3. Set up auto-funding rules
+
+### Funding Requirements
+
+Ensure you have sufficient stablecoins to cover:
+- Expected payroll amounts
+- Buffer for rate fluctuations
+- Multiple payroll cycles
+
+---
+
+## Employee Enrollment
+
+### Automatic Opt-In
+All eligible employees can choose stablecoin payments.
+
+### Invitation-Based
+Invite specific groups of employees:
+- By department
+- By location
+- By employee level
+
+### Manual Approval
+Require admin approval for each enrollment.
+
+---
+
+## Compliance Settings
+
+Configure compliance requirements:
+
+| Setting | Options |
+|---------|---------|
+| **KYC Requirement** | Required / Optional for stablecoin payments |
+| **Wallet Verification** | Test transaction / Signature / None |
+| **Geographic Restrictions** | Exclude certain jurisdictions |
+
+---
+
+## Integration
+
+### HRIS Connection
+
+Connect your HR system for employee data:
+- ADP
+- Workday
+- UKG
+- BambooHR
+
+<Card title="HRIS Integration" icon="plug" href="/payroll/client/payroll-integration-setup">
+  Set up your HR integration
+</Card>
+
+### Payroll Provider
+
+If using an external payroll provider, configure the integration to sync payroll data.
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Supported Stablecoins" icon="coins" href="/payroll/client/supported-stablecoins">
+    Learn about stablecoin options
+  </Card>
+  <Card title="Run Payroll" icon="play" href="/payroll/client/running-payroll">
+    Process your first payroll
+  </Card>
+</CardGroup>

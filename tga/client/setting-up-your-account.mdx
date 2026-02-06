@@ -1,0 +1,109 @@
+---
+title: "Setting Up Your Account"
+sidebarTitle: "Account Setup"
+description: "Configure TGA for your organization"
+---
+
+## Overview
+
+Before creating grants, you'll need to set up your TGA account with your organization's details, token information, and custody integration.
+
+---
+
+## Initial Setup
+
+<Steps>
+  <Step title="Complete organization profile">
+    Navigate to **Settings** > **Organization** and fill in:
+    - Legal entity name
+    - Business address
+    - Tax identification number
+    - Primary contact information
+  </Step>
+  <Step title="Add your token">
+    Go to **Settings** > **Tokens** and configure:
+    - Token name and symbol
+    - Contract address
+    - Blockchain network
+    - Decimal places
+  </Step>
+  <Step title="Connect custody provider">
+    Link your custody provider in **Settings** > **Integrations**:
+    - Select your provider (Fireblocks, Anchorage, etc.)
+    - Follow the authentication flow
+    - Verify the connection
+  </Step>
+  <Step title="Invite team members">
+    Add other admins in **Settings** > **Team**:
+    - Enter email addresses
+    - Assign appropriate roles
+    - Send invitations
+  </Step>
+</Steps>
+
+---
+
+## Token Configuration
+
+### Adding Your Token
+
+1. Navigate to **Settings** > **Tokens**
+2. Click **Add Token**
+3. Enter the token details:
+   - **Name**: Your token's full name
+   - **Symbol**: The ticker symbol (e.g., ABC)
+   - **Contract Address**: The token contract address
+   - **Network**: Ethereum, Polygon, Solana, etc.
+4. Save and verify the token appears correctly
+
+### Multiple Tokens
+
+If your organization has multiple tokens, you can add each one separately. Grants can be created for any configured token.
+
+---
+
+## Team Roles
+
+| Role | Permissions |
+|------|-------------|
+| **Admin** | Full access to all TGA features |
+| **Finance** | View and process distributions, access reports |
+| **Viewer** | View-only access to grants and cap table |
+
+---
+
+## Custody Integration
+
+TGA integrates with leading custody providers:
+
+<CardGroup cols={2}>
+  <Card title="Fireblocks" icon="building-columns">
+    Enterprise-grade MPC custody
+  </Card>
+  <Card title="Anchorage" icon="building-columns">
+    Qualified custodian for digital assets
+  </Card>
+  <Card title="Coinbase Prime" icon="building-columns">
+    Institutional trading and custody
+  </Card>
+  <Card title="Safe (Gnosis)" icon="vault">
+    Multi-sig wallet management
+  </Card>
+</CardGroup>
+
+<Card title="Integration Setup" icon="arrow-right" href="/integrations/overview">
+  Learn more about connecting custody providers
+</Card>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Create Grants" icon="plus" href="/tga/client/creating-grants">
+    Start issuing token grants
+  </Card>
+  <Card title="Vesting Schedules" icon="calendar" href="/tga/client/managing-vesting-schedules">
+    Set up vesting templates
+  </Card>
+</CardGroup>

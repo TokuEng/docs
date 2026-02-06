@@ -1,0 +1,252 @@
+---
+title: "Wallet Setup Guide"
+sidebarTitle: "Wallet Setup"
+description: "How to set up a crypto wallet for receiving tokens and stablecoins"
+---
+
+## Overview
+
+To receive token grants or stablecoin payments, you need a crypto wallet. This guide walks you through setting up and connecting a wallet.
+
+---
+
+## What is a Crypto Wallet?
+
+A crypto wallet is a digital tool that lets you receive, store, and manage cryptocurrency and tokens. Think of it like a digital bank account, but you have full control over it.
+
+### Key Concepts
+
+| Term | Definition |
+|------|------------|
+| **Wallet address** | Your unique identifier (like an account number) |
+| **Private key** | Secret code that proves ownership (never share this) |
+| **Recovery phrase** | 12-24 words to recover your wallet if lost |
+| **Network** | The blockchain your tokens live on (Ethereum, Polygon, etc.) |
+
+---
+
+## Recommended Wallets
+
+<CardGroup cols={2}>
+  <Card title="MetaMask" icon="fox">
+    **Best for:** Most users
+
+    Browser extension + mobile app. Works with Ethereum and all EVM networks.
+  </Card>
+  <Card title="Coinbase Wallet" icon="wallet">
+    **Best for:** Beginners
+
+    Easy setup, familiar interface. Note: This is different from the Coinbase exchange app.
+  </Card>
+  <Card title="Rainbow" icon="rainbow">
+    **Best for:** Mobile users
+
+    Beautiful mobile app with excellent UX. Ethereum and Layer 2 support.
+  </Card>
+  <Card title="Phantom" icon="ghost">
+    **Best for:** Solana
+
+    If receiving tokens on Solana network. Browser extension + mobile.
+  </Card>
+</CardGroup>
+
+---
+
+## Setting Up MetaMask
+
+<Steps>
+  <Step title="Download MetaMask">
+    Go to [metamask.io](https://metamask.io) and download the browser extension or mobile app.
+
+    <Warning>Only download from the official website. Beware of fake apps.</Warning>
+  </Step>
+  <Step title="Create a new wallet">
+    Open MetaMask and select **Create a new wallet**
+  </Step>
+  <Step title="Set a password">
+    Create a strong password for the app (this is different from your recovery phrase)
+  </Step>
+  <Step title="Save your recovery phrase">
+    MetaMask will show you 12 words. Write these down on paper and store them safely.
+
+    <Warning>
+      **Critical:** Never share your recovery phrase. Never store it digitally (no photos, no cloud storage). Anyone with these words can access your wallet.
+    </Warning>
+  </Step>
+  <Step title="Confirm your recovery phrase">
+    Verify you saved it correctly by entering the words in order
+  </Step>
+  <Step title="Get your wallet address">
+    Click on your account name to copy your wallet address (starts with 0x)
+  </Step>
+</Steps>
+
+---
+
+## Finding Your Wallet Address
+
+### MetaMask
+1. Open MetaMask
+2. Click on your account name at the top
+3. Your address is copied to clipboard
+
+### Coinbase Wallet
+1. Open the app
+2. Tap **Receive**
+3. Copy the address shown
+
+### Rainbow
+1. Open the app
+2. Tap your profile
+3. Tap **Copy Address**
+
+---
+
+## Adding Your Wallet to Toku
+
+<Steps>
+  <Step title="Log in to Toku">
+    Access your employee/contractor portal
+  </Step>
+  <Step title="Navigate to Wallets">
+    Go to **Settings** > **Wallets**
+  </Step>
+  <Step title="Add wallet">
+    Click **Add Wallet**
+  </Step>
+  <Step title="Select network">
+    Choose the network that matches your tokens:
+    - Ethereum
+    - Polygon
+    - Arbitrum
+    - Solana
+  </Step>
+  <Step title="Paste your address">
+    Paste your wallet address carefully
+  </Step>
+  <Step title="Verify">
+    Double-check the address is correct, then save
+  </Step>
+</Steps>
+
+---
+
+## Network Guide
+
+Different tokens live on different networks. Make sure your wallet supports the right network.
+
+| Network | Wallet Address Format | Compatible Wallets |
+|---------|----------------------|-------------------|
+| **Ethereum** | Starts with 0x | MetaMask, Coinbase Wallet, Rainbow |
+| **Polygon** | Starts with 0x (same as Ethereum) | MetaMask, Coinbase Wallet, Rainbow |
+| **Arbitrum** | Starts with 0x (same as Ethereum) | MetaMask, Coinbase Wallet, Rainbow |
+| **Solana** | Different format | Phantom |
+
+<Info>
+  For Ethereum, Polygon, and Arbitrum, you can use the same wallet address. These are "EVM-compatible" networks.
+</Info>
+
+---
+
+## Adding Networks to MetaMask
+
+If you need to receive tokens on Polygon or Arbitrum:
+
+<Steps>
+  <Step title="Open MetaMask">
+    Click the MetaMask extension
+  </Step>
+  <Step title="Open network selector">
+    Click the network dropdown at the top
+  </Step>
+  <Step title="Add network">
+    Click **Add Network** and search for Polygon or Arbitrum
+  </Step>
+  <Step title="Approve">
+    Click **Approve** to add the network
+  </Step>
+</Steps>
+
+---
+
+## Adding Tokens to Your Wallet
+
+If you don't see your tokens after receiving them:
+
+### MetaMask
+1. Click **Import tokens** at the bottom
+2. Search for the token (e.g., USDC)
+3. Select the correct token for your network
+4. Click **Add**
+
+### Other Wallets
+Most wallets auto-detect popular tokens. If not, look for an "Add Token" or "Import Token" option.
+
+---
+
+## Security Best Practices
+
+<Warning>
+  **Never share your private key or recovery phrase with anyone — not even Toku support.**
+</Warning>
+
+### Do
+- Write down your recovery phrase on paper
+- Store it in a secure location (safe, safety deposit box)
+- Use a strong, unique password
+- Double-check addresses before saving
+
+### Don't
+- Store recovery phrase digitally (screenshots, cloud, email)
+- Share your recovery phrase with anyone
+- Use exchange deposit addresses for receiving payments
+- Click links in unsolicited messages
+
+---
+
+## Exchange vs. Self-Custody Wallet
+
+| | Exchange (Coinbase, Binance) | Self-Custody (MetaMask, Rainbow) |
+|---|---|---|
+| **Control** | Exchange controls your keys | You control your keys |
+| **For payroll?** | Not recommended | Recommended |
+| **Recovery** | Exchange can help recover | Only you can recover |
+| **Fees** | May charge fees | Network fees only |
+
+<Warning>
+  **Do not use exchange deposit addresses** for receiving token grants or payroll. Use a self-custody wallet where you control the private keys.
+</Warning>
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="I don't see my tokens">
+    - Make sure you're on the correct network in your wallet
+    - Try adding the token manually (Import tokens)
+    - Check the transaction hash on a block explorer to confirm it was sent
+  </Accordion>
+  <Accordion title="I lost my recovery phrase">
+    If you still have access to your wallet, you can usually view the recovery phrase in Settings > Security. If you've lost access entirely, the funds cannot be recovered.
+  </Accordion>
+  <Accordion title="I sent tokens to the wrong address">
+    Crypto transactions cannot be reversed. If you sent to a wrong address, the funds are likely lost. Always double-check addresses.
+  </Accordion>
+  <Accordion title="Which network should I choose?">
+    Check with your employer or the Toku notification email to confirm which network your tokens will be sent on.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Contact Support" icon="headset" href="/getting-started/support">
+    Get help from Toku
+  </Card>
+  <Card title="MetaMask Support" icon="fox" href="https://support.metamask.io">
+    MetaMask help center
+  </Card>
+</CardGroup>

@@ -1,0 +1,147 @@
+---
+title: "Setting Up Your Wallet"
+sidebarTitle: "Wallet Setup"
+description: "Add a wallet to receive stablecoin payments"
+---
+
+## Overview
+
+To receive stablecoin payments, you need to provide a wallet address. This guide helps you set up and connect a wallet.
+
+---
+
+## Getting a Wallet
+
+If you don't have a crypto wallet, you'll need to create one.
+
+### Recommended Wallets
+
+<CardGroup cols={2}>
+  <Card title="MetaMask" icon="fox">
+    Browser extension and mobile app. Works with Ethereum and compatible networks.
+  </Card>
+  <Card title="Coinbase Wallet" icon="wallet">
+    Mobile app from Coinbase. Easy setup, beginner-friendly.
+  </Card>
+  <Card title="Rainbow" icon="rainbow">
+    Mobile app with clean interface. Ethereum and Layer 2 support.
+  </Card>
+  <Card title="Phantom" icon="ghost">
+    For Solana network. Browser extension and mobile app.
+  </Card>
+</CardGroup>
+
+---
+
+## Creating a Wallet
+
+<Steps>
+  <Step title="Download the wallet app">
+    Get your chosen wallet from the official source (app store or official website).
+  </Step>
+  <Step title="Create a new wallet">
+    Follow the app's setup process to create a new wallet.
+  </Step>
+  <Step title="Secure your recovery phrase">
+    Write down your recovery phrase and store it safely. This is critical — if you lose it, you lose access to your funds.
+  </Step>
+  <Step title="Set a password">
+    Create a strong password for the wallet app.
+  </Step>
+  <Step title="Get your address">
+    Find your wallet address (starts with 0x for Ethereum, or other formats for other networks).
+  </Step>
+</Steps>
+
+---
+
+## Adding Your Wallet to Toku
+
+<Steps>
+  <Step title="Navigate to Wallets">
+    In Toku, go to **Settings** > **Wallets**
+  </Step>
+  <Step title="Click Add Wallet">
+    Select **Add Wallet**
+  </Step>
+  <Step title="Select network">
+    Choose the network that matches your wallet:
+    - Ethereum
+    - Polygon
+    - Arbitrum
+    - etc.
+  </Step>
+  <Step title="Enter your address">
+    Paste your wallet address carefully. Double-check it's correct.
+  </Step>
+  <Step title="Verify ownership">
+    Complete any required verification (varies by setup).
+  </Step>
+</Steps>
+
+---
+
+## Wallet Address Tips
+
+<Warning>
+  **Triple-check your wallet address!** Crypto sent to the wrong address cannot be recovered.
+</Warning>
+
+### Do
+- Copy and paste — don't type manually
+- Verify the first and last several characters match
+- Use a self-custody wallet (not an exchange)
+- Keep your recovery phrase safe and private
+
+### Don't
+- Share your private key or recovery phrase with anyone
+- Use an exchange deposit address (funds may be lost)
+- Rely on memory — always verify the address
+
+---
+
+## Network Matching
+
+Make sure your wallet supports the network your employer uses:
+
+| Employer Uses | You Need |
+|---------------|----------|
+| USDC on Ethereum | Ethereum wallet address |
+| USDC on Polygon | Same address works (EVM compatible) |
+| USDC on Solana | Solana wallet address |
+
+Most EVM-compatible networks (Ethereum, Polygon, Arbitrum) use the same address format.
+
+---
+
+## Viewing Your Payments
+
+After receiving stablecoin payments:
+1. Open your wallet app
+2. View your balance
+3. See transaction history
+4. The payment should appear within minutes
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="I don't see my payment in my wallet">
+    Make sure you're viewing the correct network and token. You may need to add the stablecoin token to your wallet's token list.
+  </Accordion>
+  <Accordion title="I entered the wrong address">
+    If you haven't received a payment yet, update your address immediately. If a payment was already sent to the wrong address, contact support — recovery depends on the situation.
+  </Accordion>
+  <Accordion title="What if I want to change wallets?">
+    Add a new wallet in Toku and set it as your primary. Payments will go to the new address starting with the next pay cycle.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Next Steps
+
+<Card title="Understanding Your Payslip" icon="file-lines" href="/payroll/user/understanding-payslip">
+  Learn to read your payslip
+</Card>

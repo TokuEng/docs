@@ -1,0 +1,172 @@
+---
+title: "Payroll Integration Setup"
+sidebarTitle: "Integration Setup"
+description: "Connect your HR and payroll systems"
+---
+
+## Overview
+
+Connect Toku to your existing HR and payroll systems to sync employee data and payroll information automatically.
+
+---
+
+## Supported Integrations
+
+<CardGroup cols={2}>
+  <Card title="ADP" icon="building">
+    Workforce Now, RUN, and other ADP products
+  </Card>
+  <Card title="Workday" icon="building">
+    HR and payroll integration
+  </Card>
+  <Card title="UKG" icon="building">
+    UKG Pro, Ready, and Dimensions
+  </Card>
+  <Card title="BambooHR" icon="building">
+    Core HR and payroll
+  </Card>
+</CardGroup>
+
+---
+
+## Integration Setup
+
+<Steps>
+  <Step title="Navigate to Integrations">
+    Go to **Settings** > **Integrations**
+  </Step>
+  <Step title="Select your provider">
+    Choose your HR/payroll system from the list
+  </Step>
+  <Step title="Authenticate">
+    Follow the authentication flow:
+    - Enter API credentials
+    - Or use OAuth to connect
+  </Step>
+  <Step title="Configure sync settings">
+    Set up what data to sync:
+    - Employee roster
+    - Pay schedules
+    - Salary information
+  </Step>
+  <Step title="Map fields">
+    Map your system's fields to Toku fields
+  </Step>
+  <Step title="Test connection">
+    Verify the integration is working correctly
+  </Step>
+</Steps>
+
+---
+
+## Data Sync
+
+### What Syncs
+
+| Data | Direction | Frequency |
+|------|-----------|-----------|
+| Employee roster | HRIS → Toku | Daily or on-demand |
+| Pay schedules | HRIS → Toku | As updated |
+| Salary changes | HRIS → Toku | As updated |
+| Payment records | Toku → HRIS | After each payroll |
+
+### Sync Settings
+
+Configure how often data syncs:
+- **Real-time** — Changes sync immediately
+- **Daily** — Sync once per day
+- **Manual** — Sync on-demand only
+
+---
+
+## ADP Integration
+
+### Setup Requirements
+- ADP API access (request from your ADP rep)
+- API credentials or OAuth
+- Company code
+
+### Available Features
+- Employee data sync
+- Pay schedule import
+- Payroll data export
+
+---
+
+## Workday Integration
+
+### Setup Requirements
+- Workday tenant access
+- Integration system user
+- RAAS report configuration
+
+### Available Features
+- Employee and position data
+- Compensation information
+- Payroll integration
+
+---
+
+## UKG Integration
+
+### Setup Requirements
+- UKG API credentials
+- Company configuration
+- Admin access
+
+### Available Features
+- Employee roster sync
+- Time and attendance data
+- Payroll integration
+
+---
+
+## BambooHR Integration
+
+### Setup Requirements
+- BambooHR API key
+- Admin access
+
+### Available Features
+- Employee directory sync
+- Compensation data
+- Custom field mapping
+
+---
+
+## Manual Data Entry
+
+If you don't use a supported HRIS:
+1. Navigate to **Payroll** > **Employees**
+2. Add employees manually or import via CSV
+3. Enter compensation details
+4. Set up stablecoin preferences
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Integration won't connect">
+    Verify your API credentials and permissions. Contact your HRIS provider if needed.
+  </Accordion>
+  <Accordion title="Data isn't syncing">
+    Check sync settings and ensure the integration is enabled. Try a manual sync.
+  </Accordion>
+  <Accordion title="Missing employees">
+    Verify employee status in your HRIS. Inactive or terminated employees may not sync.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Run Payroll" icon="play" href="/payroll/client/running-payroll">
+    Process your first payroll
+  </Card>
+  <Card title="Reporting" icon="chart-bar" href="/payroll/client/reporting">
+    Generate payroll reports
+  </Card>
+</CardGroup>

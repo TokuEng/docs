@@ -1,0 +1,135 @@
+---
+title: "Reporting & Compliance"
+sidebarTitle: "Reporting"
+description: "Generate reports and maintain compliance for token grants"
+---
+
+## Overview
+
+TGA provides comprehensive reporting tools to help you track grants, distributions, and maintain compliance with tax and accounting requirements.
+
+---
+
+## Available Reports
+
+<CardGroup cols={2}>
+  <Card title="Grant Summary" icon="file-lines">
+    Overview of all grants by status, type, and recipient
+  </Card>
+  <Card title="Vesting Report" icon="calendar">
+    Upcoming and past vesting events
+  </Card>
+  <Card title="Distribution Report" icon="paper-plane">
+    All token distributions with tax details
+  </Card>
+  <Card title="Cap Table" icon="chart-pie">
+    Current ownership and token allocation
+  </Card>
+</CardGroup>
+
+---
+
+## Generating Reports
+
+<Steps>
+  <Step title="Navigate to Reports">
+    Click **Reports** in the sidebar
+  </Step>
+  <Step title="Select report type">
+    Choose the report you need
+  </Step>
+  <Step title="Set parameters">
+    Configure date range and filters
+  </Step>
+  <Step title="Generate and export">
+    Click **Generate** and download as CSV or PDF
+  </Step>
+</Steps>
+
+---
+
+## Report Types
+
+### Grant Summary Report
+Shows all grants in your organization:
+- Recipient name and email
+- Grant type and token amount
+- Vesting schedule and progress
+- Current status
+
+### Vesting Report
+Tracks vesting events:
+- Upcoming vesting dates
+- Tokens vesting per event
+- Historical vesting data
+
+### Distribution Report
+Details all token distributions:
+- Distribution date and amount
+- Gross vs. net (after withholding)
+- Transaction hash and status
+- Recipient wallet address
+
+### Tax Withholding Report
+For tax compliance:
+- Withholding amounts by recipient
+- Tax jurisdiction breakdown
+- Summary for remittance
+
+---
+
+## Compliance Features
+
+### KYC Verification
+TGA integrates with identity verification providers to ensure recipients complete KYC before claiming tokens.
+
+- Recipients are prompted to verify identity
+- Verification status shown on each grant
+- Distributions blocked until KYC complete
+
+### Tax Documentation
+Generate tax documents for recipients:
+- Token value at distribution
+- Withholding amounts
+- Supporting documentation
+
+### Audit Trail
+TGA maintains a complete audit trail:
+- All grant creation and modification events
+- Approval workflows
+- Distribution records
+
+---
+
+## Scheduled Reports
+
+Set up automatic report delivery:
+
+1. Navigate to **Reports** > **Scheduled**
+2. Select report type
+3. Configure frequency (daily, weekly, monthly)
+4. Add recipient email addresses
+5. Save the schedule
+
+---
+
+## Accounting Integration
+
+Export data for your accounting system:
+
+- **CSV exports** with customizable fields
+- **API access** for automated integration
+- **Formatted reports** matching common accounting formats
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Cap Table" icon="chart-pie" href="/tga/client/cap-table-management">
+    Manage token ownership
+  </Card>
+  <Card title="TGA FAQ" icon="circle-question" href="/tga/faq">
+    Common questions
+  </Card>
+</CardGroup>

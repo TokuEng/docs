@@ -1,0 +1,136 @@
+---
+title: "Managing Vesting Schedules"
+sidebarTitle: "Vesting Schedules"
+description: "Configure and manage vesting schedules for token grants"
+---
+
+## Overview
+
+Vesting schedules determine when grant recipients earn the right to their tokens. TGA supports flexible vesting configurations to match your compensation strategy.
+
+---
+
+## Vesting Basics
+
+### How Vesting Works
+
+1. **Grant issued** — Recipient is awarded tokens
+2. **Cliff period** — Initial waiting period (optional)
+3. **Vesting begins** — Tokens start to vest on a schedule
+4. **Fully vested** — All tokens are available to claim
+
+### Key Terms
+
+| Term | Description |
+|------|-------------|
+| **Cliff** | Period before any tokens vest |
+| **Vesting Period** | Total time for all tokens to vest |
+| **Vesting Frequency** | How often tokens vest (monthly, quarterly, etc.) |
+
+---
+
+## Common Vesting Schedules
+
+### Standard 4-Year with 1-Year Cliff
+
+The most common schedule for employees:
+
+- **Total period**: 4 years
+- **Cliff**: 1 year (25% vests at cliff)
+- **After cliff**: Monthly vesting of remaining 75%
+
+### 3-Year Monthly
+
+Faster vesting with no cliff:
+
+- **Total period**: 3 years
+- **Cliff**: None
+- **Vesting**: Monthly (1/36 each month)
+
+### Quarterly Vesting
+
+For investors or advisors:
+
+- **Total period**: 2 years
+- **Cliff**: None or 6 months
+- **Vesting**: Quarterly (12.5% every 3 months)
+
+### Milestone-Based
+
+Tokens vest when specific milestones are achieved, rather than time-based.
+
+---
+
+## Creating Vesting Templates
+
+Save time by creating reusable vesting templates:
+
+<Steps>
+  <Step title="Navigate to Settings">
+    Go to **Settings** > **Vesting Templates**
+  </Step>
+  <Step title="Create new template">
+    Click **Add Template** and configure:
+    - Template name (e.g., "Employee 4-Year")
+    - Vesting period
+    - Cliff period
+    - Vesting frequency
+  </Step>
+  <Step title="Save template">
+    Save the template for use in future grants
+  </Step>
+</Steps>
+
+---
+
+## Vesting Schedule Parameters
+
+| Parameter | Options |
+|-----------|---------|
+| **Vesting Period** | 1-10 years |
+| **Cliff** | None, 6 months, 1 year, custom |
+| **Frequency** | Monthly, Quarterly, Yearly, Custom |
+| **Cliff Percentage** | 0-100% (typically 25% for 1-year cliff) |
+
+---
+
+## Modifying Vesting
+
+### Before Acceptance
+Vesting schedules can be modified before the recipient accepts their grant.
+
+### After Acceptance
+Once a grant is accepted, vesting schedules generally cannot be changed. To modify terms, you may need to:
+1. Cancel the existing grant
+2. Create a new grant with updated terms
+3. Have the recipient accept the new grant
+
+### Accelerated Vesting
+In special cases (acquisition, termination, etc.), you can accelerate vesting:
+1. Navigate to the grant
+2. Click **Actions** > **Accelerate Vesting**
+3. Select the acceleration date
+4. Confirm the change
+
+---
+
+## Tracking Vesting Progress
+
+Monitor vesting across your organization:
+
+1. **Grant detail view** — See vesting progress for individual grants
+2. **Cap table** — View total vested and unvested tokens
+3. **Reports** — Generate vesting reports for accounting
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Token Distributions" icon="paper-plane" href="/tga/client/token-distributions">
+    Distribute vested tokens
+  </Card>
+  <Card title="Reporting" icon="chart-bar" href="/tga/client/reporting-and-compliance">
+    Generate vesting reports
+  </Card>
+</CardGroup>
