@@ -164,6 +164,17 @@ This report enables Toku to sync employee data from Workday.
   </Step>
 </Steps>
 
+### Sync Frequency
+
+Once connected, Toku automatically syncs employee data:
+- **New employees** are added automatically
+- **Updated information** (email, address, salary) syncs regularly
+- **Terminated employees** are marked inactive
+
+<Tip>
+You can manually trigger a sync anytime from the Toku Settings page.
+</Tip>
+
 <Note>
 If your organization uses Workday only for employee data (not payroll), you're done here. Continue below if Workday also handles your payroll.
 </Note>
@@ -337,10 +348,10 @@ With SOAP API configured, deductions are posted automatically from Toku to Workd
 ## Related Guides
 
 <CardGroup cols={2}>
-  <Card title="Employee Sync" icon="users" href="/integrations/workday-employee-sync">
-    Detailed employee sync setup
+  <Card title="ADP Integration" icon="link" href="/integrations/adp">
+    ADP payroll integration
   </Card>
-  <Card title="UKG Integration" icon="link" href="/integrations/ukg">
-    Alternative payroll integration
+  <Card title="UKG Integration" icon="building" href="/integrations/ukg">
+    UKG payroll integration
   </Card>
 </CardGroup>

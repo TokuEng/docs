@@ -99,7 +99,6 @@
               "integrations/adp-token-deduction",
               "integrations/adp-export-employees",
               "integrations/workday",
-              "integrations/workday-employee-sync",
               "integrations/ukg"
             ]
           },
