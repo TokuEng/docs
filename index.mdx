@@ -1,0 +1,158 @@
+---
+title: "Toku"
+sidebarTitle: "Home"
+description: "Token grants, contractor management, and stablecoin payroll infrastructure."
+mode: "custom"
+---
+
+<div className="hero">
+  <div className="text-center">
+    <h1 className="justify-center">Build with Toku.</h1>
+  </div>
+
+  <p className="text-center font-medium details-text">
+    Toku builds compensation infrastructure for the token economy — manage grants,
+    pay contractors globally, and run stablecoin payroll with built-in compliance.
+  </p>
+
+  <a
+    href="?assistant=open"
+    className="not-prose"
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: '0.75rem 1rem',
+      border: '1px solid #e5e7eb',
+      borderRadius: '0.5rem',
+      cursor: 'pointer',
+      marginBottom: '1.5rem',
+      backgroundColor: '#f9fafb',
+      textDecoration: 'none',
+      maxWidth: '400px',
+      marginLeft: 'auto',
+      marginRight: 'auto'
+    }}
+  >
+    <span style={{ color: '#6b7280' }}>Help me learn how to...</span>
+    <Icon icon="magnifying-glass" iconType="solid" size={14} />
+  </a>
+
+  <div className="text-sm flex items-center justify-center gap-1 font-medium">
+    <a href="/getting-started/overview" className="no-underline">
+      Get started
+    </a>
+    <Icon icon="arrow-right" iconType="solid" size={12} />
+  </div>
+</div>
+
+<div className="max-w-3xl px-4 mx-auto lg:px-8 pb-10">
+  <div className="text-center text-sm mb-6">
+    <h2 className="subtitle">Quickstarts</h2>
+  </div>
+
+  <CardGroup cols={3}>
+    <Card title="Set up Token Grants" icon="rocket" href="/tga/client/setting-up-your-account">
+      Configure your first token grant program in minutes.
+    </Card>
+    <Card title="Onboard Contractors" icon="user-plus" href="/contractor/client/onboarding-contractors">
+      Start paying global contractors with compliant contracts.
+    </Card>
+    <Card title="Enable Stablecoin Payroll" icon="money-bill-wave" href="/payroll/client/enabling-stablecoin-payroll">
+      Let employees receive salary in USDC or other stablecoins.
+    </Card>
+  </CardGroup>
+
+  <div className="text-center text-sm mt-12 mb-6">
+    <h2 className="subtitle">Explore Products</h2>
+  </div>
+
+  <CardGroup cols={3}>
+    <Card title="Token Grant Administration" icon="coins" href="/tga/overview">
+      Manage grants, vesting schedules, distributions, and cap tables.
+    </Card>
+    <Card title="Toku Contractor" icon="user-tie" href="/contractor/overview">
+      Onboard and pay global contractors in any currency.
+    </Card>
+    <Card title="Stablecoin Payroll" icon="wallet" href="/payroll/overview">
+      Pay your team in stablecoins with tax compliance.
+    </Card>
+  </CardGroup>
+
+  <div className="text-center text-sm mt-12 mb-6">
+    <h2 className="subtitle">For Clients</h2>
+  </div>
+
+  <CardGroup cols={2}>
+    <Card title="Onboarding Checklist" icon="list-check" href="/getting-started/onboarding-checklist">
+      New to Toku? Follow our step-by-step setup guide.
+    </Card>
+    <Card title="Key Concepts" icon="book" href="/getting-started/key-concepts">
+      Learn the terminology and core concepts.
+    </Card>
+  </CardGroup>
+
+  <div className="text-center text-sm mt-12 mb-6">
+    <h2 className="subtitle">For Employees & Contractors</h2>
+  </div>
+
+  <CardGroup cols={3}>
+    <Card title="Employee Portal" icon="user" href="/tga/user/employee-portal">
+      View your token grants and vesting status.
+    </Card>
+    <Card title="Contractor Getting Started" icon="briefcase" href="/contractor/user/getting-started">
+      Set up your account to receive payments.
+    </Card>
+    <Card title="Wallet Setup" icon="wallet" href="/payroll/user/setting-up-wallet">
+      Configure your wallet for stablecoin payments.
+    </Card>
+  </CardGroup>
+
+  <div className="text-center text-sm mt-12 mb-6">
+    <h2 className="subtitle">Resources</h2>
+  </div>
+
+  <CardGroup cols={3}>
+    <Card title="Integrations" icon="plug" href="/integrations/overview">
+      Supported custody providers and HR systems.
+    </Card>
+    <Card title="Get Support" icon="headset" href="/getting-started/support">
+      Contact our team for help.
+    </Card>
+    <Card title="Changelog" icon="clock-rotate-left" href="/changelog">
+      See what's new in Toku.
+    </Card>
+  </CardGroup>
+</div>
+
+<style>
+{`
+  .hero {
+    text-align: center;
+    padding: 4rem 1rem 2rem;
+    max-width: 42rem;
+    margin: 0 auto;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .hero .details-text {
+    opacity: 0.8;
+    font-size: 1.125rem;
+    line-height: 1.75;
+    margin-bottom: 2rem;
+  }
+
+  .subtitle {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.6;
+  }
+`}
+</style>
