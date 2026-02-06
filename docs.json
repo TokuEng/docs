@@ -46,7 +46,13 @@
             "pages": [
               "integrations/fireblocks",
               "integrations/safe-multisig",
-              "integrations/anchorage"
+              "integrations/anchorage",
+              "integrations/coinbase-prime",
+              "integrations/paxos",
+              "integrations/squads",
+              "integrations/bridge",
+              "integrations/docusign",
+              "integrations/persona"
             ]
           }
         ]
