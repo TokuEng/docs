@@ -64,6 +64,15 @@
                 ]
               }
             ]
+          },
+          {
+            "group": "Platform",
+            "pages": [
+              "platform/architecture",
+              "platform/roles-permissions",
+              "platform/multi-tenancy",
+              "platform/security"
+            ]
           }
         ]
       }
