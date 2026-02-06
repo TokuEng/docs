@@ -21,24 +21,38 @@
             "group": "Getting Started",
             "pages": [
               "index",
-              "getting-started/overview",
-              "getting-started/quick-start"
+              "quickstart"
             ]
           },
           {
-            "group": "Admin Guides",
+            "group": "For Admins",
             "pages": [
-              "admin/complete-grant-workflow",
-              "admin/creating-grants",
-              "admin/vesting-schedules",
-              "admin/distributions"
+              "admins/overview",
+              "admins/grants",
+              "admins/payroll",
+              "admins/distributions"
             ]
           },
           {
-            "group": "Recipient Guides",
+            "group": "For Recipients",
             "pages": [
-              "recipients/viewing-grants",
-              "recipients/claiming-tokens"
+              "recipients/overview",
+              "recipients/grants",
+              "recipients/wallets",
+              "recipients/claiming"
+            ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "integrations"
+            ]
+          },
+          {
+            "group": "Support",
+            "pages": [
+              "support/faq",
+              "support/contact"
             ]
           }
         ]

@@ -1,0 +1,87 @@
+---
+title: "Distributions"
+description: "Process and track token distributions"
+---
+
+## Overview
+
+Distributions are how tokens get from your organization to recipients. TGA handles the complexity of multi-recipient distributions with built-in compliance.
+
+---
+
+## Distribution Workflow
+
+<Steps>
+  <Step title="Select recipients">
+    Choose which grants or payroll items to distribute.
+  </Step>
+  <Step title="Review amounts">
+    Verify token amounts and recipient wallet addresses.
+  </Step>
+  <Step title="Approve distribution">
+    Admin approval required before processing.
+  </Step>
+  <Step title="Process">
+    Tokens are sent via your connected custody provider.
+  </Step>
+  <Step title="Track status">
+    Monitor distribution progress in real-time.
+  </Step>
+</Steps>
+
+---
+
+## Distribution Types
+
+### Grant Distributions
+Distribute vested tokens from grants to recipients who have claimed them.
+
+### Payroll Distributions
+Process token payroll payments to employees and contractors.
+
+### Manual Distributions
+One-off distributions for special cases.
+
+---
+
+## Batch Processing
+
+TGA supports batch distributions for efficiency:
+
+- Process multiple recipients in a single transaction
+- Reduce gas costs with batching
+- Track all distributions in one view
+
+---
+
+## Settlement Methods
+
+Distributions are processed through your connected custody provider:
+
+| Provider | Settlement Time |
+|----------|-----------------|
+| Fireblocks | Near-instant |
+| Anchorage | Same day |
+| Coinbase Prime | Same day |
+| Safe (Multi-sig) | After approvals |
+
+---
+
+## Tracking Distributions
+
+### Status Types
+- **Pending** - Awaiting approval
+- **Processing** - Transaction submitted
+- **Completed** - Tokens delivered
+- **Failed** - Requires attention
+
+### Transaction Details
+View blockchain transaction hashes and confirmation status for all distributions.
+
+---
+
+## Need help?
+
+<Card title="Contact Support" icon="envelope" href="/support/contact">
+  Get help with distributions
+</Card>
