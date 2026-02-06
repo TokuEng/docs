@@ -52,7 +52,17 @@
               "integrations/squads",
               "integrations/bridge",
               "integrations/docusign",
-              "integrations/persona"
+              "integrations/persona",
+              {
+                "group": "HRIS",
+                "pages": [
+                  "integrations/hris/overview",
+                  "integrations/hris/adp",
+                  "integrations/hris/workday",
+                  "integrations/hris/ukg",
+                  "integrations/hris/bamboohr"
+                ]
+              }
             ]
           }
         ]
