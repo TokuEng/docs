@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Toku",
+  "name": "Toku TGA",
   "colors": {
     "primary": "#1646CE",
     "light": "#1646CE",
@@ -21,33 +21,32 @@
             "group": "Getting Started",
             "pages": [
               "index",
-              "getting-started/installation",
-              "getting-started/quick-start",
-              "getting-started/configuration"
+              "getting-started/overview",
+              "getting-started/quick-start"
             ]
           },
           {
-            "group": "Guides",
+            "group": "Admin Guides",
             "pages": [
-              "guides/basic-usage",
-              "guides/advanced-usage"
+              "admin/complete-grant-workflow",
+              "admin/creating-grants",
+              "admin/vesting-schedules",
+              "admin/distributions"
             ]
           },
           {
-            "group": "Examples",
+            "group": "Recipient Guides",
             "pages": [
-              "examples/index"
+              "recipients/viewing-grants",
+              "recipients/claiming-tokens"
             ]
-          }
-        ]
-      },
-      {
-        "tab": "API Reference",
-        "groups": [
+          },
           {
-            "group": "API Documentation",
+            "group": "Integrations",
             "pages": [
-              "api-reference/overview"
+              "integrations/fireblocks",
+              "integrations/safe-multisig",
+              "integrations/anchorage"
             ]
           }
         ]
@@ -55,6 +54,11 @@
     ],
     "global": {
       "anchors": [
+        {
+          "anchor": "TGA App",
+          "href": "https://tga.app.toku.com",
+          "icon": "arrow-up-right-from-square"
+        },
         {
           "anchor": "Website",
           "href": "https://www.toku.com",
@@ -72,8 +76,8 @@
     ],
     "primary": {
       "type": "button",
-      "label": "Get Started",
-      "href": "/getting-started/installation"
+      "label": "Open TGA",
+      "href": "https://tga.app.toku.com"
     }
   },
   "footer": {

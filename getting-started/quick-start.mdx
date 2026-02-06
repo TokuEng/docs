@@ -1,64 +1,83 @@
 ---
 title: 'Quick Start'
-description: 'Build your first project in under 5 minutes'
+description: 'Get started with TGA in minutes'
 ---
 
-## Overview
+## Admin Quick Start
 
-This guide walks you through creating your first project with the library. By the end, you'll have a working example you can build upon.
+Get your token grant program running in four steps:
 
-## Step 1: Create a New Project
+<Steps>
+<Step title="Log In">
+  Access TGA at [tga.app.toku.com](https://tga.app.toku.com) with your admin credentials.
+</Step>
 
-Create a new directory and initialize a project:
+<Step title="Create a Vesting Schedule">
+  Go to **Schedules** and create your first vesting schedule:
+  - Choose a vesting type (cliff, linear, or milestone)
+  - Set the vesting period and frequency
+  - Save the schedule for reuse
 
-```bash
-mkdir my-project
-cd my-project
-npm init -y
-```
+  [Learn more about vesting schedules →](/admin/vesting-schedules)
+</Step>
 
-## Step 2: Install the Library
+<Step title="Create Your First Grant">
+  Go to **Grants** and click **Create Grant**:
+  - Enter recipient details
+  - Specify token amount
+  - Select your vesting schedule
+  - Review and create
 
-```bash
-npm install your-library
-```
+  [Learn more about creating grants →](/admin/creating-grants)
+</Step>
 
-## Step 3: Create Your First File
+<Step title="Process Distributions">
+  When tokens vest, go to **Distributions** to approve and process:
+  - Review pending distributions
+  - Verify recipient details
+  - Approve and execute transfers
 
-Create an `index.js` file:
+  [Learn more about distributions →](/admin/distributions)
+</Step>
+</Steps>
 
-```javascript
-import { createClient } from 'your-library';
+---
 
-// Initialize the client
-const client = createClient({
-  // Add your configuration here
-});
+## Recipient Quick Start
 
-// Use the library
-async function main() {
-  const result = await client.doSomething();
-  console.log(result);
-}
+Access your grants and claim tokens in three steps:
 
-main();
-```
+<Steps>
+<Step title="Log In">
+  Access TGA at [tga.app.toku.com](https://tga.app.toku.com) with your credentials.
+</Step>
 
-## Step 4: Run Your Project
+<Step title="Set Up Your Wallet">
+  Go to **Settings** and add your wallet address:
+  - Enter your wallet address
+  - Verify ownership if required
+  - Save your settings
 
-```bash
-node index.js
-```
+  [Learn more about wallet setup →](/recipients/claiming-tokens#setting-up-your-wallet)
+</Step>
 
-You should see output in your terminal confirming everything works.
+<Step title="View and Claim">
+  From your dashboard:
+  - View your grants and vesting progress
+  - Claim vested tokens when available
+  - Track your claim history
+
+  [Learn more about viewing grants →](/recipients/viewing-grants)
+</Step>
+</Steps>
 
 ## What's Next?
 
 <CardGroup cols={2}>
-  <Card title="Configuration" icon="gear" href="/getting-started/configuration">
-    Learn about all configuration options
+  <Card title="Admin Guides" icon="user-gear" href="/admin/creating-grants">
+    Deep dive into admin features
   </Card>
-  <Card title="Basic Usage" icon="code" href="/guides/basic-usage">
-    Explore common usage patterns
+  <Card title="Recipient Guides" icon="user" href="/recipients/viewing-grants">
+    Learn all recipient features
   </Card>
 </CardGroup>

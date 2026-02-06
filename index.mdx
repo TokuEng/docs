@@ -1,73 +1,57 @@
 ---
-title: "Toku Documentation"
-description: "The API for stablecoin payroll - instant, compliant payroll for global teams"
+title: "Toku TGA Documentation"
+description: "Token Grant Administration - Manage and distribute token grants for your organization"
 ---
 
-## Overview
+## Welcome to TGA
 
-Toku is the API for stablecoin payroll, enabling companies to pay employees and contractors globally using fiat currency or stablecoins. Our platform handles compliance, tax withholding, and benefits administration across 100+ countries.
+Toku TGA (Token Grant Administration) is the platform for managing token-based compensation. Create grants, configure vesting schedules, and distribute tokens to your team members with ease.
 
 <CardGroup cols={2}>
-  <Card title="Installation" icon="download" href="/getting-started/installation">
-    Get started with the Toku API
+  <Card title="I'm an Admin" icon="user-gear" href="/admin/creating-grants">
+    Set up and manage token grants for your organization
   </Card>
-  <Card title="Quick Start" icon="rocket" href="/getting-started/quick-start">
-    Run your first payroll in minutes
+  <Card title="I'm a Recipient" icon="user" href="/recipients/viewing-grants">
+    View your grants and claim your vested tokens
   </Card>
 </CardGroup>
 
-## Key Features
+## For Administrators
 
-<CardGroup cols={2}>
-  <Card title="Global Payroll" icon="globe">
-    Pay employees in 100+ countries with automatic tax compliance
-  </Card>
-  <Card title="Stablecoin Payments" icon="coins">
-    Pay in fiat or stablecoins with instant settlement
-  </Card>
-  <Card title="Employer of Record" icon="building">
-    Hire globally without setting up local entities
-  </Card>
-  <Card title="Contractor Management" icon="users">
-    Onboard and pay contractors worldwide
-  </Card>
-</CardGroup>
-
-## Quick Example
-
-```javascript
-import { Toku } from '@toku/sdk';
-
-const toku = new Toku({
-  apiKey: process.env.TOKU_API_KEY,
-});
-
-// Run payroll for your team
-const payroll = await toku.payroll.run({
-  employeeId: 'emp_123',
-  amount: 5000,
-  currency: 'USDC',
-});
-
-console.log(`Payroll processed: ${payroll.id}`);
-```
-
-## Explore the Docs
+Manage your organization's token grant program:
 
 <CardGroup cols={3}>
-  <Card title="Guides" icon="map" href="/guides/basic-usage">
-    Learn integration patterns and best practices
+  <Card title="Creating Grants" icon="file-plus" href="/admin/creating-grants">
+    Create and configure token grants for team members
   </Card>
-  <Card title="API Reference" icon="terminal" href="/api-reference/overview">
-    Complete API documentation
+  <Card title="Vesting Schedules" icon="calendar" href="/admin/vesting-schedules">
+    Set up cliff, linear, or milestone-based vesting
   </Card>
-  <Card title="Examples" icon="code" href="/examples">
-    Real-world integration examples
+  <Card title="Distributions" icon="paper-plane" href="/admin/distributions">
+    Process and track token distributions
   </Card>
 </CardGroup>
 
-## Need Help?
+## For Recipients
 
-<Card title="Contact Support" icon="envelope" href="mailto:support@toku.com">
-  Reach out to our team for assistance
-</Card>
+Access and manage your token grants:
+
+<CardGroup cols={2}>
+  <Card title="Viewing Grants" icon="eye" href="/recipients/viewing-grants">
+    Check your grant details and vesting progress
+  </Card>
+  <Card title="Claiming Tokens" icon="wallet" href="/recipients/claiming-tokens">
+    Claim your vested tokens to your wallet
+  </Card>
+</CardGroup>
+
+## Quick Links
+
+<CardGroup cols={2}>
+  <Card title="Open TGA App" icon="arrow-up-right-from-square" href="https://tga.app.toku.com">
+    Log in to the TGA platform
+  </Card>
+  <Card title="Contact Support" icon="envelope" href="mailto:support@toku.com">
+    Get help from the Toku team
+  </Card>
+</CardGroup>

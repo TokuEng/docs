@@ -1,0 +1,120 @@
+---
+title: 'Vesting Schedules'
+description: 'Configure and manage vesting schedules for token grants'
+---
+
+## Overview
+
+Vesting schedules determine how and when granted tokens become available to recipients. TGA supports flexible vesting configurations to match your compensation strategy.
+
+## Vesting Schedule Types
+
+### Cliff Vesting
+
+Tokens vest all at once after a specified period.
+
+- **Example**: 1-year cliff = 100% of tokens vest after 12 months
+- **Use case**: Ensuring commitment before any tokens are released
+
+### Linear Vesting
+
+Tokens vest gradually over time in equal increments.
+
+- **Example**: 4-year linear monthly = 1/48th of tokens vest each month
+- **Use case**: Standard equity compensation schedules
+
+### Milestone-Based Vesting
+
+Tokens vest when specific milestones or conditions are met.
+
+- **Example**: Tokens vest upon product launch, funding rounds, or performance goals
+- **Use case**: Tying compensation to company or individual achievements
+
+## Creating a Vesting Schedule
+
+<Steps>
+<Step title="Navigate to Schedules">
+  From the TGA dashboard, go to **Schedules** in the sidebar.
+</Step>
+
+<Step title="Create New Schedule">
+  Click **Create Schedule** and select the vesting type.
+</Step>
+
+<Step title="Configure Parameters">
+  Set the schedule parameters:
+
+  **For Cliff Vesting:**
+  - Cliff duration (months)
+  - Cliff percentage (usually 100%)
+
+  **For Linear Vesting:**
+  - Total vesting period
+  - Vesting frequency (monthly, quarterly, annually)
+  - Optional cliff period
+
+  **For Milestone Vesting:**
+  - Define milestones
+  - Set percentage for each milestone
+</Step>
+
+<Step title="Name and Save">
+  Give your schedule a descriptive name and save it for reuse.
+</Step>
+</Steps>
+
+## Common Vesting Configurations
+
+### Standard 4-Year with 1-Year Cliff
+
+The most common vesting schedule for startups:
+
+| Parameter | Value |
+|-----------|-------|
+| Total Period | 4 years |
+| Cliff | 1 year (25%) |
+| Remaining Vesting | Monthly over 3 years |
+
+### 3-Year Linear Monthly
+
+Faster vesting for contractors or advisors:
+
+| Parameter | Value |
+|-----------|-------|
+| Total Period | 3 years |
+| Cliff | None |
+| Vesting | Monthly (1/36th each month) |
+
+## Managing Existing Schedules
+
+### Viewing Schedules
+
+Navigate to **Schedules** to see all vesting schedules in your organization. Each schedule shows:
+
+- Schedule name and type
+- Number of grants using this schedule
+- Total tokens under this schedule
+
+### Modifying Schedules
+
+<Warning>
+Modifying a schedule affects all grants using that schedule. Consider creating a new schedule instead of modifying existing ones.
+</Warning>
+
+To modify a schedule:
+1. Click on the schedule name
+2. Click **Edit Schedule**
+3. Make your changes
+4. Review affected grants
+5. Confirm changes
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Creating Grants" icon="file-plus" href="/admin/creating-grants">
+    Apply vesting schedules to new grants
+  </Card>
+  <Card title="Distributions" icon="paper-plane" href="/admin/distributions">
+    Process vested token distributions
+  </Card>
+</CardGroup>
