@@ -1,0 +1,221 @@
+---
+title: 'Grant Types'
+description: 'Different types of token grants available in TGA'
+---
+
+## Overview
+
+TGA supports multiple grant types to accommodate various compensation structures. Each type has specific characteristics for vesting, exercise, and settlement.
+
+## Available Grant Types
+
+| Type | Full Name | Exercisable | Strike Price | Use Case |
+|------|-----------|-------------|--------------|----------|
+| **RTU** | Restricted Token Units | No | No | Standard token grants |
+| **RTA** | Restricted Token Awards | No | No | Token awards with restrictions |
+| **TOKEN_BONUS** | Token Bonus | No | No | One-time token bonuses |
+| **TPA** | Token Purchase Agreement | Yes | Yes | Token purchase options |
+| **OPTION** | Token Option | Yes | Yes | Traditional options |
+| **WARRANT** | Warrant | Yes | Yes | Investor warrants |
+| **LTIP** | Long-Term Incentive Plan | No | No | Long-term retention grants |
+| **TSA** | Token Sale Agreement | Yes | Yes | Token sale arrangements |
+| **FTIA** | Future Token Interest Agreement | No | No | SAFT-like agreements |
+| **PHANTOMUNITS** | Phantom Units | No | No | Cash-settled phantom equity |
+| **FOUNDERROUND** | Founder Round | No | No | Founder allocations |
+| **FTI** | Future Token Interest | No | No | Future token rights |
+| **TOKENSUB** | Token Subscription | Yes | Yes | Subscription-based tokens |
+| **PERFORMANCE** | Performance Grant | No | No | Performance-based grants |
+
+## Grant Type Details
+
+### RTU (Restricted Token Units)
+
+The most common grant type for employee compensation.
+
+| Property | Value |
+|----------|-------|
+| Exercisable | No |
+| Strike Price | No |
+| Vesting | Standard schedule |
+| Settlement | Automatic on vest |
+
+**Use Case**: Standard employee token grants that vest over time.
+
+### OPTION (Token Option)
+
+Traditional option structure with exercise requirement.
+
+| Property | Value |
+|----------|-------|
+| Exercisable | Yes |
+| Strike Price | Yes |
+| Vesting | Standard schedule |
+| Settlement | After exercise |
+
+**Use Case**: Employees can exercise options at a set price, benefiting from token appreciation.
+
+### WARRANT
+
+Similar to options but typically for investors.
+
+| Property | Value |
+|----------|-------|
+| Exercisable | Yes |
+| Strike Price | Yes |
+| Vesting | Optional |
+| Settlement | After exercise |
+
+**Use Case**: Investor warrants with lockup periods and exercise terms.
+
+### TOKEN_BONUS
+
+One-time token bonus without vesting.
+
+| Property | Value |
+|----------|-------|
+| Exercisable | No |
+| Strike Price | No |
+| Vesting | Immediate or single vest |
+| Settlement | Direct |
+
+**Use Case**: Spot bonuses, signing bonuses, retention bonuses.
+
+### PERFORMANCE
+
+Performance-based grants with variable outcomes.
+
+| Property | Value |
+|----------|-------|
+| Exercisable | No |
+| Strike Price | No |
+| Vesting | Performance-triggered |
+| Settlement | On achievement |
+
+**Use Case**: Grants that vest based on performance milestones rather than time.
+
+### PHANTOMUNITS
+
+Cash-settled phantom equity.
+
+| Property | Value |
+|----------|-------|
+| Exercisable | No |
+| Strike Price | Optional |
+| Vesting | Standard schedule |
+| Settlement | Cash equivalent |
+
+**Use Case**: When token settlement isn't possible, pay cash value instead.
+
+## Configuration Properties
+
+### Vesting Configuration
+
+| Property | Description |
+|----------|-------------|
+| `vestingFrequencyType` | MONTHLY, QUARTERLY, YEARLY, etc. |
+| `vestingPeriods` | Total number of vesting periods |
+| `vestingCliffPeriods` | Periods before first vest |
+| `vestingCliffPercentage` | Percentage that vests at cliff |
+
+### Exercise Configuration
+
+| Property | Description |
+|----------|-------------|
+| `isExercisable` | Whether exercise is required |
+| `useStrike` | Whether strike price applies |
+| `exerciseFormFile` | DocuSign template for exercise |
+| `signingTabs` | DocuSign tab configuration |
+
+### Settlement Configuration
+
+| Property | Description |
+|----------|-------------|
+| `grantAssetType` | TOKEN or FIAT |
+| `isCashCompensation` | Cash settlement instead of tokens |
+| `redemptionHold` | Days to hold before redemption |
+| `redemptionCap` | Maximum redemption amount |
+
+## Creating a Grant Type
+
+<Steps>
+<Step title="Navigate to Grant Types">
+  Go to **Settings** > **Grant Types**
+</Step>
+
+<Step title="Create New Type">
+  Click **Add Grant Type** and select the base kind.
+</Step>
+
+<Step title="Configure Properties">
+  Set vesting schedule, exercise requirements, and settlement options.
+</Step>
+
+<Step title="Upload Exercise Form (if exercisable)">
+  For exercisable grants, upload the DocuSign template.
+</Step>
+
+<Step title="Configure Signing Tabs">
+  Map document fields for signature workflow.
+</Step>
+</Steps>
+
+## Grant Type Selection Guide
+
+| Scenario | Recommended Type |
+|----------|------------------|
+| Standard employee grant | RTU |
+| Employee options with upside | OPTION |
+| Investor token allocation | WARRANT or FOUNDERROUND |
+| One-time bonus | TOKEN_BONUS |
+| Retention package | LTIP |
+| Performance incentive | PERFORMANCE |
+| Cash-equivalent program | PHANTOMUNITS |
+
+## Vesting Frequency Options
+
+| Frequency | Description |
+|-----------|-------------|
+| `DAILY` | Vests every day |
+| `WEEKLY` | Vests every week |
+| `MONTHLY` | Vests every month (most common) |
+| `QUARTERLY` | Vests every quarter |
+| `SEMIANNUALLY` | Vests every 6 months |
+| `YEARLY` | Vests once per year |
+| `CUSTOM` | Custom schedule via template |
+
+## Examples
+
+### 4-Year Monthly Vesting with 1-Year Cliff
+
+```typescript
+{
+    kind: 'RTU',
+    vestingFrequencyType: 'MONTHLY',
+    vestingPeriods: 48,
+    vestingCliffPeriods: 12,
+    vestingCliffPercentage: 25  // 25% vests at cliff
+}
+```
+
+### Quarterly Vesting Option
+
+```typescript
+{
+    kind: 'OPTION',
+    vestingFrequencyType: 'QUARTERLY',
+    vestingPeriods: 16,  // 4 years
+    vestingCliffPeriods: 4,  // 1 year
+    isExercisable: true,
+    useStrike: true
+}
+```
+
+### Immediate Token Bonus
+
+```typescript
+{
+    kind: 'TOKEN_BONUS',
+    vestingPeriods: 1,
+    vestingCliffPeriods: 0
+}
+```
