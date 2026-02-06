@@ -1,0 +1,346 @@
+---
+title: "Workday Stablecoin Payroll Integration"
+sidebarTitle: "Workday"
+description: "Complete guide for setting up stablecoin payroll with Workday"
+---
+
+This guide walks you through setting up your stablecoin payroll integration with Workday.
+
+## Prerequisites
+
+Before starting, ensure you have:
+- Admin access to your Workday tenant
+- Security admin permissions to create users and groups
+- Admin access to your Toku account
+
+---
+
+## Integration Setup
+
+### Create Integrated System User
+
+<Steps>
+  <Step title="Create Integrated System User">
+    Search for "Create Integrated System User" in Workday.
+
+    ![Create user](/images/integrations/Screenshot_2025-10-16_at_12.18.33_AM.png)
+  </Step>
+
+  <Step title="Set credentials">
+    Set an appropriate username and password. Save these credentials to share with Toku.
+
+    ![Set credentials](/images/integrations/Screenshot_2025-10-16_at_12.18.57_AM.png)
+  </Step>
+
+  <Step title="Create Security Group">
+    Search for "Create security group" and select **Integration System Security Group (Unconstrained)**.
+
+    ![Create security group](/images/integrations/Screenshot_2025-10-16_at_12.20.11_AM.png)
+  </Step>
+
+  <Step title="Assign user to group">
+    Add your integrated system user (e.g., "TOKU_USER") to the security group.
+
+    ![Assign user](/images/integrations/Screenshot_2025-10-16_at_12.20.42_AM.png)
+  </Step>
+
+  <Step title="Set Domain Permissions">
+    Click on "Maintain Domain Permissions for Security Group" and add the required permissions.
+
+    ![Domain permissions](/images/integrations/Screenshot_2025-10-16_at_12.21.13_AM.png)
+    ![Add permissions](/images/integrations/Screenshot_2025-10-16_at_12.23.07_AM.png)
+  </Step>
+
+  <Step title="Activate Security Policies">
+    Search for "Activate Pending Security Policy Changes" and confirm.
+
+    ![Activate policies](/images/integrations/Screenshot_2025-10-16_at_12.23.54_AM.png)
+  </Step>
+</Steps>
+
+---
+
+### Create Employee RAAS Report
+
+This report enables Toku to sync employee data from Workday.
+
+<Steps>
+  <Step title="Create Custom Report">
+    Search for "Create Custom Report" and configure:
+    - **Report Type**: Advanced
+    - **Enable as Web Service**: Checked
+    - **Report Name**: TOKU_EMPLOYEE_DEMOGRAPHICS
+    - **Data Source**: All Active and Terminated Workers
+
+    ![Create report](/images/integrations/Screenshot_2025-10-15_at_11.45.21_PM.png)
+    ![Report name](/images/integrations/Screenshot_2025-10-15_at_11.53.12_PM.png)
+  </Step>
+
+  <Step title="Add report fields">
+    Add the following fields to your report:
+
+    | Field | XML Alias |
+    |-------|-----------|
+    | Employee ID* | employeeID |
+    | Email - Work* | email |
+    | Compensation Range - Currency* | currency |
+    | All Home Addresses - Full with Country* | address |
+    | Total Pay Annualized - Amount* | totalSalary |
+    | Pay Group - Country* | country |
+    | Full Legal Name* | fullName |
+    | Cost Center - Name | department |
+    | Position ID* | positionID |
+    | Active Status with Date* | status |
+    | Terminated* | terminated |
+    | Worker Active* | worker_active |
+    | Total Pay - Frequency* | freq |
+    | Pay Group | payGroup |
+
+    *Required fields
+
+    ![Add fields](/images/integrations/Screenshot_2025-10-16_at_12.00.50_AM.png)
+  </Step>
+
+  <Step title="Set authorized users">
+    Add your integrated system user to the **Authorized Users** in the Share section.
+
+    ![Authorized users](/images/integrations/Screenshot_2025-10-16_at_12.12.42_AM.png)
+  </Step>
+</Steps>
+
+---
+
+### Connect to Toku
+
+<Steps>
+  <Step title="Navigate to Integrations">
+    In Toku, go to **Settings** → **Payroll Integrations**.
+
+    ![Settings](/images/integrations/Screenshot_2025-10-15_at_5.00.19_PM.png)
+  </Step>
+
+  <Step title="Add Workday Integration">
+    Click **Add New Integration** and select **Workday**.
+
+    ![Add integration](/images/integrations/Screenshot_2025-12-16_at_11.14.51_AM.png)
+    ![Select Workday](/images/integrations/Screenshot_2025-10-15_at_5.01.53_PM.png)
+  </Step>
+
+  <Step title="Select integration purpose">
+    Choose what to sync:
+    - Check first box for **employee sync**
+    - Check both boxes for **employee and payroll sync**
+
+    ![Integration purpose](/images/integrations/Screenshot_2025-12-16_at_11.35.56_AM.png)
+  </Step>
+
+  <Step title="Enter credentials">
+    Provide the following:
+
+    | Field | Required |
+    |-------|----------|
+    | Username | Yes |
+    | Password | Yes |
+    | Tenant endpoint URL | Yes |
+    | RAAS Report owner | Yes |
+    | Tenant ID | Yes |
+    | SOAP Username | Payroll sync only |
+    | SOAP Password | Payroll sync only |
+    | REST Refresh Token | Payroll sync only |
+
+    ![Enter credentials](/images/integrations/Screenshot_2025-12-16_at_11.42.06_AM.png)
+  </Step>
+
+  <Step title="Preview employees">
+    Configure filters if needed, then click **Preview Employees**.
+
+    ![Preview](/images/integrations/Screenshot_2025-12-16_at_11.19.21_AM.png)
+  </Step>
+
+  <Step title="Sync employees">
+    Verify the preview and click **Sync Employees**.
+
+    ![Sync](/images/integrations/Screenshot_2025-12-16_at_11.19.56_AM.png)
+  </Step>
+</Steps>
+
+<Note>
+If your organization uses Workday only for employee data (not payroll), you're done here. Continue below if Workday also handles your payroll.
+</Note>
+
+---
+
+## Payroll Integration (Optional)
+
+If Workday handles your payroll, complete these additional steps.
+
+### Create Payroll Security Group
+
+<Steps>
+  <Step title="Create new Integrated System User">
+    Create a separate user for payroll API access. Save credentials to share with Toku for SOAP setup.
+
+    ![Create user](/images/integrations/Screenshot_2025-10-16_at_3.45.34_PM.png)
+    ![Credentials](/images/integrations/Screenshot_2025-10-16_at_3.46.04_PM.png)
+  </Step>
+
+  <Step title="Create Security Group">
+    Create an Integration System Security Group (Unconstrained) and assign the payroll user.
+
+    ![Security group](/images/integrations/Screenshot_2025-10-16_at_3.54.24_PM.png)
+    ![Assign user](/images/integrations/Screenshot_2025-10-16_at_3.56.58_PM.png)
+  </Step>
+
+  <Step title="Add Domain Security Policies">
+    Add policies with **Modify** access:
+    - Reports: Payroll Input
+    - Worker Data: Payroll (Payroll Input Workbooks)
+    - Worker Data: Payroll Interface (Payroll Input by Batch ID)
+    - Worker Data: Payroll Public API (Payroll Input)
+
+    Add policies with **Put** access:
+    - Audit: Payroll Interface
+    - Custom Report Creation
+    - Integration Event/Process
+    - Payroll Interface
+    - Set Up: Payroll and Payroll Interface
+    - Worker Data: Compensation, Payees, Payroll
+    - Worklet: Payroll
+
+    ![Modify policies](/images/integrations/Screenshot_2025-10-16_at_4.06.36_PM.png)
+    ![Put policies](/images/integrations/Screenshot_2025-10-16_at_4.06.14_PM.png)
+  </Step>
+
+  <Step title="Add to Business Process">
+    Add the security group to the "Payroll Interface Data" business process.
+
+    ![Business process](/images/integrations/Screenshot_2025-10-16_at_4.10.05_PM.png)
+    ![Add group](/images/integrations/Screenshot_2025-10-16_at_4.12.18_PM.png)
+  </Step>
+
+  <Step title="Configure Authentication">
+    Go to "Manage authentication policies" and add an authentication rule for your security group.
+
+    ![Auth policies](/images/integrations/Screenshot_2025-10-16_at_4.15.14_PM.png)
+  </Step>
+
+  <Step title="Add WSDL Service">
+    Add "Import payroll input" WSDL service to your integrated system user.
+
+    ![WSDL service](/images/integrations/Screenshot_2025-10-16_at_4.17.35_PM.png)
+  </Step>
+
+  <Step title="Activate Policies">
+    Activate all pending security policy changes.
+
+    ![Activate](/images/integrations/Screenshot_2025-10-16_at_4.13.53_PM.png)
+  </Step>
+</Steps>
+
+### Create Payroll RAAS Report
+
+<Steps>
+  <Step title="Create Payroll Report">
+    Search for "Create Custom Report" and create **TOKU_PAYROLL_REPORTS** with these fields:
+
+    | Field | XML Alias |
+    |-------|-----------|
+    | Employee ID | Employee_ID |
+    | Gross Pay | gross |
+    | Net Pay | net |
+    | Payment Date | date |
+    | Period Start/End Date | Period_Start_Date, Period_End_Date |
+    | Status | status |
+    | Pay Result Country | Pay_Result_Country |
+    | Batch ID | Batch_ID |
+    | Pay Group | Pay_Group |
+
+    ![Create report](/images/integrations/Screenshot_2025-12-22_at_9.19.53_AM.png)
+    ![Report fields](/images/integrations/Screenshot_2025-12-22_at_9.25.41_AM.png)
+  </Step>
+
+  <Step title="Share the report">
+    Add your payroll integrated system user to Authorized Users.
+
+    ![Share report](/images/integrations/Screenshot_2025-12-31_at_7.43.40_AM.png)
+  </Step>
+</Steps>
+
+---
+
+## One-Time Deduction Setup
+
+### Create Stablecoin Deduction
+
+Create a post-tax deduction code in Workday for stablecoin payments.
+
+![Create deduction](/images/integrations/Screenshot_2025-09-19_at_7.53.19_AM.png)
+![Deduction config](/images/integrations/Screenshot_2025-09-19_at_8.01.49_AM.png)
+
+### Add Deduction to Run Category
+
+Ensure the deduction is included in your payroll run categories.
+
+![Run category](/images/integrations/Screenshot_2025-09-19_at_8.23.56_AM.png)
+![Add deduction](/images/integrations/Screenshot_2025-09-19_at_8.28.19_AM.png)
+
+<Note>
+Add your deduction codes to the "Deductions" under the "Subtract from pay accumulation" section.
+</Note>
+
+---
+
+## Recurring Payroll Process
+
+### Manual Deduction Import (Without SOAP API)
+
+If not using automated API posting, follow these steps each pay period:
+
+<Steps>
+  <Step title="Export deductions from Toku">
+    Export your deductions file from the Toku platform.
+
+    ![Export](/images/integrations/Screenshot_2025-09-19_at_10.32.48_AM.png)
+  </Step>
+
+  <Step title="Launch EIB">
+    In Workday, launch your Enterprise Interface Builder (EIB) for deduction imports.
+
+    ![Launch EIB](/images/integrations/Screenshot_2025-09-19_at_8.40.21_AM.png)
+  </Step>
+
+  <Step title="Upload deductions">
+    Upload the deduction export file from Toku.
+
+    ![Upload](/images/integrations/Screenshot_2025-09-19_at_10.40.19_AM.png)
+  </Step>
+
+  <Step title="Run Pay Calculation">
+    Run pay calculation for the matching pay period.
+
+    ![Pay calculation](/images/integrations/Screenshot_2025-09-19_at_10.46.51_AM.png)
+  </Step>
+
+  <Step title="Verify">
+    Go to Worker → Pay → Input to verify deductions were applied.
+
+    ![Verify](/images/integrations/Screenshot_2025-09-23_at_6.39.55_PM.png)
+  </Step>
+</Steps>
+
+### Automated Deductions (With SOAP API)
+
+With SOAP API configured, deductions are posted automatically from Toku to Workday. No manual steps required each pay period.
+
+---
+
+## Related Guides
+
+<CardGroup cols={2}>
+  <Card title="Employee Sync" icon="users" href="/integrations/workday-employee-sync">
+    Detailed employee sync setup
+  </Card>
+  <Card title="UKG Integration" icon="link" href="/integrations/ukg">
+    Alternative payroll integration
+  </Card>
+</CardGroup>

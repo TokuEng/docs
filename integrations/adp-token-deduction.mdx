@@ -1,0 +1,90 @@
+---
+title: "ADP Token Deduction Setup"
+sidebarTitle: "Token Deduction"
+description: "Create a post-tax net deduction for stablecoin payroll in ADP Workforce Now"
+---
+
+This guide walks you through creating a token net deduction in ADP Workforce Now. This deduction is used to process stablecoin payments through Toku.
+
+## Create Post-Tax Net Deduction
+
+<Steps>
+  <Step title="Open Policy Manager">
+    Go to [https://workforcenow.cloud.adp.com/](https://workforcenow.cloud.adp.com/) and navigate to **Setup** → **Payroll** → **Policy Manager**.
+
+    ![Policy Manager](/images/integrations/Screenshot_2025-12-03_at_2.02.33_PM.png)
+  </Step>
+
+  <Step title="Create new policy">
+    Click **Set Up New**.
+
+    ![Set Up New](/images/integrations/Screenshot_2025-12-03_at_2.03.47_PM.png)
+  </Step>
+
+  <Step title="Select Voluntary Benefit">
+    Select the radio button for **Voluntary Benefit** and click **Continue**.
+
+    ![Voluntary Benefit](/images/integrations/Screenshot_2025-12-03_at_2.04.53_PM.png)
+  </Step>
+
+  <Step title="Configure policy details">
+    Enter the policy information:
+
+    | Field | Value |
+    |-------|-------|
+    | **Policy Name** | Token Deduction |
+    | **Short Name** | Token Deduction |
+    | **Policy ID** | TokenDeduc |
+
+    For **Pay Statement Label**:
+    - Turn off the toggle "Use default pay statement label"
+    - Set **Voluntary Benefit (Post-Tax)** to "Token Deduction"
+
+    ![Policy details](/images/integrations/Screenshot_2025-12-03_at_2.22.21_PM.png)
+  </Step>
+
+  <Step title="Describe the plan">
+    Configure the plan description:
+
+    | Field | Value |
+    |-------|-------|
+    | **How would you describe this plan?** | Other |
+    | **Please Specify** | Post-Tax Token Deduction |
+    | **Is this policy managed by ADP Workforce Now Benefits?** | No |
+
+    ![Plan description](/images/integrations/Screenshot_2025-12-03_at_2.26.00_PM.png)
+  </Step>
+
+  <Step title="Select Pay Groups">
+    Select the applicable pay groups for your business.
+  </Step>
+
+  <Step title="Set processing frequency">
+    For **How is this policy processed**, select **In every pay period**.
+
+    This ensures the deduction codes are set up correctly and applicable to all pay periods.
+
+    ![Processing frequency](/images/integrations/Screenshot_2025-12-03_at_2.27.11_PM.png)
+  </Step>
+
+  <Step title="Submit">
+    Click **Submit** to create the policy.
+  </Step>
+</Steps>
+
+<Note>
+This creates a voluntary post-tax deduction that will appear on employee pay statements as "Token Deduction". The deduction amount is determined by each employee's stablecoin payroll election in Toku.
+</Note>
+
+---
+
+## Related Guides
+
+<CardGroup cols={2}>
+  <Card title="ADP Integration" icon="link" href="/integrations/adp">
+    Complete ADP setup guide
+  </Card>
+  <Card title="Export Employees" icon="users" href="/integrations/adp-export-employees">
+    Export employee IDs from ADP
+  </Card>
+</CardGroup>

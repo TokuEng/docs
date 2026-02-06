@@ -1,0 +1,191 @@
+---
+title: "Workday Employee Sync"
+sidebarTitle: "Employee Sync"
+description: "Set up employee data sync from Workday to Toku"
+---
+
+This guide covers setting up employee data synchronization between Workday and Toku. Use this if you want to sync employee data from Workday without the full payroll integration.
+
+## Prerequisites
+
+- Admin access to your Workday tenant
+- Security admin permissions
+- Admin access to Toku
+
+---
+
+## Create Integrated System User
+
+<Steps>
+  <Step title="Create user">
+    Search for "Create Integrated System User" in Workday.
+
+    ![Create user](/images/integrations/Screenshot_2025-10-16_at_12.18.33_AM.png)
+  </Step>
+
+  <Step title="Set credentials">
+    Set a username and password. Save these to configure in Toku.
+
+    ![Credentials](/images/integrations/Screenshot_2025-10-16_at_12.18.57_AM.png)
+  </Step>
+</Steps>
+
+---
+
+## Create Security Group
+
+<Steps>
+  <Step title="Create security group">
+    Search for "Create security group" and select **Integration System Security Group (Unconstrained)**.
+
+    ![Create group](/images/integrations/Screenshot_2025-10-16_at_12.20.11_AM.png)
+  </Step>
+
+  <Step title="Assign user">
+    Add your integrated system user to the group.
+
+    ![Assign user](/images/integrations/Screenshot_2025-10-16_at_12.20.42_AM.png)
+  </Step>
+
+  <Step title="Set permissions">
+    Click "Maintain Domain Permissions for Security Group" and add required employee data permissions.
+
+    ![Permissions](/images/integrations/Screenshot_2025-10-16_at_12.21.13_AM.png)
+    ![Add permissions](/images/integrations/Screenshot_2025-10-16_at_12.23.07_AM.png)
+  </Step>
+
+  <Step title="Activate policies">
+    Search for "Activate Pending Security Policy Changes" and confirm.
+
+    ![Activate](/images/integrations/Screenshot_2025-10-16_at_12.23.54_AM.png)
+  </Step>
+</Steps>
+
+---
+
+## Create Employee RAAS Report
+
+The RAAS (Report as a Service) report enables Toku to pull employee data via API.
+
+<Steps>
+  <Step title="Create Custom Report">
+    Search for "Create Custom Report" and configure:
+    - **Report Name**: TOKU_EMPLOYEE_DEMOGRAPHICS
+    - **Report Type**: Advanced
+    - **Enable as Web Service**: ✓ Checked
+    - **Data Source**: All Active and Terminated Workers
+
+    ![Create report](/images/integrations/Screenshot_2025-10-15_at_11.45.21_PM.png)
+    ![Report name](/images/integrations/Screenshot_2025-10-15_at_11.53.12_PM.png)
+    ![Data source](/images/integrations/Screenshot_2025-10-15_at_11.55.09_PM.png)
+  </Step>
+
+  <Step title="Configure report fields">
+    Add the following fields:
+
+    | Field | XML Alias | Required |
+    |-------|-----------|----------|
+    | Employee ID | employeeID | ✓ |
+    | Email - Work | email | ✓ |
+    | Compensation Range - Currency | currency | ✓ |
+    | All Home Addresses - Full with Country | address | ✓ |
+    | Total Pay Annualized - Amount | totalSalary | ✓ |
+    | Pay Group - Country | country | ✓ |
+    | Full Legal Name | fullName | ✓ |
+    | Cost Center - Name | department | |
+    | Position ID | positionID | ✓ |
+    | Active Status with Date | status | ✓ |
+    | Terminated | terminated | ✓ |
+    | Worker Active | worker_active | ✓ |
+    | Total Pay - Frequency | freq | ✓ |
+    | Pay Group | payGroup | |
+
+    ![Field setup](/images/integrations/Screenshot_2025-10-15_at_11.57.33_PM.png)
+    ![Fields list](/images/integrations/Screenshot_2025-10-16_at_12.00.50_AM.png)
+  </Step>
+
+  <Step title="Share the report">
+    Add your integrated system user to the **Authorized Users** section.
+
+    ![Share report](/images/integrations/Screenshot_2025-10-16_at_12.12.42_AM.png)
+  </Step>
+
+  <Step title="Complete setup">
+    Click OK to save the report.
+
+    ![Complete](/images/integrations/Screenshot_2025-10-16_at_12.04.21_AM.png)
+  </Step>
+</Steps>
+
+---
+
+## Connect to Toku
+
+<Steps>
+  <Step title="Open Toku Settings">
+    Go to **Settings** → **Payroll Integrations**.
+
+    ![Settings](/images/integrations/Screenshot_2025-10-15_at_5.00.19_PM.png)
+  </Step>
+
+  <Step title="Add Workday">
+    Click **Add New Integration** → **Workday**.
+
+    ![Add integration](/images/integrations/Screenshot_2025-12-16_at_11.14.51_AM.png)
+  </Step>
+
+  <Step title="Select employee sync">
+    Check the box for **employee sync only**.
+
+    ![Purpose](/images/integrations/Screenshot_2025-12-16_at_11.35.56_AM.png)
+  </Step>
+
+  <Step title="Enter credentials">
+    Provide:
+    - **Username**: Your integrated system user
+    - **Password**: User password
+    - **Tenant endpoint URL**: Your Workday URL
+    - **RAAS Report owner**: Report owner username
+    - **Tenant ID**: Your Workday tenant ID
+
+    ![Credentials](/images/integrations/Screenshot_2025-12-16_at_11.42.06_AM.png)
+  </Step>
+
+  <Step title="Configure filters">
+    Set up any employee filters if needed.
+
+    ![Filters](/images/integrations/Screenshot_2025-12-16_at_11.19.21_AM.png)
+  </Step>
+
+  <Step title="Preview and sync">
+    Click **Preview Employees** to verify, then **Sync Employees**.
+
+    ![Preview](/images/integrations/Screenshot_2025-12-16_at_11.19.56_AM.png)
+  </Step>
+</Steps>
+
+---
+
+## Sync Frequency
+
+Once connected, Toku automatically syncs employee data:
+- **New employees** are added automatically
+- **Updated information** (email, address, salary) syncs regularly
+- **Terminated employees** are marked inactive
+
+<Tip>
+You can manually trigger a sync anytime from the Toku Settings page.
+</Tip>
+
+---
+
+## Related Guides
+
+<CardGroup cols={2}>
+  <Card title="Full Workday Integration" icon="link" href="/integrations/workday">
+    Complete setup including payroll
+  </Card>
+  <Card title="UKG Integration" icon="building" href="/integrations/ukg">
+    Alternative HRIS integration
+  </Card>
+</CardGroup>

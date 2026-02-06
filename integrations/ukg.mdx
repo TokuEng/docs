@@ -1,0 +1,273 @@
+---
+title: "UKG Stablecoin Payroll Integration"
+sidebarTitle: "UKG"
+description: "Complete guide for setting up stablecoin payroll with UKG"
+---
+
+This guide walks you through integrating your UKG payroll with Toku for stablecoin payments.
+
+## Prerequisites
+
+- Admin access to your UKG tenant
+- Ability to create service accounts and deduction plans
+- Admin access to your Toku account
+
+<Note>
+Employee data will only sync if you have an HCM integration (such as Workday, BambooHR, or Oracle) set up for employee profiles.
+</Note>
+
+---
+
+## UKG Configuration
+
+### Locate API Credentials
+
+<Steps>
+  <Step title="Access Web Services">
+    In UKG, navigate to **Security** → **Web Services**.
+  </Step>
+
+  <Step title="Save credentials">
+    Locate and save the following information:
+    - **User API key**
+    - **Customer API key**
+    - **Tenant ID**
+    - Any **service endpoint URL** (e.g., "Employee contacts service endpoint")
+
+    ![API credentials](/images/integrations/d6d1c4d0-29e9-4553-a043-ba744bb904f9.png)
+  </Step>
+</Steps>
+
+### Create Service Account
+
+A service account allows Toku to securely access UKG via API.
+
+<Steps>
+  <Step title="Open Service Account Administration">
+    Go to **Security** → **Service Account Administration**.
+
+    ![Service accounts](/images/integrations/Screenshot_2025-10-30_at_8.07.28_PM.png)
+  </Step>
+
+  <Step title="Add new account">
+    Click **Add** to create a new service account.
+
+    ![Add account](/images/integrations/Screenshot_2025-10-30_at_8.08.56_PM.png)
+  </Step>
+
+  <Step title="Configure account">
+    Enter the following:
+    - **Username**: `TOKU_SYSTEM`
+    - **Email**: dev@toku.com
+    - **Password**: Generate a secure password
+  </Step>
+
+  <Step title="Set Web Service permissions">
+    Configure the following permissions:
+
+    | Permission | Access Level |
+    |------------|--------------|
+    | Employee Compensation Details | View |
+    | Employee Person Details | View |
+    | Custom Integrations | View and Edit |
+    | Deduction integration | View |
+    | Payroll integration | Add, View, Edit |
+    | Employee Export | View |
+    | Employee employment information | View |
+    | Employee compensation | View and Edit |
+    | Company Configuration Integration | View |
+    | Personnel Integration | View |
+
+    ![Permissions](/images/integrations/Screenshot_2025-10-30_at_8.10.28_PM.png)
+  </Step>
+
+  <Step title="Save credentials">
+    Record the following:
+    - **Username** (from step 3)
+    - **Password** (from step 3)
+    - **User API Key** (shown next to the user)
+    - **Customer API Key** (at top of panel)
+  </Step>
+</Steps>
+
+<Tip>
+The "View" permissions allow Toku to match employees with your HCM system. The "Edit" permissions enable Toku to post stablecoin deductions to upcoming payrolls.
+</Tip>
+
+---
+
+### Create Deduction Plan
+
+Create a custom post-tax deduction for stablecoin payments.
+
+<Steps>
+  <Step title="Open Business Rules">
+    Go to **Business Rules**.
+
+    ![Business Rules](/images/integrations/Screenshot_2025-10-30_at_8.28.29_PM.png)
+  </Step>
+
+  <Step title="Find Deduction Plans">
+    Search for "deductions" and click **Deduction/Benefits Plans**.
+
+    ![Search deductions](/images/integrations/Screenshot_2025-11-17_at_6.59.15_AM.png)
+  </Step>
+
+  <Step title="Add new plan">
+    Click **Add Deduction/Benefit Plan**.
+
+    ![Add plan](/images/integrations/Screenshot_2025-11-17_at_7.00.27_AM.png)
+  </Step>
+
+  <Step title="Configure plan details">
+    Set the effective date to today, then configure:
+
+    | Field | Value |
+    |-------|-------|
+    | **Description** | Stablecoin Deduction |
+    | **Description Type** | Other |
+    | **Tax Category** | Voluntary Withholding |
+    | **Start Date** | Today |
+    | **Enrollment Disclaimer** | "This is the voluntary amount already paid in stablecoins through Toku." |
+
+    ![Plan details](/images/integrations/Screenshot_2025-11-17_at_6.57.48_AM.png)
+  </Step>
+
+  <Step title="Configure calculations">
+    On the Calculations page:
+    - Check **Use rate at employee level** under Employee
+    - Set **Calculation Rules** → Amount to **Flat amount**
+
+    ![Calculations](/images/integrations/Screenshot_2025-11-17_at_7.31.30_PM.png)
+  </Step>
+
+  <Step title="Set pay period">
+    Select **Scheduled Pay Periods by Default** for when the deduction should be posted.
+
+    ![Pay period](/images/integrations/Screenshot_2025-11-17_at_8.20.00_PM.png)
+  </Step>
+
+  <Step title="Save">
+    Review and click **Save**.
+
+    ![Save](/images/integrations/Screenshot_2025-11-17_at_8.22.33_PM.png)
+  </Step>
+</Steps>
+
+---
+
+### Add Deduction to Group
+
+Add the new deduction plan to your deduction group.
+
+<Steps>
+  <Step title="Open Deduction Groups">
+    Go to **Business Rules** → search "deductions" → **Deduction/Benefit Groups**.
+  </Step>
+
+  <Step title="Select group">
+    Select the deduction group (country) to add the code to.
+
+    ![Select group](/images/integrations/Screenshot_2025-11-17_at_8.30.38_PM.png)
+  </Step>
+
+  <Step title="Add plan">
+    Under the **Plans** table, click **Add**.
+
+    ![Add to group](/images/integrations/Screenshot_2025-11-17_at_8.32.16_PM.png)
+  </Step>
+
+  <Step title="Select deduction">
+    Select your Stablecoin Deduction plan from the dropdown and click **Add**.
+
+    ![Select plan](/images/integrations/Screenshot_2025-11-17_at_8.34.13_PM.png)
+  </Step>
+
+  <Step title="Save">
+    Save changes to the deduction group.
+  </Step>
+</Steps>
+
+---
+
+## Connect to Toku
+
+<Steps>
+  <Step title="Login to Toku">
+    Go to [Toku](https://tga.toku.com/login?product=stablecoin_payroll) and select the **Stablecoin Payroll** tab.
+
+    ![Login](/images/integrations/Screenshot_2025-11-14_at_1.42.35_PM.png)
+  </Step>
+
+  <Step title="Open Settings">
+    Click **Settings** in the left navigation.
+
+    ![Settings](/images/integrations/Screenshot_2025-11-14_at_2.12.39_PM.png)
+  </Step>
+
+  <Step title="Open Payroll Integrations">
+    Click the **Payroll Integrations** card.
+
+    ![Payroll Integrations](/images/integrations/Screenshot_2025-11-14_at_2.14.30_PM.png)
+  </Step>
+
+  <Step title="Add Integration">
+    Click **Add New Integration**.
+
+    ![Add integration](/images/integrations/Screenshot_2025-11-14_at_2.15.16_PM.png)
+  </Step>
+
+  <Step title="Select UKG">
+    Click **UKG** in the integration selection popup.
+
+    ![Select UKG](/images/integrations/Screenshot_2025-11-14_at_2.16.11_PM.png)
+  </Step>
+
+  <Step title="Set integration purpose">
+    Choose whether UKG should be the source of truth for employee sync.
+
+    ![Purpose](/images/integrations/Screenshot_2025-11-14_at_2.17.13_PM.png)
+
+    <Warning>
+    Do not check this box if you're using a separate HCM (like Workday or BambooHR) for employee data.
+    </Warning>
+  </Step>
+
+  <Step title="Enter credentials">
+    Fill in the form with your saved credentials:
+    - **Service Endpoint URL**
+    - **Tenant ID**
+    - **User API key**
+    - **Customer API key**
+    - **Service account username**
+    - **Service account password**
+    - **Deduction code**
+
+    ![Credentials](/images/integrations/Screenshot_2025-11-14_at_2.18.03_PM.png)
+  </Step>
+
+  <Step title="Connect">
+    Click **Update UKG** to establish the connection.
+  </Step>
+</Steps>
+
+---
+
+## Verification
+
+Once connected, your integration will:
+- Sync every **15 minutes** to pull upcoming payrolls into Toku
+- Automatically post stablecoin deductions to employee payrolls
+
+---
+
+## Related Guides
+
+<CardGroup cols={2}>
+  <Card title="ADP Integration" icon="link" href="/integrations/adp">
+    Alternative payroll integration
+  </Card>
+  <Card title="Workday Integration" icon="building" href="/integrations/workday">
+    HCM and payroll integration
+  </Card>
+</CardGroup>

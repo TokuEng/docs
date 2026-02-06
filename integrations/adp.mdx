@@ -1,0 +1,313 @@
+---
+title: "ADP Stablecoin Payroll Integration"
+sidebarTitle: "ADP"
+description: "Complete guide for setting up stablecoin payroll with ADP"
+---
+
+This guide walks you through setting up your stablecoin payroll integration with ADP.
+
+## Prerequisites
+
+Before starting, ensure you have:
+- Admin access to your ADP Workforce Now account
+- Admin access to your ADP API Central account
+- Admin access to your Toku account
+
+---
+
+## ADP API Central Setup
+
+These steps establish the initial connection between ADP and Toku.
+
+<Steps>
+  <Step title="Log in to ADP API Central">
+    Go to [https://api-central.adp.com/](https://api-central.adp.com/) and navigate to **Projects**.
+  </Step>
+
+  <Step title="Create a new project">
+    Click **Create a project**.
+
+    ![Create project](/images/integrations/image24.png)
+  </Step>
+
+  <Step title="Name your project">
+    Add a project name of your choice.
+
+    ![Project name](/images/integrations/image13.png)
+  </Step>
+
+  <Step title="Select API permissions">
+    Select **Employee Demographic Data (Read/Write)**.
+
+    ![Select permissions](/images/integrations/image20.png)
+  </Step>
+
+  <Step title="Save your credentials">
+    Once the project is created, you'll find the **Client ID** and **Client Secret** in the project details. Save these for later.
+
+    ![Credentials](/images/integrations/image3.png)
+  </Step>
+
+  <Step title="Add required APIs">
+    Click **View APIs** in Step 3, then click **Add more APIs**.
+
+    ![View APIs](/images/integrations/image5.png)
+    ![Add APIs](/images/integrations/image16.png)
+
+    Add the following mandatory APIs:
+    - `GET /hr/v2/workers`
+    - `GET /events/payroll/v1/pay-data-input.modify/meta`
+    - `POST /events/payroll/v1/pay-data-input.modify`
+    - `POST /auth/oauth2/token`
+
+    ![API list](/images/integrations/image27.png)
+  </Step>
+
+  <Step title="Commit changes">
+    Once all APIs are added, click **Commit Changes**.
+
+    ![Commit changes](/images/integrations/image25.png)
+  </Step>
+
+  <Step title="Manage certificate">
+    Under Step 1, click **Manage Certificate**.
+
+    ![Manage certificate](/images/integrations/image18.png)
+  </Step>
+
+  <Step title="Request certificate">
+    Click **Request Certificate** and then **Next**.
+
+    ![Request certificate](/images/integrations/image26.png)
+    ![Next](/images/integrations/image17.png)
+  </Step>
+
+  <Step title="Generate private key">
+    Input the following details:
+    - **Certificate name**: Toku
+    - **Organization name**: Pre-populated
+    - **Organization unit**: Payroll
+    - **Country**: United States
+    - **State**: New York
+    - **Locality**: New York
+
+    ![Certificate details](/images/integrations/Screenshot_2025-12-17_at_5.43.34_PM.png)
+  </Step>
+
+  <Step title="Save the private key">
+    Copy and save the **Private Key** securely. You'll need this for Toku setup.
+
+    ![Private key](/images/integrations/Screenshot_2025-12-17_at_5.44.20_PM.png)
+  </Step>
+
+  <Step title="Complete certificate setup">
+    Click **Done**.
+
+    ![Done](/images/integrations/Screenshot_2025-12-17_at_5.46.45_PM.png)
+  </Step>
+
+  <Step title="Copy the certificate">
+    Click **Certificate**, select your "Toku" certificate from the dropdown, and click **View**. Copy and save the certificate content.
+
+    ![View certificate](/images/integrations/Screenshot_2025-12-17_at_5.52.44_PM.png)
+    ![Certificate content](/images/integrations/Screenshot_2025-12-17_at_5.53.40_PM.png)
+  </Step>
+</Steps>
+
+---
+
+## ADP Workforce Now Configuration
+
+### Permission Access Configuration
+
+<Steps>
+  <Step title="Access Setup">
+    Go to [https://workforcenow.cloud.adp.com/](https://workforcenow.cloud.adp.com/) and click **Setup**.
+
+    ![Setup](/images/integrations/image11.png)
+  </Step>
+
+  <Step title="Open Access Permission">
+    Click **Access Permission**.
+
+    ![Access Permission](/images/integrations/image6.png)
+  </Step>
+
+  <Step title="Manage Profiles">
+    Click **Manage Profiles**.
+
+    ![Manage Profiles](/images/integrations/image10.png)
+  </Step>
+
+  <Step title="Select your project">
+    Select the project you created in API Central.
+
+    ![Select project](/images/integrations/image4.png)
+  </Step>
+
+  <Step title="Configure Process permissions">
+    Click **Process** and enable toggles for:
+    - Additional Services
+    - General Ledger
+    - Payroll
+    - Workflow Administrator
+    - Benefits
+    - HR
+    - Talent
+
+    Click **Save**.
+
+    ![Process permissions](/images/integrations/Screenshot_2025-12-17_at_5.59.11_PM.png)
+    ![Enable toggles](/images/integrations/Screenshot_2025-12-17_at_6.01.48_PM.png)
+  </Step>
+
+  <Step title="Configure Reports & Analytics">
+    Select **Reports & Analytics** and enable:
+    - Custom Reports
+    - My Reports
+    - Standard Reports
+    - View
+    - Analytics
+    - General Ledger
+    - Reports Dashboard
+    - Tax & Reporting
+    - iReports
+
+    Click **Save**.
+
+    ![Reports permissions](/images/integrations/image2.png)
+  </Step>
+
+  <Step title="Configure Setup permissions">
+    Select **Setup** and enable:
+    - Approval Process
+    - General Ledger
+    - Manage Documents
+    - Mobile
+    - Security
+    - Benefits
+    - HR & Talent
+    - Manage Partners
+    - Payroll
+    - Template Management
+    - Tools
+
+    Click **Save**.
+
+    ![Setup permissions](/images/integrations/image1.png)
+  </Step>
+
+  <Step title="Configure People permissions">
+    Select **People** and enable:
+    - Benefits
+    - Pay
+    - Time & Attendance
+    - Employment
+    - Personal Information
+
+    Click **Save**.
+
+    ![People permissions](/images/integrations/image8.png)
+  </Step>
+</Steps>
+
+### Create Token Deduction
+
+See the [ADP Token Deduction Guide](/integrations/adp-token-deduction) for detailed instructions on creating a post-tax net deduction for stablecoin payroll.
+
+---
+
+## Toku Platform Setup
+
+<Steps>
+  <Step title="Navigate to integrations">
+    In Toku, go to **Token Payroll** → **Settings** → **Payroll Platforms** → **Add New Integration** → **ADP**.
+
+    ![Add integration](/images/integrations/image22.png)
+    ![Select ADP](/images/integrations/image12.png)
+  </Step>
+
+  <Step title="Enter credentials">
+    Add the following from your ADP setup:
+    - **Client ID** and **Client Secret** (from Step 5)
+    - **Private Key** (from Step 11)
+    - **PEM File Content** (from Step 13)
+
+    Click **Connect ADP**.
+
+    ![Enter credentials](/images/integrations/image14.png)
+  </Step>
+</Steps>
+
+---
+
+## Recurring Payroll Process
+
+### Employee and Payroll Sync
+
+<Steps>
+  <Step title="Sync employees">
+    Sync employees from the Toku platform via Employee Management.
+  </Step>
+
+  <Step title="Export Payroll Register">
+    In ADP, export the Payroll Register.
+
+    ![Export register](/images/integrations/Screenshot_2025-12-18_at_10.02.13_AM.png)
+  </Step>
+
+  <Step title="View Payroll">
+    Select **View Payroll**.
+
+    ![View payroll](/images/integrations/Screenshot_2025-12-18_at_10.06.12_AM.png)
+  </Step>
+
+  <Step title="Access Payroll History">
+    Go to **Reports** → **Payroll History**.
+
+    ![Payroll history](/images/integrations/Screenshot_2025-12-18_at_8.54.34_AM.png)
+  </Step>
+
+  <Step title="Sync payroll data">
+    Click **Sync Now**.
+
+    ![Sync now](/images/integrations/Screenshot_2025-12-18_at_8.55.57_AM.png)
+  </Step>
+
+  <Step title="Upload deduction data">
+    Go to **Dashboard** → click **Upload Data** next to your upcoming payroll.
+
+    ![Upload data](/images/integrations/Screenshot_2025-12-18_at_8.56.44_AM.png)
+  </Step>
+</Steps>
+
+---
+
+## Troubleshooting
+
+### Request ADP API Access
+
+If you need access to the payroll-output API endpoint, you'll need to request approval from ADP:
+
+1. Create a support ticket at [ADP Client Support](https://clientsupport.adp.com/)
+2. Request access to the payroll-output API endpoint
+3. ADP will send an approval request to your ADP Admin
+4. Your ADP Admin should reply with approval (e.g., "Yes, please approve the required access")
+5. Once approved, data will start flowing from ADP to Toku
+
+<Note>
+The support portal is only accessible to logged-in ADP users.
+</Note>
+
+---
+
+## Related Guides
+
+<CardGroup cols={2}>
+  <Card title="Create Token Deduction" icon="money-bill" href="/integrations/adp-token-deduction">
+    Set up post-tax deductions in ADP
+  </Card>
+  <Card title="Export Employees" icon="users" href="/integrations/adp-export-employees">
+    Export employee IDs from ADP
+  </Card>
+</CardGroup>

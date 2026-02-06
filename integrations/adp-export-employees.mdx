@@ -1,0 +1,112 @@
+---
+title: "ADP Export Employees"
+sidebarTitle: "Export Employees"
+description: "Export Position ID and Associate IDs from ADP Workforce Now"
+---
+
+This guide shows you how to export Position ID and Associate IDs from ADP Workforce Now. These IDs are required for matching employees between ADP and Toku.
+
+## Export Employee Data
+
+<Steps>
+  <Step title="Go to ADP Workforce Now">
+    Navigate to [https://workforcenow.cloud.adp.com/](https://workforcenow.cloud.adp.com/).
+  </Step>
+
+  <Step title="Open Reports & Analytics">
+    Select **Reports & Analytics** from the main menu.
+
+    ![Reports & Analytics](/images/integrations/Screenshot_2025-12-04_at_1.54.44_PM.png)
+  </Step>
+
+  <Step title="Access Standard Reports">
+    Select **All Standard Reports**.
+
+    ![All Standard Reports](/images/integrations/Screenshot_2025-12-04_at_1.57.03_PM.png)
+  </Step>
+
+  <Step title="Select Employee Information report">
+    Navigate to **Personal & Employment** → **Employee Information**.
+
+    ![Employee Information](/images/integrations/Screenshot_2025-12-04_at_1.58.34_PM.png)
+  </Step>
+
+  <Step title="Configure displayed fields">
+    Click **What's Displayed on this Report**.
+
+    ![What's Displayed](/images/integrations/Screenshot_2025-12-04_at_2.00.39_PM.png)
+  </Step>
+
+  <Step title="Select required fields">
+    Select the following fields and click **Save**:
+
+    | Field |
+    |-------|
+    | Pay Group |
+    | Position ID |
+    | Associate ID |
+    | Name |
+    | Work E-mail |
+
+    ![Select fields](/images/integrations/Screenshot_2025-12-04_at_2.03.09_PM.png)
+  </Step>
+
+  <Step title="Configure appearance settings">
+    Click **Appearance and Other Settings**.
+
+    ![Appearance settings](/images/integrations/Screenshot_2025-12-04_at_2.04.39_PM.png)
+  </Step>
+
+  <Step title="Confirm field selection">
+    Verify the following fields are selected and click **Save**:
+    - Pay Group
+    - Position ID
+    - Associate ID
+    - Name
+    - Work Email (if available)
+
+    ![Confirm fields](/images/integrations/Screenshot_2025-12-04_at_2.06.49_PM.png)
+  </Step>
+
+  <Step title="Run the report">
+    Click **Run as Excel**.
+
+    ![Run as Excel](/images/integrations/Screenshot_2025-12-04_at_2.11.01_PM.png)
+  </Step>
+
+  <Step title="Download the file">
+    Click **View as XLSX** to download the employee data.
+
+    ![Download XLSX](/images/integrations/Screenshot_2025-12-04_at_2.10.05_PM.png)
+  </Step>
+</Steps>
+
+<Note>
+The exported file contains the Position ID and Associate ID for each employee. These IDs are required by Toku to post deductions correctly.
+</Note>
+
+---
+
+## Understanding ADP IDs
+
+| ID Type | Description | Usage |
+|---------|-------------|-------|
+| **Position ID** | Unique identifier for an employee's position | Always present in payroll register |
+| **Associate ID** | External employee identifier | Used with Position ID to post deductions |
+
+<Tip>
+Both Position ID and Associate ID are required to post deductions to ADP. The employee sync from Toku retrieves both IDs automatically.
+</Tip>
+
+---
+
+## Related Guides
+
+<CardGroup cols={2}>
+  <Card title="ADP Integration" icon="link" href="/integrations/adp">
+    Complete ADP setup guide
+  </Card>
+  <Card title="Token Deduction" icon="money-bill" href="/integrations/adp-token-deduction">
+    Set up post-tax deductions
+  </Card>
+</CardGroup>
