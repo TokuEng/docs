@@ -15,8 +15,8 @@
     ],
     "primary": {
       "type": "button",
-      "label": "Log In",
-      "href": "https://app.toku.com/login"
+      "label": "Dashboard",
+      "href": "https://app.toku.com"
     }
   },
   "navigation": {
