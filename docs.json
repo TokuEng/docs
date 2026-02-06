@@ -126,6 +126,34 @@
                 ]
               }
             ]
+          },
+          {
+            "group": "Webhooks",
+            "pages": [
+              "webhooks/overview",
+              "webhooks/fireblocks",
+              "webhooks/docusign",
+              "webhooks/persona"
+            ]
+          },
+          {
+            "group": "Data Models",
+            "pages": [
+              "data-models/overview",
+              "data-models/grants",
+              "data-models/payroll",
+              "data-models/wallets",
+              "data-models/users"
+            ]
+          },
+          {
+            "group": "Developers",
+            "pages": [
+              "developers/setup",
+              "developers/operations",
+              "developers/services",
+              "developers/cron-jobs"
+            ]
           }
         ]
       }
