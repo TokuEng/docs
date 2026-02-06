@@ -13,31 +13,26 @@
     "light": "#4D8AFF",
     "dark": "#0057FF"
   },
-  "topbarLinks": [
-    { "name": "Ask AI", "url": "?assistant=open" },
-    { "name": "Support", "url": "https://www.toku.com/contact" },
-    { "name": "toku.com", "url": "https://www.toku.com" }
-  ],
-  "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://app.toku.com"
+  "navbar": {
+    "links": [
+      { "label": "Support", "href": "https://www.toku.com/contact" },
+      { "label": "Log In", "href": "https://tga.app.toku.com/login" }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Sign Up",
+      "href": "https://app.toku.com/sign-up"
+    }
   },
-  "tabs": [
-    { "name": "Changelog", "url": "changelog" }
-  ],
   "navigation": {
-    "anchors": [
+    "tabs": [
       {
-        "anchor": "Documentation",
-        "icon": "book",
+        "tab": "Home",
         "groups": [
-          {
-            "group": "Home",
-            "pages": ["index"]
-          },
           {
             "group": "Getting Started",
             "pages": [
+              "index",
               "getting-started/overview",
               "getting-started/onboarding-checklist",
               "getting-started/key-concepts",
@@ -47,8 +42,69 @@
         ]
       },
       {
-        "anchor": "Token Grant Administration",
-        "icon": "coins",
+        "tab": "Contractor",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": ["contractor/overview"]
+          },
+          {
+            "group": "Client Guides",
+            "pages": [
+              "contractor/client/onboarding-contractors",
+              "contractor/client/managing-contractors",
+              "contractor/client/payments-and-invoicing",
+              "contractor/client/compliance-basics"
+            ]
+          },
+          {
+            "group": "Contractor Guides",
+            "pages": [
+              "contractor/user/getting-started",
+              "contractor/user/submitting-invoices",
+              "contractor/user/receiving-payments",
+              "contractor/user/tax-information"
+            ]
+          },
+          {
+            "group": "FAQ",
+            "pages": ["contractor/faq"]
+          }
+        ]
+      },
+      {
+        "tab": "Payroll",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": ["payroll/overview"]
+          },
+          {
+            "group": "Client Guides",
+            "pages": [
+              "payroll/client/enabling-stablecoin-payroll",
+              "payroll/client/supported-stablecoins",
+              "payroll/client/payroll-integration-setup",
+              "payroll/client/running-payroll",
+              "payroll/client/reporting"
+            ]
+          },
+          {
+            "group": "Employee Guides",
+            "pages": [
+              "payroll/user/choosing-payout-method",
+              "payroll/user/setting-up-wallet",
+              "payroll/user/understanding-payslip"
+            ]
+          },
+          {
+            "group": "FAQ",
+            "pages": ["payroll/faq"]
+          }
+        ]
+      },
+      {
+        "tab": "TGA",
         "groups": [
           {
             "group": "Overview",
@@ -81,72 +137,7 @@
         ]
       },
       {
-        "anchor": "Toku Contractor",
-        "icon": "user-tie",
-        "groups": [
-          {
-            "group": "Overview",
-            "pages": ["contractor/overview"]
-          },
-          {
-            "group": "Client Guides",
-            "pages": [
-              "contractor/client/onboarding-contractors",
-              "contractor/client/managing-contractors",
-              "contractor/client/payments-and-invoicing",
-              "contractor/client/compliance-basics"
-            ]
-          },
-          {
-            "group": "Contractor Guides",
-            "pages": [
-              "contractor/user/getting-started",
-              "contractor/user/submitting-invoices",
-              "contractor/user/receiving-payments",
-              "contractor/user/tax-information"
-            ]
-          },
-          {
-            "group": "FAQ",
-            "pages": ["contractor/faq"]
-          }
-        ]
-      },
-      {
-        "anchor": "Stablecoin Payroll",
-        "icon": "money-bill-wave",
-        "groups": [
-          {
-            "group": "Overview",
-            "pages": ["payroll/overview"]
-          },
-          {
-            "group": "Client Guides",
-            "pages": [
-              "payroll/client/enabling-stablecoin-payroll",
-              "payroll/client/supported-stablecoins",
-              "payroll/client/payroll-integration-setup",
-              "payroll/client/running-payroll",
-              "payroll/client/reporting"
-            ]
-          },
-          {
-            "group": "Employee Guides",
-            "pages": [
-              "payroll/user/choosing-payout-method",
-              "payroll/user/setting-up-wallet",
-              "payroll/user/understanding-payslip"
-            ]
-          },
-          {
-            "group": "FAQ",
-            "pages": ["payroll/faq"]
-          }
-        ]
-      },
-      {
-        "anchor": "Integrations",
-        "icon": "plug",
+        "tab": "Integrations",
         "groups": [
           {
             "group": "Integrations",
