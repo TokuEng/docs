@@ -1,0 +1,83 @@
+---
+title: 'Creating Token Grants'
+description: 'Learn how to create and configure token grants for your team members'
+---
+
+## Overview
+
+Token grants allow you to allocate tokens to employees, contractors, or other recipients as part of their compensation package. This guide walks you through creating a new grant in TGA.
+
+## Prerequisites
+
+- Admin access to your organization's TGA account
+- Recipient information (name, email, wallet address)
+- Grant details (token amount, vesting schedule)
+
+## Creating a New Grant
+
+<Steps>
+<Step title="Navigate to Grants">
+  From the TGA dashboard, click **Grants** in the sidebar navigation.
+</Step>
+
+<Step title="Click Create Grant">
+  Click the **Create Grant** button in the top right corner.
+</Step>
+
+<Step title="Enter Recipient Details">
+  Fill in the recipient information:
+  - **Name**: Recipient's full name
+  - **Email**: Recipient's email address
+  - **Wallet Address**: The wallet where tokens will be delivered
+</Step>
+
+<Step title="Configure Grant Amount">
+  Specify the token grant details:
+  - **Token Type**: Select the token to grant
+  - **Total Amount**: The total number of tokens in the grant
+  - **Grant Date**: When the grant is effective
+</Step>
+
+<Step title="Select Vesting Schedule">
+  Choose a vesting schedule for the grant. See [Vesting Schedules](/admin/vesting-schedules) for details on configuring vesting.
+</Step>
+
+<Step title="Review and Create">
+  Review all grant details and click **Create Grant** to finalize.
+</Step>
+</Steps>
+
+## Grant Statuses
+
+| Status | Description |
+|--------|-------------|
+| **Draft** | Grant created but not yet active |
+| **Active** | Grant is active and vesting |
+| **Paused** | Grant vesting is temporarily paused |
+| **Completed** | All tokens have vested |
+| **Cancelled** | Grant has been cancelled |
+
+## Bulk Grant Creation
+
+For creating multiple grants at once:
+
+1. Navigate to **Grants** > **Bulk Import**
+2. Download the CSV template
+3. Fill in grant details for each recipient
+4. Upload the completed CSV
+5. Review and confirm the grants
+
+<Tip>
+Use bulk import when onboarding multiple team members or issuing company-wide grants.
+</Tip>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Vesting Schedules" icon="calendar" href="/admin/vesting-schedules">
+    Configure how grants vest over time
+  </Card>
+  <Card title="Distributions" icon="paper-plane" href="/admin/distributions">
+    Process token distributions to recipients
+  </Card>
+</CardGroup>

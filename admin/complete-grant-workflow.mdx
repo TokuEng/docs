@@ -1,0 +1,448 @@
+---
+title: 'Complete Grant Workflow'
+description: 'Step-by-step guide to creating recipients, grant types, vesting templates, and uploading grants'
+---
+
+## Overview
+
+This comprehensive guide walks you through the complete process of creating grants on the TGA platform. The grant creation workflow is designed to be fully self-service, allowing you to manage token grants efficiently without requiring support intervention.
+
+## The 4-Step Process
+
+<Steps>
+<Step title="Add Recipients">
+  Set up employee/contractor profiles
+</Step>
+<Step title="Create Grant Type">
+  Define grant categories with specific asset types, compensation types, and other properties
+</Step>
+<Step title="Create Vesting Template">
+  Build reusable vesting schedule templates
+</Step>
+<Step title="Upload Grants">
+  Import grant data via simplified CSV template
+</Step>
+</Steps>
+
+## Prerequisites
+
+Before you begin creating grants, ensure you have:
+
+- Administrative access to the TGA platform
+- Complete recipient information (personal email addresses, full names, employee IDs, countries, and employment type)
+- Grant details (amounts, grant dates, vesting terms)
+- Tax reporting requirements determined
+
+<Tip>
+The new system separates grant configuration from grant assignment. You'll set up your grant types and vesting schedules once, then reuse them for multiple grant uploads.
+</Tip>
+
+---
+
+## Step 1: Add Recipients
+
+Recipients must be added to the system before grants can be assigned to them. This is a one-time setup per recipient.
+
+### How to Add Recipients
+
+<Steps>
+<Step title="Log in to TGA">
+  Log in to your Toku TGA account at [tga.app.toku.com](https://tga.app.toku.com)
+</Step>
+
+<Step title="Navigate to Recipients">
+  On the sidebar menu, select **People Directory**, then navigate to the **Recipients** section.
+</Step>
+
+<Step title="Click Add New Recipient">
+  Click the **Add New Recipient** button.
+
+  <Frame>
+    <img src="/images/Screenshot_2025-12-29_at_1.44.40_PM.png" alt="Add New Recipient button" />
+  </Frame>
+</Step>
+
+<Step title="Enter Recipient Information">
+  Fill in the required information:
+
+  <Frame>
+    <img src="/images/Screenshot_2025-12-29_at_1.47.41_PM.png" alt="Recipient information form" />
+  </Frame>
+
+  <Warning>
+  **Important**: Email addresses serve as the primary identifier for grant assignments. Recipients must provide their **personal email addresses** rather than company email addresses. This ensures continued access to TGA accounts after an employee leaves the organization.
+  </Warning>
+</Step>
+
+<Step title="Create the Recipient">
+  Once the information is complete, click the **Create** button.
+</Step>
+</Steps>
+
+### Sending Activation Emails
+
+After adding a new recipient, you must send them an activation email:
+
+1. On the **Recipients** page, use the search bar to find the recipient
+2. In the **Actions** column, click the **Send Invitation** button (blue envelope icon)
+3. A confirmation notification will appear once the email is sent
+
+<Warning>
+Always verify the recipient's email address is correct before sending. Toku is not responsible for activation emails sent to incorrect addresses.
+</Warning>
+
+---
+
+## Step 2: Create Grant Type
+
+Grant types define the fundamental characteristics of your grants, including the asset type, compensation type, and other properties.
+
+### Understanding Grant Types
+
+Grant types specify:
+
+| Property | Description |
+|----------|-------------|
+| **Asset type** | Whether grants are denominated in tokens or fiat currency |
+| **Compensation type** | Paid in token or cash compensation |
+| **Option or grant** | Whether standard grants or traditional options |
+| **Performance** | Whether performance-related or non-performance related |
+
+### Creating a Grant Type
+
+<Steps>
+<Step title="Navigate to Grant Types">
+  On the sidebar menu, select **Token Grants** > **Grant Types**.
+</Step>
+
+<Step title="Click Create New Grant Type">
+  Click the **Create New Grant Type** button.
+
+  <Frame>
+    <img src="/images/Screenshot_2025-12-29_at_2.44.02_PM.png" alt="Create New Grant Type button" />
+  </Frame>
+</Step>
+
+<Step title="Configure the Grant Type">
+  Enter a descriptive name (e.g., "RTU Grant", "Performance Bonus USDC").
+
+  <Frame>
+    <img src="/images/Screenshot_2025-12-29_at_2.15.31_PM.png" alt="Grant type configuration" />
+  </Frame>
+
+  Select the grant classification:
+  - **Option** - Check for traditional stock options
+  - **Performance Award** - Check if contingent on performance
+  - **Cash Compensation** - Check if paid in cash rather than tokens
+  - **Grant Asset Type** - Select Token or Fiat:
+    - **Token**: Vesting calculates based on fixed token amount
+    - **Fiat**: Vesting calculates based on fixed fiat amount
+</Step>
+
+<Step title="Save the Grant Type">
+  Click **Create Grant Type** to save.
+</Step>
+</Steps>
+
+---
+
+## Step 3: Create Vesting Template
+
+Vesting schedules define when tokens will vest and become available to recipients.
+
+### Creating the Vesting Template
+
+<Steps>
+<Step title="Navigate to Vesting Templates">
+  On the sidebar menu, select **Token Grants** > **Vesting Templates**.
+</Step>
+
+<Step title="Click Create Vesting Schedule">
+  Click the **Create Vesting Schedule** button.
+
+  <Frame>
+    <img src="/images/Screenshot_2025-12-29_at_3.45.21_PM.png" alt="Create Vesting Schedule button" />
+  </Frame>
+</Step>
+
+<Step title="Name Your Template">
+  Use a clear, descriptive name that indicates its terms.
+
+  **Examples:**
+  - "Regular RTU - 36 Month Vesting, 12 Months Cliff at 50%"
+  - "Regular RTU - 24 Month Vesting, 6 Months Cliff at 25%"
+  - "Fiat Denominated Bonus"
+
+  <Frame>
+    <img src="/images/Screenshot_2025-12-29_at_4.14.00_PM.png" alt="Vesting template naming" />
+  </Frame>
+</Step>
+
+<Step title="Configure Vesting Frequency">
+  Choose from: daily, weekly, monthly, quarterly, semi-annually, yearly, or Custom for specific dates.
+</Step>
+
+<Step title="Set End of Month Logic">
+  - **Enabled**: Vesting occurs on the last day of each month
+  - **Disabled**: Vesting occurs on the same calendar day as the start date
+</Step>
+
+<Step title="Generate Vesting Tranches">
+  Enter the number of periods (total vesting events including cliff).
+
+  <Tip>
+  **Example**: A 3-year grant with monthly vesting and a 1-year cliff would have 25 vesting periods. The cliff payment after 12 months counts as the first period, followed by 24 monthly vesting events.
+  </Tip>
+
+  Click **Generate** to create the tranches.
+</Step>
+
+<Step title="Configure First Tranche">
+  The system generates tranches automatically. Set the first tranche allocation:
+  - If the grant includes a cliff, specify the cliff percentage (e.g., 50%)
+  - The system automatically distributes the remaining allocation across subsequent tranches
+
+  <Frame>
+    <img src="/images/Screenshot_2025-12-29_at_4.29.43_PM.png" alt="Vesting tranches configuration" />
+  </Frame>
+</Step>
+
+<Step title="Save the Template">
+  Click **Update Template** to save.
+</Step>
+</Steps>
+
+<Note>
+You can edit, delete, or regenerate vesting tranches only while the template remains unused. Once grants have been issued using this template, the vesting structure is finalized.
+</Note>
+
+### Adding Unlock Schedule (Optional)
+
+Lockups are separate from vesting and typically tied to Token Generation Events (TGE) or other milestone dates.
+
+<Tip>
+**Difference between Vesting and Unlock:**
+- **Vesting** = When tokens are earned
+- **Lockup/Unlock** = When vested tokens can be sold/transferred
+
+A token can be fully vested but still locked.
+</Tip>
+
+<Steps>
+<Step title="Enable Lockup Schedule">
+  Check the **Enable Lockup Schedule** box.
+
+  <Frame>
+    <img src="/images/Screenshot_2025-12-29_at_5.48.32_PM.png" alt="Enable Lockup Schedule" />
+  </Frame>
+</Step>
+
+<Step title="Configure Lockup Start Offset">
+  Enter the number of days from vesting start date.
+  - "0" = lockup starts same day as vesting
+  - "365" = lockup begins 365 days after vesting start
+</Step>
+
+<Step title="Set Lockup Frequency">
+  Choose: Daily, Monthly, Quarterly, Semi-annually, Yearly, or Custom.
+</Step>
+
+<Step title="Generate Lockup Tranches">
+  Enter the number of periods and click **Generate**.
+</Step>
+
+<Step title="Save">
+  Review your configuration and click **Update Template**.
+
+  <Frame>
+    <img src="/images/Screenshot_2025-12-29_at_5.44.31_PM.png" alt="Complete vesting and lockup configuration" />
+  </Frame>
+</Step>
+</Steps>
+
+---
+
+## Step 4: Upload Grants
+
+With recipients, grant types, and vesting schedules configured, you're ready to upload grants.
+
+### Download and Complete the Template
+
+<Steps>
+<Step title="Navigate to Bulk Upload">
+  Go to **Tools** > **Bulk Upload** > **Grants (V2)**.
+</Step>
+
+<Step title="Download Template">
+  Click **Download Template**.
+
+  <Frame>
+    <img src="/images/Screenshot_2025-12-29_at_6.25.12_PM.png" alt="Download grant template" />
+  </Frame>
+</Step>
+
+<Step title="Complete the Template">
+  Fill in the template for each grant. See the field reference below.
+</Step>
+</Steps>
+
+### Grant Upload Template Fields
+
+| Column | Description | Required | Example |
+|--------|-------------|----------|---------|
+| **Email** | Recipient personal email (must match existing recipient) | Yes | employee@gmail.com |
+| **Grant Name** | Descriptive name for this grant | Yes | RTU-00001 |
+| **Grant Description** | Additional context | No | Employee grant 2025 |
+| **Grant Type** | Must exactly match an existing grant type | Yes | 2024 Employee Token Grant |
+| **Amount** | Number of tokens or fiat value | Yes | 100000 |
+| **Vesting Start Date** | When vesting begins (DD-MM-YY) | Yes | 01-01-25 |
+| **Off Platform Date** | Date tokens were granted off-platform | No | 01-01-25 |
+| **83B Eligible** | IRS Section 83(b) election | Yes | Yes / No |
+| **Tax Reporting** | Report on recipient's payslip | Yes | Yes / No |
+| **Grant Date** | Official award date (DD-MM-YY) | Yes | 01-01-25 |
+| **Grant Currency** | Currency denomination | Yes | USD, EUR, GBP |
+| **Price At Grant** | Fair market value per token | No | 1.25 |
+| **Display Currency** | Currency for platform display | Yes | USD, EUR, GBP |
+| **Grant Template Name** | Must exactly match an existing vesting template | Yes | Regular RTU - 36 Month Vesting |
+
+<Warning>
+**Critical Compliance Requirement**: The **83B Tax Reporting** field directly impacts tax reporting obligations. Incorrect settings may result in missed reporting requirements.
+</Warning>
+
+### Upload the Grants
+
+<Steps>
+<Step title="Import CSV">
+  Click **Import CSV** and select your completed template.
+</Step>
+
+<Step title="Review Preview">
+  The system displays a preview of all grants. Review carefully.
+</Step>
+
+<Step title="Upload">
+  Click **Upload Grants** to finalize.
+
+  <Note>
+  Large batch uploads may take 1-2 minutes to process. Wait for the confirmation notification before navigating away.
+  </Note>
+</Step>
+
+<Step title="Verify">
+  Navigate to **Token Grants** > **Overview** to verify your grants.
+</Step>
+</Steps>
+
+---
+
+## Best Practices
+
+### Set Up Once, Use Many Times
+
+- Create grant types for each category of grant you'll issue
+- Build vesting schedule templates for standard terms
+- Reuse templates across multiple grant uploads
+
+### Maintain Consistent Naming
+
+Use clear, descriptive names for:
+- **Grant types and vesting templates**: Standardized naming reduces errors during bulk upload
+- **Grant names**: Systematic naming enables easy tracking and searching
+
+### Test with Small Batches First
+
+When using the system for the first time:
+1. Upload 2-3 test grants
+2. Verify they appear correctly
+3. Confirm vesting schedules calculate properly
+4. Then proceed with full batch uploads
+
+### Document Your Templates
+
+Keep a reference document that maps:
+- Grant types to their use cases
+- Vesting schedules to their terms
+- Any special configurations or edge cases
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+<Accordion title="Grant Upload Fails">
+**Possible Causes:**
+- Recipient email doesn't match existing recipient
+- Grant type name doesn't match exactly
+- Vesting template name is incorrect
+- Date format is incorrect (must be DD-MM-YY)
+
+**Solution**: Review your template against the requirements. Ensure all names match exactly (case-sensitive).
+</Accordion>
+
+<Accordion title="Vesting Schedule Does Not Calculate as Expected">
+**Possible Causes:**
+- End of Month Logic setting is incorrect
+- Cliff percentage is incorrect
+- Duration is in wrong units
+
+**Solution**:
+1. Navigate to **Token Grants** > **Vesting Templates**
+2. Find the template and click **Edit**
+
+<Frame>
+  <img src="/images/Screenshot_2025-12-30_at_12.42.04_PM.png" alt="Edit vesting template" />
+</Frame>
+
+3. Make corrections and click **Update Template**
+</Accordion>
+
+<Accordion title="Unable To Edit Grant After Upload">
+**Cause**: Grants with settlement records cannot be modified to protect data integrity.
+
+**Solution** (for grants without settlements):
+1. Navigate to **Token Grants** > **Overview**
+2. Search for and click on the grant
+3. Click **Update Grant**
+
+<Frame>
+  <img src="/images/Screenshot_2025-12-30_at_12.57.01_PM.png" alt="Update Grant button" />
+</Frame>
+
+4. Make changes and click **Update**
+
+<Frame>
+  <img src="/images/Screenshot_2025-12-30_at_12.57.47_PM.png" alt="Update grant form" />
+</Frame>
+</Accordion>
+</AccordionGroup>
+
+---
+
+## Key Terminology
+
+| Term | Definition |
+|------|------------|
+| **Grant** | An allocation of tokens or equity to a recipient, subject to vesting conditions |
+| **Recipient** | An individual who receives a grant (employee, contractor, advisor, etc.) |
+| **Vesting** | The process by which a recipient earns ownership of granted tokens over time |
+| **Vesting Schedule** | Timeline under which tokens become available to the recipient |
+| **Unlock** | Release of vested tokens, typically tied to TGE or other milestones |
+| **Cliff** | Initial period before any tokens vest (e.g., 1-year cliff = no vesting for 12 months) |
+| **Price at Grant** | The fair market value per token at the time the grant is issued |
+| **FMV** | Fair Market Value - the current market price of a token at a given point in time |
+| **TGE** | Token Generation Event - when tokens are first created and distributed |
+| **83(b) Election** | IRS tax election allowing recipients to pay tax on unvested stock at grant date |
+| **Settlement** | Distributions or payments that have been made to recipients |
+
+---
+
+## Need Help?
+
+Contact Toku support for assistance with:
+- Jurisdictional tax requirements
+- Complex vesting structures not covered by templates
+- Compliance questions for specific grant types
+
+**Contact Options:**
+- **Slack**: Your dedicated support channel (if applicable)
+- **Email**: [tga-support@toku.com](mailto:tga-support@toku.com)

@@ -1,0 +1,307 @@
+---
+title: 'Services'
+description: 'Service layer architecture and patterns'
+---
+
+## Overview
+
+TGA uses a service layer for complex business logic, external integrations, and shared functionality. Services are instantiated with credentials and a Prisma client.
+
+## Service Pattern
+
+### Basic Service Structure
+
+```typescript
+export class MyService {
+    private credentials: Credentials;
+    private prisma: PrismaClient;
+
+    constructor(credentials: Credentials, prisma: PrismaClient) {
+        this.credentials = credentials;
+        this.prisma = prisma;
+    }
+
+    async doSomething(input: Input): Promise<Output> {
+        // Business logic here
+    }
+}
+```
+
+### Using Services in Operations
+
+```typescript
+class MyOperation extends AuthorisedOperation<Request, Response> {
+    async handleRequest(request: Request, context: AuthorisedContext) {
+        // Services available via context
+        const result = await context.services.myService.doSomething(
+            request.input
+        );
+
+        // Or instantiate directly
+        const customService = new CustomService(
+            context.credentials,
+            context.authorisedPrisma
+        );
+
+        return result;
+    }
+}
+```
+
+## Core Services
+
+### Vesting Service
+
+Handles vesting schedule calculations and processing:
+
+```typescript
+class VestingService {
+    async calculateVestingSchedule(grant: Grant): Promise<VestingRecord[]>;
+    async processVestingEvent(vestingID: string): Promise<void>;
+    async accelerateVesting(grantID: string, date: Date): Promise<void>;
+}
+```
+
+### Grant Calculations Service
+
+Grant-related calculations:
+
+```typescript
+class GrantCalculationsService {
+    async calculateVestedUnits(grant: Grant, asOfDate: Date): Promise<Decimal>;
+    async calculateUnvestedUnits(grant: Grant): Promise<Decimal>;
+    async calculateExercisableUnits(grant: Grant): Promise<Decimal>;
+}
+```
+
+### Lockup Service
+
+Post-vesting lockup management:
+
+```typescript
+class LockupService {
+    async createLockupsForVesting(vestingID: string): Promise<Lockup[]>;
+    async processLockupRelease(lockupID: string): Promise<void>;
+}
+```
+
+## Integration Services
+
+### Fireblocks Service
+
+Custody provider integration:
+
+```typescript
+class FireblocksService {
+    async createTransaction(params: TransactionParams): Promise<Transaction>;
+    async getTransactionStatus(txID: string): Promise<TransactionStatus>;
+    async getVaultBalance(vaultID: string): Promise<Balance>;
+}
+```
+
+### DocuSign Service
+
+Document signing:
+
+```typescript
+class DocusignService {
+    async createEnvelope(document: Document, signers: Signer[]): Promise<Envelope>;
+    async getSignedDocument(envelopeID: string): Promise<Buffer>;
+    async updateEnvelopeRecipientStatus(
+        envelopeID: string,
+        recipientID: string,
+        signedAt?: Date,
+        declinedAt?: Date
+    ): Promise<void>;
+}
+```
+
+### KYC Service
+
+Identity verification:
+
+```typescript
+class KycService {
+    async createInquiry(roleInOrgID: string): Promise<Inquiry>;
+    async getInquiryStatus(inquiryID: string): Promise<KycStatus>;
+    async updateKycStatus(inquiryID: string, status: KycStatus): Promise<void>;
+}
+```
+
+## Payroll Services
+
+### Token Payroll Service
+
+Token payroll processing:
+
+```typescript
+class TokenPayrollService {
+    async createPayroll(params: PayrollParams): Promise<TokenPayroll>;
+    async addContributors(payrollID: string, contributors: Contributor[]): Promise<void>;
+    async computeSettlements(payrollID: string): Promise<Settlement[]>;
+}
+```
+
+### Stablecoin Payroll Service
+
+Stablecoin payroll processing:
+
+```typescript
+class StableCoinPayrollService {
+    async getTokenPayrollByID(payrollID: string): Promise<TokenPayroll>;
+    async approveContributorInTokenPayrolls(ids: string[]): Promise<void>;
+    async markSettlementsComplete(settlements: CompletedSettlement[]): Promise<void>;
+    async refreshExchangeRatesForPayroll(payrollID: string): Promise<Result>;
+}
+```
+
+### Compute Pending Settlements Service
+
+Settlement calculation:
+
+```typescript
+class ComputePendingSettlementsService {
+    async computePendingSettlements(
+        payrollID: string
+    ): Promise<PendingSettlement[]>;
+}
+```
+
+## Wallet Services
+
+### Wallet Provider Service
+
+Embedded wallet management:
+
+```typescript
+class WalletProviderService {
+    async createWalletForUser(params: CreateWalletParams): Promise<Wallet>;
+    async getWalletsByProvider(roleInOrgID: string, provider: Provider): Promise<Wallet[]>;
+}
+```
+
+## Service Initialization
+
+### In Context
+
+Services are initialized and attached to the authorised context:
+
+```typescript
+// In framework setup
+const services = {
+    stakingService: new StakingService(credentials, authorisedPrisma),
+    vestingService: new VestingService(
+        credentials,
+        authorisedPrisma,
+        new PayrollCurrencyService(credentials, authorisedPrisma)
+    ),
+    // ... other services
+};
+```
+
+### Direct Instantiation
+
+For webhook handlers and cron jobs:
+
+```typescript
+const handler = async (req, res) => {
+    const creds = {
+        orgID: '',
+        role: Role.TOKU_ADMIN,
+        // ... minimal credentials
+    };
+
+    const authorisedPrisma = originalPrisma.$extends({});
+    const service = new MyService(creds, authorisedPrisma);
+
+    await service.process();
+};
+```
+
+## Error Handling
+
+### Service Errors
+
+```typescript
+class MyService {
+    async process(input: Input): Promise<Output> {
+        if (!input.requiredField) {
+            throw new TokuError('Required field is missing');
+        }
+
+        try {
+            // External API call
+            const result = await externalApi.call(input);
+            return result;
+        } catch (error) {
+            console.error('External API failed:', error);
+            throw new TokuError('Failed to process: ' + error.message);
+        }
+    }
+}
+```
+
+### Result Pattern
+
+For operations that can partially fail:
+
+```typescript
+interface ServiceResult<T> {
+    success: boolean;
+    data?: T;
+    errors?: string[];
+}
+
+class MyService {
+    async processBatch(items: Item[]): Promise<ServiceResult<ProcessedItem[]>> {
+        const results: ProcessedItem[] = [];
+        const errors: string[] = [];
+
+        for (const item of items) {
+            try {
+                const processed = await this.processOne(item);
+                results.push(processed);
+            } catch (error) {
+                errors.push(`Failed to process ${item.id}: ${error.message}`);
+            }
+        }
+
+        return {
+            success: errors.length === 0,
+            data: results,
+            errors: errors.length > 0 ? errors : undefined
+        };
+    }
+}
+```
+
+## Testing Services
+
+```typescript
+describe('MyService', () => {
+    let service: MyService;
+    let mockPrisma: MockPrismaClient;
+
+    beforeEach(() => {
+        mockPrisma = createMockPrisma();
+        service = new MyService(mockCredentials, mockPrisma);
+    });
+
+    it('should process valid input', async () => {
+        mockPrisma.entity.findUnique.mockResolvedValue({ id: '1' });
+
+        const result = await service.process({ id: '1' });
+
+        expect(result.success).toBe(true);
+    });
+});
+```
+
+## Best Practices
+
+1. **Single Responsibility** - Each service handles one domain
+2. **Inject Dependencies** - Pass Prisma and credentials, don't import globals
+3. **Type Everything** - Define clear input/output types
+4. **Handle Errors** - Catch and wrap external errors
+5. **Log Important Events** - Add logging for debugging
+6. **Keep Methods Focused** - Break complex logic into smaller methods
