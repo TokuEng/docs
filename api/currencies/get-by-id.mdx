@@ -1,0 +1,158 @@
+---
+title: "Get Currency by ID"
+sidebarTitle: "Get Currency"
+description: "Retrieve details for a specific currency"
+---
+
+## Overview
+
+Retrieves detailed information about a specific currency by its ID, including current pricing data for cryptocurrencies.
+
+## Endpoint
+
+```
+GET /api/payroll/getCurrency
+```
+
+## Authentication
+
+Requires `tokuOrgAdmin` role.
+
+## Request
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `currencyID` | number | Yes | The unique identifier of the currency |
+
+### Example Request
+
+```bash
+curl -X GET "https://api.toku.com/api/payroll/getCurrency" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"currencyID": 10}'
+```
+
+### JavaScript Example
+
+```javascript
+const response = await fetch('https://api.toku.com/api/payroll/getCurrency', {
+  method: 'GET',
+  headers: {
+    'Authorization': `Bearer ${process.env.TOKU_API_KEY}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    currencyID: 10
+  })
+});
+
+const currency = await response.json();
+```
+
+## Response
+
+### Success Response (200)
+
+```json
+{
+  "result": {
+    "data": {
+      "currencyID": 10,
+      "name": "USD Coin",
+      "currencyCode": "USDC",
+      "crypto": true,
+      "isActive": true,
+      "source": "coinmarketcap",
+      "sourceCurrencyID": 3408,
+      "coinLogoUrl": "https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png",
+      "createdAt": "2023-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-20T10:00:00.000Z"
+    }
+  }
+}
+```
+
+### Response Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `currencyID` | number | Unique currency identifier |
+| `name` | string | Full currency name |
+| `currencyCode` | string | ISO currency code or ticker symbol |
+| `crypto` | boolean | Whether this is a cryptocurrency |
+| `isActive` | boolean | Whether the currency is currently active |
+| `source` | string | Data source for the currency |
+| `sourceCurrencyID` | number | ID in the source system (for crypto) |
+| `coinLogoUrl` | string | URL to currency logo (for crypto) |
+| `createdAt` | string | Record creation timestamp |
+| `updatedAt` | string | Last update timestamp |
+
+### Error Responses
+
+| Status | Code | Description |
+|--------|------|-------------|
+| 401 | `UNAUTHORIZED` | Invalid or missing API key |
+| 403 | `FORBIDDEN` | User lacks required permissions |
+| 404 | `NOT_FOUND` | Currency ID does not exist |
+
+## Common Currency IDs
+
+Here are some commonly used currency IDs for reference:
+
+| Currency | Code | ID |
+|----------|------|------|
+| US Dollar | USD | 1 |
+| Euro | EUR | 2 |
+| British Pound | GBP | 3 |
+| USD Coin | USDC | 10 |
+| Tether | USDT | 11 |
+| Bitcoin | BTC | 12 |
+| Ethereum | ETH | 13 |
+| Dai | DAI | 14 |
+
+<Note>
+Currency IDs may vary by environment. Always use the `getAllCurrencies` endpoint to get the definitive list of available currencies and their IDs.
+</Note>
+
+## Use Cases
+
+### Validating Currency Before Payroll
+
+```javascript
+async function validateCurrencyForPayroll(currencyID) {
+  const response = await fetch('https://api.toku.com/api/payroll/getCurrency', {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${process.env.TOKU_API_KEY}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ currencyID })
+  });
+
+  if (!response.ok) {
+    throw new Error(`Currency ${currencyID} not found`);
+  }
+
+  const { result: { data: currency } } = await response.json();
+
+  if (!currency.isActive) {
+    throw new Error(`Currency ${currency.currencyCode} is not active`);
+  }
+
+  return currency;
+}
+```
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="List Currencies" icon="coins" href="/api/currencies/get-all">
+    Get all supported currencies
+  </Card>
+  <Card title="Update Exchange Rate" icon="arrows-rotate" href="/api/payroll/update-exchange-rate">
+    Update currency exchange rates in payroll
+  </Card>
+</CardGroup>

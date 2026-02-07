@@ -1,0 +1,155 @@
+---
+title: "Update Exchange Rate"
+sidebarTitle: "Update Exchange Rate"
+description: "Update exchange rates for a payroll run"
+---
+
+## Overview
+
+Updates the exchange rates used in a payroll calculation. This is typically used when processing multi-currency payrolls or token compensation where real-time exchange rates are needed.
+
+## Endpoint
+
+```
+PUT /api/payroll/updatePayrollExchangeRate
+```
+
+## Authentication
+
+Requires `tokuOrgAdmin` role for the organization.
+
+## Request
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `payrollID` | number | Yes | The payroll ID to update |
+| `exchangeRates` | array | Yes | Array of exchange rate updates |
+
+### Exchange Rate Object
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `payrollExchangeRateID` | number | Yes | ID of the exchange rate record to update |
+| `exchangeRate` | number | Yes | New exchange rate value |
+| `source` | string | Yes | Source of the exchange rate (e.g., "manual", "coinmarketcap") |
+
+### Example Request
+
+```bash
+curl -X PUT "https://api.toku.com/api/payroll/updatePayrollExchangeRate" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "payrollID": 12345,
+    "exchangeRates": [
+      {
+        "payrollExchangeRateID": 100,
+        "exchangeRate": 0.95,
+        "source": "manual"
+      },
+      {
+        "payrollExchangeRateID": 101,
+        "exchangeRate": 45000.50,
+        "source": "coinmarketcap"
+      }
+    ]
+  }'
+```
+
+### JavaScript Example
+
+```javascript
+const response = await fetch('https://api.toku.com/api/payroll/updatePayrollExchangeRate', {
+  method: 'PUT',
+  headers: {
+    'Authorization': `Bearer ${process.env.TOKU_API_KEY}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    payrollID: 12345,
+    exchangeRates: [
+      {
+        payrollExchangeRateID: 100,
+        exchangeRate: 0.95,
+        source: 'manual'
+      }
+    ]
+  })
+});
+
+const result = await response.json();
+```
+
+## Response
+
+### Success Response (200)
+
+```json
+{
+  "result": {
+    "data": {
+      "payrollID": 12345,
+      "exchangeRates": [
+        {
+          "payrollExchangeRateID": 100,
+          "sourceCurrency": "EUR",
+          "targetCurrency": "USD",
+          "exchangeRate": 0.95,
+          "source": "manual",
+          "updatedAt": "2024-01-20T10:00:00.000Z"
+        },
+        {
+          "payrollExchangeRateID": 101,
+          "sourceCurrency": "BTC",
+          "targetCurrency": "USD",
+          "exchangeRate": 45000.50,
+          "source": "coinmarketcap",
+          "updatedAt": "2024-01-20T10:00:00.000Z"
+        }
+      ]
+    }
+  }
+}
+```
+
+### Error Responses
+
+| Status | Code | Description |
+|--------|------|-------------|
+| 400 | `INVALID_INPUT` | Invalid exchange rate data |
+| 401 | `UNAUTHORIZED` | Invalid or missing API key |
+| 403 | `FORBIDDEN` | User lacks permission |
+| 404 | `NOT_FOUND` | Payroll or exchange rate ID not found |
+| 422 | `PAYROLL_ALREADY_FINALIZED` | Cannot update finalized payroll |
+
+## Notes
+
+<Note>
+Exchange rates can only be updated for payrolls in `DRAFT` or `PENDING_APPROVAL` state. Once a payroll is finalized, exchange rates cannot be changed.
+</Note>
+
+<Tip>
+For token compensation, consider using `usePreviousDayClosingRates` when creating the payroll to ensure consistent pricing across the payroll run.
+</Tip>
+
+## Common Sources
+
+| Source | Description |
+|--------|-------------|
+| `manual` | Manually entered rate |
+| `coinmarketcap` | CoinMarketCap API |
+| `system` | System-calculated rate |
+| `bank` | Bank provided rate |
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Get Payroll" icon="file-invoice-dollar" href="/api/payroll/get-payroll">
+    View current payroll details including exchange rates
+  </Card>
+  <Card title="Finalize Payroll" icon="check-circle" href="/api/payroll/finalize">
+    Finalize payroll after reviewing rates
+  </Card>
+</CardGroup>

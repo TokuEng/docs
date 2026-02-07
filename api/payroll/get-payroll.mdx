@@ -1,0 +1,121 @@
+---
+title: "Get Payroll Details"
+sidebarTitle: "Get Payroll"
+description: "Retrieve details for a specific payroll run"
+---
+
+## Overview
+
+Retrieves the complete details of a payroll run by its ID, including employee data, compensation breakdowns, and processing status.
+
+## Endpoint
+
+```
+GET /api/payroll/getPayrollDetails
+```
+
+## Authentication
+
+Requires `tokuOrgAdmin` role for the organization associated with the payroll.
+
+## Request
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `payrollID` | number | Yes | The unique identifier of the payroll to retrieve |
+
+### Example Request
+
+```bash
+curl -X GET "https://api.toku.com/api/payroll/getPayrollDetails" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"payrollID": 12345}'
+```
+
+### JavaScript Example
+
+```javascript
+const response = await fetch('https://api.toku.com/api/payroll/getPayrollDetails', {
+  method: 'GET',
+  headers: {
+    'Authorization': `Bearer ${process.env.TOKU_API_KEY}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    payrollID: 12345
+  })
+});
+
+const payroll = await response.json();
+```
+
+## Response
+
+### Success Response (200)
+
+```json
+{
+  "result": {
+    "data": {
+      "payrollID": 12345,
+      "orgID": 100,
+      "payDate": "2024-01-31T00:00:00.000Z",
+      "startDate": "2024-01-01T00:00:00.000Z",
+      "endDate": "2024-01-31T00:00:00.000Z",
+      "state": "FINALIZED",
+      "type": "TOKU_PAYROLL",
+      "externalID": "PAY-2024-001",
+      "employees": [
+        {
+          "employeeID": 500,
+          "firstName": "John",
+          "lastName": "Doe",
+          "grossPay": 10000.00,
+          "netPay": 7500.00,
+          "deductions": 2500.00
+        }
+      ],
+      "createdAt": "2024-01-15T10:30:00.000Z",
+      "updatedAt": "2024-01-31T14:00:00.000Z"
+    }
+  }
+}
+```
+
+### Response Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `payrollID` | number | Unique payroll identifier |
+| `orgID` | number | Organization ID |
+| `payDate` | string | Payment date (ISO 8601) |
+| `startDate` | string | Pay period start date |
+| `endDate` | string | Pay period end date |
+| `state` | string | Payroll state: `DRAFT`, `PENDING_APPROVAL`, `APPROVED`, `FINALIZED`, `CANCELLED` |
+| `type` | string | Payroll type: `TOKU_PAYROLL`, `EXTERNAL_PAYROLL` |
+| `externalID` | string | Optional external reference ID |
+| `employees` | array | List of employees included in the payroll |
+| `createdAt` | string | Creation timestamp |
+| `updatedAt` | string | Last update timestamp |
+
+### Error Responses
+
+| Status | Code | Description |
+|--------|------|-------------|
+| 401 | `UNAUTHORIZED` | Invalid or missing API key |
+| 403 | `FORBIDDEN` | User lacks permission for this organization |
+| 404 | `NOT_FOUND` | Payroll ID does not exist |
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Get Org Payrolls" icon="list" href="/api/payroll/get-org-payrolls">
+    List all payrolls for an organization
+  </Card>
+  <Card title="Create On-Cycle Payroll" icon="plus" href="/api/payroll/create-on-cycle">
+    Create a new regular payroll
+  </Card>
+</CardGroup>

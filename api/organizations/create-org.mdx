@@ -1,0 +1,125 @@
+---
+title: "Create Organization"
+sidebarTitle: "Create Organization"
+description: "Create a new organization in the payroll system"
+---
+
+## Overview
+
+Creates a new organization for payroll processing. After creation, the organization will need additional configuration before employees can be added and payrolls can be run.
+
+## Endpoint
+
+```
+POST /api/payroll/createOrg
+```
+
+## Authentication
+
+Requires `tokuOrgAdmin` role.
+
+## Request
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `name` | string | Yes | Organization display name |
+| `logoFileID` | number | No | File ID of organization logo |
+
+### Example Request
+
+```bash
+curl -X POST "https://api.toku.com/api/payroll/createOrg" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "NewCo Technologies"
+  }'
+```
+
+### JavaScript Example
+
+```javascript
+const response = await fetch('https://api.toku.com/api/payroll/createOrg', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${process.env.TOKU_API_KEY}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    name: 'NewCo Technologies'
+  })
+});
+
+const organization = await response.json();
+```
+
+## Response
+
+### Success Response (200)
+
+```json
+{
+  "result": {
+    "data": {
+      "orgID": 103,
+      "name": "NewCo Technologies",
+      "logoFileID": null,
+      "createdAt": "2024-01-20T12:00:00.000Z"
+    }
+  }
+}
+```
+
+### Response Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `orgID` | number | Newly assigned organization identifier |
+| `name` | string | Organization display name |
+| `logoFileID` | number | File ID of logo (null if not provided) |
+| `createdAt` | string | Creation timestamp |
+
+### Error Responses
+
+| Status | Code | Description |
+|--------|------|-------------|
+| 400 | `INVALID_INPUT` | Invalid or missing organization name |
+| 401 | `UNAUTHORIZED` | Invalid or missing API key |
+| 403 | `FORBIDDEN` | User lacks permission to create organizations |
+| 409 | `ALREADY_EXISTS` | Organization with this name already exists |
+
+## Next Steps
+
+After creating an organization:
+
+<Steps>
+  <Step title="Configure Organization Settings">
+    Set up default currency, payment methods, and other preferences through the Toku dashboard.
+  </Step>
+  <Step title="Add Employees">
+    Use the Create Employee endpoint to add employees to the organization.
+  </Step>
+  <Step title="Configure Billing">
+    Work with Toku support to set up billing configuration.
+  </Step>
+  <Step title="Run First Payroll">
+    Once employees are configured, create your first payroll run.
+  </Step>
+</Steps>
+
+<Note>
+Organization creation through the API creates a basic organization record. Additional configuration (billing, payment methods, compliance settings) must be completed through the Toku dashboard or by contacting Toku support.
+</Note>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Get Organization" icon="building" href="/api/organizations/get-org">
+    Retrieve organization details
+  </Card>
+  <Card title="Create Employee" icon="user-plus" href="/api/employees/create-employee">
+    Add employees to the organization
+  </Card>
+</CardGroup>

@@ -1,0 +1,152 @@
+---
+title: "List Organizations"
+sidebarTitle: "List Organizations"
+description: "Retrieve all organizations you have access to"
+---
+
+## Overview
+
+Returns a list of all organizations the authenticated user has access to based on their role assignments.
+
+## Endpoint
+
+```
+GET /api/payroll/getOrgs
+```
+
+## Authentication
+
+Requires `tokuOrgAdmin` role. Returns only organizations the user has been granted access to.
+
+## Request
+
+### Parameters
+
+This endpoint does not require any parameters. Organization access is determined by the authenticated user's role assignments.
+
+### Example Request
+
+```bash
+curl -X GET "https://api.toku.com/api/payroll/getOrgs" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json"
+```
+
+### JavaScript Example
+
+```javascript
+const response = await fetch('https://api.toku.com/api/payroll/getOrgs', {
+  method: 'GET',
+  headers: {
+    'Authorization': `Bearer ${process.env.TOKU_API_KEY}`,
+    'Content-Type': 'application/json'
+  }
+});
+
+const organizations = await response.json();
+```
+
+## Response
+
+### Success Response (200)
+
+```json
+{
+  "result": {
+    "data": [
+      {
+        "orgID": 100,
+        "name": "Acme Corporation",
+        "logoFileID": 250,
+        "createdAt": "2023-06-01T00:00:00.000Z"
+      },
+      {
+        "orgID": 101,
+        "name": "TechStart Inc",
+        "logoFileID": null,
+        "createdAt": "2023-09-15T00:00:00.000Z"
+      },
+      {
+        "orgID": 102,
+        "name": "Global Ventures",
+        "logoFileID": 275,
+        "createdAt": "2024-01-01T00:00:00.000Z"
+      }
+    ]
+  }
+}
+```
+
+### Response Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `orgID` | number | Unique organization identifier |
+| `name` | string | Organization display name |
+| `logoFileID` | number | File ID of organization logo (null if not set) |
+| `createdAt` | string | Organization creation timestamp |
+
+### Error Responses
+
+| Status | Code | Description |
+|--------|------|-------------|
+| 401 | `UNAUTHORIZED` | Invalid or missing API key |
+| 403 | `FORBIDDEN` | User does not have tokuOrgAdmin role |
+
+## Notes
+
+<Note>
+The organizations returned are filtered based on your API key's role assignments. You will only see organizations you have been explicitly granted access to.
+</Note>
+
+## Use Cases
+
+### Fetching Organization IDs
+
+Before making organization-specific API calls, retrieve the list of organizations to get valid `orgID` values:
+
+```javascript
+async function getOrganizationPayrolls() {
+  // First, get all organizations
+  const orgsResponse = await fetch('https://api.toku.com/api/payroll/getOrgs', {
+    headers: {
+      'Authorization': `Bearer ${process.env.TOKU_API_KEY}`,
+      'Content-Type': 'application/json'
+    }
+  });
+
+  const { result: { data: organizations } } = await orgsResponse.json();
+
+  // Then fetch payrolls for each organization
+  const allPayrolls = await Promise.all(
+    organizations.map(async (org) => {
+      const payrollsResponse = await fetch(
+        'https://api.toku.com/api/payroll/getPayrollByOrg',
+        {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${process.env.TOKU_API_KEY}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ orgID: org.orgID })
+        }
+      );
+      const payrolls = await payrollsResponse.json();
+      return { organization: org, payrolls: payrolls.result.data };
+    })
+  );
+
+  return allPayrolls;
+}
+```
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Get Organization" icon="building" href="/api/organizations/get-org">
+    Get details for a specific organization
+  </Card>
+  <Card title="Create Organization" icon="plus" href="/api/organizations/create-org">
+    Create a new organization
+  </Card>
+</CardGroup>

@@ -140,6 +140,61 @@
             "pages": ["tga/faq"]
           }
         ]
+      },
+      {
+        "tab": "API",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "api/overview",
+              "api/authentication",
+              "api/getting-started"
+            ]
+          },
+          {
+            "group": "Payroll",
+            "pages": [
+              "api/payroll/get-payroll",
+              "api/payroll/get-org-payrolls",
+              "api/payroll/create-on-cycle",
+              "api/payroll/create-off-cycle",
+              "api/payroll/update-exchange-rate",
+              "api/payroll/finalize",
+              "api/payroll/cancel"
+            ]
+          },
+          {
+            "group": "Employees",
+            "pages": [
+              "api/employees/get-employee",
+              "api/employees/create-employee",
+              "api/employees/can-run-payroll"
+            ]
+          },
+          {
+            "group": "Organizations",
+            "pages": [
+              "api/organizations/get-org",
+              "api/organizations/get-orgs",
+              "api/organizations/create-org"
+            ]
+          },
+          {
+            "group": "Currencies",
+            "pages": [
+              "api/currencies/get-all",
+              "api/currencies/get-by-id"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "api/errors",
+              "api/rate-limits"
+            ]
+          }
+        ]
       }
     ]
   },

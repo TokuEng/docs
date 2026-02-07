@@ -1,0 +1,100 @@
+---
+title: "Authentication"
+sidebarTitle: "Authentication"
+description: "Learn how to authenticate your API requests to Toku"
+---
+
+## Overview
+
+The Toku API uses API keys and session-based authentication to secure access to resources. All API requests must include valid authentication credentials.
+
+## Authentication Methods
+
+### API Key Authentication
+
+For server-to-server integrations, use API key authentication. Include your API key in the request headers:
+
+```bash
+curl -X GET "https://api.toku.com/api/payroll/getOrgs" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json"
+```
+
+### Session Authentication
+
+For web applications, session-based authentication is supported through NextAuth. Contact Toku support to configure OAuth integration for your application.
+
+## Obtaining API Keys
+
+<Steps>
+  <Step title="Contact Toku Support">
+    Reach out to your Toku account representative or contact support@toku.com to request API access.
+  </Step>
+  <Step title="Provide Integration Details">
+    Describe your use case, expected API volume, and the specific endpoints you need access to.
+  </Step>
+  <Step title="Receive Credentials">
+    Once approved, you'll receive your API key and any additional configuration details.
+  </Step>
+</Steps>
+
+## Role-Based Access Control
+
+API access is governed by role-based permissions. The available roles are:
+
+| Role | Description | Access Level |
+|------|-------------|--------------|
+| `orgAdmin` | Organization Administrator | Full access to organization resources |
+| `tokuOrgAdmin` | Toku Organization Admin | Access to payroll operations and management |
+| `employeeAdmin` | Employee Administrator | Access to specific employee records |
+| `tokuSuperAdmin` | Toku Super Admin | Full platform access (internal use) |
+
+Your API key will be associated with one or more roles that determine which endpoints you can access.
+
+## Security Best Practices
+
+<Warning>
+Never expose your API key in client-side code or public repositories.
+</Warning>
+
+- **Keep keys secure**: Store API keys in environment variables or secure vaults
+- **Rotate regularly**: Periodically rotate your API keys
+- **Use HTTPS**: All API requests must use HTTPS
+- **Limit scope**: Request only the permissions you need
+
+## Request Headers
+
+Include these headers with all API requests:
+
+| Header | Required | Description |
+|--------|----------|-------------|
+| `Authorization` | Yes | `Bearer YOUR_API_KEY` |
+| `Content-Type` | Yes | `application/json` |
+
+## Example Request
+
+```bash
+curl -X GET "https://api.toku.com/api/payroll/getOrgDetails" \
+  -H "Authorization: Bearer sk_live_xxxxxxxxxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{"orgID": 123}'
+```
+
+## Error Responses
+
+Authentication failures return a `401 Unauthorized` status:
+
+```json
+{
+  "error": {
+    "code": "UNAUTHORIZED",
+    "message": "Invalid or expired API key"
+  }
+}
+```
+
+## Next Steps
+
+<Card title="Getting Started" icon="rocket" href="/api/getting-started">
+  Make your first API call with authentication
+</Card>

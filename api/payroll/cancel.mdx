@@ -1,0 +1,169 @@
+---
+title: "Cancel Payroll"
+sidebarTitle: "Cancel"
+description: "Cancel a payroll run"
+---
+
+## Overview
+
+Cancels a payroll run that has not yet been finalized. Cancelled payrolls cannot be processed and the action is logged for audit purposes.
+
+## Endpoint
+
+```
+POST /api/payroll/cancelPayroll
+```
+
+## Authentication
+
+Requires `tokuOrgAdmin` role for the organization.
+
+## Request
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `payrollID` | number | Yes | The payroll ID to cancel |
+| `comment` | string | Yes | Reason for cancellation (for audit trail) |
+| `notifyClient` | boolean | Yes | Whether to send notification to the client |
+
+### Example Request
+
+```bash
+curl -X POST "https://api.toku.com/api/payroll/cancelPayroll" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "payrollID": 12345,
+    "comment": "Duplicate payroll created in error",
+    "notifyClient": true
+  }'
+```
+
+### JavaScript Example
+
+```javascript
+const response = await fetch('https://api.toku.com/api/payroll/cancelPayroll', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${process.env.TOKU_API_KEY}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    payrollID: 12345,
+    comment: 'Duplicate payroll created in error',
+    notifyClient: true
+  })
+});
+
+const result = await response.json();
+```
+
+## Response
+
+### Success Response (200)
+
+```json
+{
+  "result": {
+    "data": {
+      "payrollID": 12345,
+      "orgID": 100,
+      "state": "CANCELLED",
+      "cancelledAt": "2024-01-20T09:15:00.000Z",
+      "cancelledBy": "admin@company.com",
+      "cancellationReason": "Duplicate payroll created in error"
+    }
+  }
+}
+```
+
+### Response Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `payrollID` | number | Payroll identifier |
+| `orgID` | number | Organization ID |
+| `state` | string | Updated state (`CANCELLED`) |
+| `cancelledAt` | string | Timestamp when cancelled |
+| `cancelledBy` | string | Email of user who cancelled |
+| `cancellationReason` | string | Reason provided for cancellation |
+
+### Error Responses
+
+| Status | Code | Description |
+|--------|------|-------------|
+| 400 | `INVALID_PAYROLL_STATE` | Payroll cannot be cancelled in current state |
+| 401 | `UNAUTHORIZED` | Invalid or missing API key |
+| 403 | `FORBIDDEN` | User lacks permission |
+| 404 | `NOT_FOUND` | Payroll ID not found |
+| 422 | `PAYROLL_ALREADY_FINALIZED` | Cannot cancel a finalized payroll |
+
+## Cancellation Rules
+
+| Payroll State | Can Cancel | Notes |
+|---------------|------------|-------|
+| `DRAFT` | Yes | No restrictions |
+| `PENDING_APPROVAL` | Yes | Approvals will be voided |
+| `APPROVED` | Yes | Before finalization only |
+| `FINALIZED` | No | Contact support for assistance |
+| `CANCELLED` | No | Already cancelled |
+
+<Note>
+Once a payroll has been finalized and payments have been initiated, it cannot be cancelled through the API. Contact Toku support for assistance with finalized payrolls.
+</Note>
+
+## Client Notification
+
+When `notifyClient` is set to `true`:
+- Organization admins receive an email notification
+- The cancellation reason is included in the notification
+- Audit log entry is created
+
+When `notifyClient` is set to `false`:
+- No email notification is sent
+- Cancellation is still logged in the audit trail
+
+## Use Cases
+
+### Duplicate Payroll
+
+```javascript
+{
+  payrollID: 12345,
+  comment: 'Duplicate payroll created in error - correct payroll is #12346',
+  notifyClient: false
+}
+```
+
+### Data Correction Needed
+
+```javascript
+{
+  payrollID: 12345,
+  comment: 'Employee compensation data needs correction before processing',
+  notifyClient: true
+}
+```
+
+### Schedule Change
+
+```javascript
+{
+  payrollID: 12345,
+  comment: 'Pay date moved to next week per client request',
+  notifyClient: true
+}
+```
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Get Payroll" icon="file-invoice-dollar" href="/api/payroll/get-payroll">
+    View payroll details before cancelling
+  </Card>
+  <Card title="Create On-Cycle" icon="plus" href="/api/payroll/create-on-cycle">
+    Create a new payroll after cancelling
+  </Card>
+</CardGroup>

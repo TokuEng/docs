@@ -1,0 +1,144 @@
+---
+title: "Getting Started"
+sidebarTitle: "Getting Started"
+description: "Make your first API call to the Toku API"
+---
+
+## Prerequisites
+
+Before making API calls, ensure you have:
+
+1. An active Toku account with API access enabled
+2. Your API key (contact support@toku.com to obtain one)
+3. An organization set up in Toku
+
+## Your First API Call
+
+Let's start by retrieving your organization's details.
+
+<Steps>
+  <Step title="Set Up Your Environment">
+    Store your API key securely as an environment variable:
+
+    ```bash
+    export TOKU_API_KEY="sk_live_xxxxxxxxxxxxx"
+    ```
+  </Step>
+
+  <Step title="Make a Test Request">
+    Retrieve your organizations list:
+
+    ```bash
+    curl -X GET "https://api.toku.com/api/payroll/getOrgs" \
+      -H "Authorization: Bearer $TOKU_API_KEY" \
+      -H "Content-Type: application/json"
+    ```
+  </Step>
+
+  <Step title="Review the Response">
+    A successful response returns your organizations:
+
+    ```json
+    {
+      "result": {
+        "data": [
+          {
+            "orgID": 123,
+            "name": "Acme Corporation",
+            "logoFileID": null,
+            "createdAt": "2024-01-15T00:00:00.000Z"
+          }
+        ]
+      }
+    }
+    ```
+  </Step>
+</Steps>
+
+## Code Examples
+
+### JavaScript (Node.js)
+
+```javascript
+const fetch = require('node-fetch');
+
+async function getOrganizations() {
+  const response = await fetch('https://api.toku.com/api/payroll/getOrgs', {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${process.env.TOKU_API_KEY}`,
+      'Content-Type': 'application/json'
+    }
+  });
+
+  const data = await response.json();
+  return data.result.data;
+}
+
+// Usage
+getOrganizations()
+  .then(orgs => console.log('Organizations:', orgs))
+  .catch(err => console.error('Error:', err));
+```
+
+### Python
+
+```python
+import os
+import requests
+
+def get_organizations():
+    api_key = os.environ.get('TOKU_API_KEY')
+
+    response = requests.get(
+        'https://api.toku.com/api/payroll/getOrgs',
+        headers={
+            'Authorization': f'Bearer {api_key}',
+            'Content-Type': 'application/json'
+        }
+    )
+
+    return response.json()['result']['data']
+
+# Usage
+if __name__ == '__main__':
+    orgs = get_organizations()
+    print('Organizations:', orgs)
+```
+
+## Common Workflows
+
+### Creating and Running Payroll
+
+<Steps>
+  <Step title="Get Organization Details">
+    Retrieve your organization ID using `getOrgs` or `getOrgDetails`.
+  </Step>
+
+  <Step title="Get Employee Information">
+    Use `getEmployeeDetails` to retrieve employee data and verify payroll eligibility with `canRunPayrollForEmployee`.
+  </Step>
+
+  <Step title="Create Payroll">
+    Use `createOnCyclePayroll` or `createOffCyclePayroll` to create a new payroll run.
+  </Step>
+
+  <Step title="Review and Update">
+    If needed, update exchange rates using `updatePayrollExchangeRate`.
+  </Step>
+
+  <Step title="Finalize">
+    Once reviewed, finalize the payroll using `finalizePayroll`.
+  </Step>
+</Steps>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Payroll Endpoints" icon="money-check-dollar" href="/api/payroll/get-payroll">
+    Explore payroll management endpoints
+  </Card>
+  <Card title="Error Handling" icon="triangle-exclamation" href="/api/errors">
+    Learn how to handle API errors
+  </Card>
+</CardGroup>

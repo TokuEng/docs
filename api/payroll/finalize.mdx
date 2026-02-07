@@ -1,0 +1,137 @@
+---
+title: "Finalize Payroll"
+sidebarTitle: "Finalize"
+description: "Approve and finalize a payroll run for processing"
+---
+
+## Overview
+
+Finalizes a payroll run, locking it for payment processing. Once finalized, the payroll cannot be modified and payments will be processed according to the payment schedule.
+
+<Warning>
+Finalizing a payroll is irreversible. Ensure all details are correct before calling this endpoint.
+</Warning>
+
+## Endpoint
+
+```
+POST /api/payroll/finalizePayroll
+```
+
+## Authentication
+
+Requires `tokuOrgAdmin` role for the organization.
+
+## Request
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `payrollID` | number | Yes | The payroll ID to finalize |
+
+### Example Request
+
+```bash
+curl -X POST "https://api.toku.com/api/payroll/finalizePayroll" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"payrollID": 12345}'
+```
+
+### JavaScript Example
+
+```javascript
+const response = await fetch('https://api.toku.com/api/payroll/finalizePayroll', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${process.env.TOKU_API_KEY}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    payrollID: 12345
+  })
+});
+
+const result = await response.json();
+```
+
+## Response
+
+### Success Response (200)
+
+```json
+{
+  "result": {
+    "data": {
+      "payrollID": 12345,
+      "orgID": 100,
+      "state": "FINALIZED",
+      "payDate": "2024-01-31T00:00:00.000Z",
+      "finalizedAt": "2024-01-25T14:30:00.000Z",
+      "finalizedBy": "admin@company.com"
+    }
+  }
+}
+```
+
+### Response Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `payrollID` | number | Payroll identifier |
+| `orgID` | number | Organization ID |
+| `state` | string | Updated state (`FINALIZED`) |
+| `payDate` | string | Scheduled payment date |
+| `finalizedAt` | string | Timestamp when finalized |
+| `finalizedBy` | string | Email of user who finalized |
+
+### Error Responses
+
+| Status | Code | Description |
+|--------|------|-------------|
+| 400 | `INVALID_PAYROLL_STATE` | Payroll is not in a state that can be finalized |
+| 401 | `UNAUTHORIZED` | Invalid or missing API key |
+| 403 | `FORBIDDEN` | User lacks permission |
+| 404 | `NOT_FOUND` | Payroll ID not found |
+| 422 | `PAYROLL_ALREADY_FINALIZED` | Payroll has already been finalized |
+
+## Prerequisites
+
+Before finalizing a payroll, ensure:
+
+<Steps>
+  <Step title="Review Employee Data">
+    All employee compensation data is correct
+  </Step>
+  <Step title="Verify Exchange Rates">
+    Exchange rates for multi-currency payments are accurate
+  </Step>
+  <Step title="Check Deductions">
+    Tax withholdings and other deductions are properly calculated
+  </Step>
+  <Step title="Confirm Payment Date">
+    The pay date is correct and bank accounts are funded
+  </Step>
+</Steps>
+
+## Payroll States
+
+| State | Can Finalize | Description |
+|-------|--------------|-------------|
+| `DRAFT` | Yes | Initial state after creation |
+| `PENDING_APPROVAL` | Yes | Awaiting approval |
+| `APPROVED` | Yes | Approved and ready to finalize |
+| `FINALIZED` | No | Already finalized |
+| `CANCELLED` | No | Payroll was cancelled |
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Get Payroll" icon="file-invoice-dollar" href="/api/payroll/get-payroll">
+    Review payroll details before finalizing
+  </Card>
+  <Card title="Cancel Payroll" icon="ban" href="/api/payroll/cancel">
+    Cancel a payroll instead of finalizing
+  </Card>
+</CardGroup>

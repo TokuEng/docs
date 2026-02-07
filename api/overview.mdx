@@ -1,0 +1,70 @@
+---
+title: "API Overview"
+sidebarTitle: "Overview"
+description: "Introduction to the Toku API for payroll and contractor management"
+---
+
+## Introduction
+
+The Toku API enables third-party developers to integrate payroll processing, employee management, and contractor payments into their applications. Our RESTful API provides programmatic access to core Toku functionality.
+
+## Base URL
+
+All API requests should be made to:
+
+```
+https://api.toku.com/api
+```
+
+## API Versioning
+
+The current API version is **v1**. The version is included in the endpoint path where applicable.
+
+## Available Resources
+
+<CardGroup cols={2}>
+  <Card title="Payroll" icon="money-check-dollar" href="/api/payroll/get-payroll">
+    Create, manage, and finalize payroll runs for your organization
+  </Card>
+  <Card title="Employees" icon="users" href="/api/employees/get-employee">
+    Manage employee records and payroll eligibility
+  </Card>
+  <Card title="Organizations" icon="building" href="/api/organizations/get-org">
+    Configure organization settings and access controls
+  </Card>
+  <Card title="Currencies" icon="coins" href="/api/currencies/get-all">
+    Retrieve supported fiat and cryptocurrency information
+  </Card>
+</CardGroup>
+
+## Key Features
+
+- **Multi-currency Support**: Process payroll in fiat and cryptocurrencies including USDC, USDT, and DAI
+- **Token Compensation**: Support for token vesting schedules and bonus payments
+- **Tax Calculations**: Automated tax withholding based on employee jurisdiction
+- **Real-time Exchange Rates**: Integration with market data for accurate crypto conversions
+
+## Response Format
+
+All responses are returned in JSON format. Successful responses include the requested data, while errors include descriptive messages.
+
+```json
+{
+  "result": {
+    "data": {
+      // Response payload
+    }
+  }
+}
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Authentication" icon="key" href="/api/authentication">
+    Learn how to authenticate your API requests
+  </Card>
+  <Card title="Getting Started" icon="rocket" href="/api/getting-started">
+    Make your first API call
+  </Card>
+</CardGroup>

@@ -1,0 +1,160 @@
+---
+title: "Error Handling"
+sidebarTitle: "Errors"
+description: "Understanding and handling API errors"
+---
+
+## Error Response Format
+
+When an error occurs, the API returns a JSON response with error details:
+
+```json
+{
+  "error": {
+    "code": "ERROR_CODE",
+    "message": "Human-readable error description",
+    "details": {}
+  }
+}
+```
+
+## HTTP Status Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| `200` | Success - Request completed successfully |
+| `400` | Bad Request - Invalid parameters or malformed request |
+| `401` | Unauthorized - Invalid or missing authentication |
+| `403` | Forbidden - Insufficient permissions for this action |
+| `404` | Not Found - Resource does not exist |
+| `409` | Conflict - Resource state conflict (e.g., duplicate) |
+| `422` | Unprocessable Entity - Valid request but cannot be processed |
+| `429` | Too Many Requests - Rate limit exceeded |
+| `500` | Internal Server Error - Server-side error |
+
+## Common Error Codes
+
+### Authentication Errors
+
+| Code | Description | Resolution |
+|------|-------------|------------|
+| `UNAUTHORIZED` | Invalid or expired API key | Verify your API key is correct and active |
+| `FORBIDDEN` | Insufficient role permissions | Contact support to request additional permissions |
+| `SESSION_EXPIRED` | Session has expired | Re-authenticate and obtain a new session |
+
+### Validation Errors
+
+| Code | Description | Resolution |
+|------|-------------|------------|
+| `INVALID_INPUT` | Request parameters failed validation | Check the `details` field for specific issues |
+| `MISSING_REQUIRED_FIELD` | Required field not provided | Include all required parameters |
+| `INVALID_DATE_FORMAT` | Date format is incorrect | Use ISO 8601 format (YYYY-MM-DDTHH:mm:ss.sssZ) |
+
+### Resource Errors
+
+| Code | Description | Resolution |
+|------|-------------|------------|
+| `NOT_FOUND` | Requested resource doesn't exist | Verify the resource ID is correct |
+| `ALREADY_EXISTS` | Resource already exists | Check for duplicates before creating |
+| `RESOURCE_LOCKED` | Resource is locked for editing | Wait for the lock to be released |
+
+### Business Logic Errors
+
+| Code | Description | Resolution |
+|------|-------------|------------|
+| `PAYROLL_ALREADY_FINALIZED` | Cannot modify finalized payroll | Create a new payroll or contact support |
+| `EMPLOYEE_NOT_ELIGIBLE` | Employee cannot receive payroll | Verify employee setup is complete |
+| `INVALID_PAYROLL_STATE` | Payroll is in wrong state for action | Check current payroll state |
+
+## Error Handling Examples
+
+### JavaScript
+
+```javascript
+async function createPayroll(payrollData) {
+  try {
+    const response = await fetch('https://api.toku.com/api/payroll/createOnCyclePayroll', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.TOKU_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payrollData)
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+
+      switch (response.status) {
+        case 401:
+          throw new Error('Authentication failed. Check your API key.');
+        case 403:
+          throw new Error('Permission denied. Contact support for access.');
+        case 422:
+          throw new Error(`Validation error: ${error.error.message}`);
+        default:
+          throw new Error(`API error: ${error.error.message}`);
+      }
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Payroll creation failed:', error.message);
+    throw error;
+  }
+}
+```
+
+### Python
+
+```python
+import requests
+
+def create_payroll(payroll_data):
+    try:
+        response = requests.post(
+            'https://api.toku.com/api/payroll/createOnCyclePayroll',
+            headers={
+                'Authorization': f'Bearer {os.environ["TOKU_API_KEY"]}',
+                'Content-Type': 'application/json'
+            },
+            json=payroll_data
+        )
+
+        response.raise_for_status()
+        return response.json()
+
+    except requests.exceptions.HTTPError as e:
+        error_data = e.response.json()
+        error_code = error_data.get('error', {}).get('code', 'UNKNOWN')
+        error_msg = error_data.get('error', {}).get('message', 'Unknown error')
+
+        if e.response.status_code == 401:
+            raise Exception('Authentication failed. Check your API key.')
+        elif e.response.status_code == 422:
+            raise Exception(f'Validation error: {error_msg}')
+        else:
+            raise Exception(f'API error ({error_code}): {error_msg}')
+```
+
+## Debugging Tips
+
+<Tip>
+Include request IDs in your logs to help Toku support troubleshoot issues faster.
+</Tip>
+
+1. **Check the response body**: Error responses include detailed messages
+2. **Validate inputs locally**: Verify data types and required fields before sending
+3. **Review rate limits**: Implement exponential backoff for `429` errors
+4. **Log request/response**: Keep logs for debugging (exclude sensitive data)
+
+## Getting Help
+
+If you encounter persistent errors:
+
+1. Check this documentation for the specific error code
+2. Review the endpoint documentation for required parameters
+3. Contact support@toku.com with:
+   - The error code and message
+   - Request details (endpoint, parameters)
+   - Timestamp of the error
