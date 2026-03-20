@@ -325,6 +325,34 @@
             ]
           },
           {
+            "group": "Custody",
+            "pages": [
+              "api/endpoints/custody/get-all-custody-wallets",
+              "api/endpoints/custody/get-custody-wallet-count",
+              "api/endpoints/custody/get-custody-wallets-for-grant",
+              "api/endpoints/custody/add-custody-allocations",
+              "api/endpoints/custody/update-custody-allocations",
+              "api/endpoints/custody/delete-custody-allocations",
+              "api/endpoints/custody/refresh-custody-balances",
+              "api/endpoints/custody/get-fireblocks-integration",
+              "api/endpoints/custody/get-fireblocks-vaults",
+              "api/endpoints/custody/save-fireblocks-integration",
+              "api/endpoints/custody/delete-fireblocks-integration",
+              "api/endpoints/custody/create-fireblocks-wallet",
+              "api/endpoints/custody/link-fireblocks-wallet",
+              "api/endpoints/custody/get-anchorage-public-key",
+              "api/endpoints/custody/get-anchorage-vaults",
+              "api/endpoints/custody/configure-anchorage",
+              "api/endpoints/custody/delete-anchorage",
+              "api/endpoints/custody/create-anchorage-wallet",
+              "api/endpoints/custody/link-anchorage-wallet",
+              "api/endpoints/custody/get-safe-integration",
+              "api/endpoints/custody/test-safe-connection",
+              "api/endpoints/custody/delete-safe-integration",
+              "api/endpoints/custody/get-safe-wallets"
+            ]
+          },
+          {
             "group": "Distributions",
             "pages": [
               "api/endpoints/distributions/get-pending-schedules",

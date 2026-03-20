@@ -43,6 +43,10 @@
     {
       "name": "Distributions",
       "description": "Approve vestings, add tax details, update FMV, finalize, submit settlements, and track status"
+    },
+    {
+      "name": "Custody",
+      "description": "Connect custody providers (Fireblocks, Anchorage, Safe), manage custody wallets, and allocate to grants"
     }
   ],
   "components": {
@@ -9874,6 +9878,2408 @@
                     "success": {
                       "type": "boolean",
                       "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getAllCustodyWallets": {
+      "get": {
+        "summary": "List All Custody Wallets",
+        "description": "Returns all custody wallets across all providers (Fireblocks, Anchorage, Safe).",
+        "operationId": "getAllCustodyWallets",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Custody wallets",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "custodyWalletID": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "cw-0e8400-e29b-41d4-a716-446655440020"
+                      },
+                      "walletAddress": {
+                        "type": "string",
+                        "example": "0xabc123..."
+                      },
+                      "walletName": {
+                        "type": "string",
+                        "example": "Main Vault"
+                      },
+                      "networkName": {
+                        "type": "string",
+                        "example": "Ethereum"
+                      },
+                      "custodyProvider": {
+                        "type": "string",
+                        "example": "FIREBLOCKS"
+                      },
+                      "currentBalance": {
+                        "type": "string",
+                        "example": "50000"
+                      },
+                      "balanceUpdatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getCustodyWalletCount": {
+      "get": {
+        "summary": "Get Custody Wallet Count",
+        "description": "Returns wallet count statistics by custody provider.",
+        "operationId": "getCustodyWalletCount",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Wallet counts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "totalCount": {
+                      "type": "number",
+                      "example": 12
+                    },
+                    "countsByProvider": {
+                      "type": "object",
+                      "example": {
+                        "FIREBLOCKS": 5,
+                        "ANCHORAGE": 4,
+                        "SAFE": 3
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getCustodyWalletsForGrant": {
+      "get": {
+        "summary": "Get Custody Wallets for Grant",
+        "description": "Returns custody wallets allocated to a specific grant.",
+        "operationId": "getCustodyWalletsForGrant",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          },
+          {
+            "name": "grantID",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Wallets for grant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "walletAddress": {
+                        "type": "string"
+                      },
+                      "walletName": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/addCustodyAllocationsToGrant": {
+      "post": {
+        "summary": "Allocate Custody Wallets to Grant",
+        "description": "Assigns custody wallets to a grant with token allocation amounts.",
+        "operationId": "addCustodyAllocationsToGrant",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "allocations"
+                ],
+                "properties": {
+                  "allocations": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "walletAddress",
+                        "allocationAmount",
+                        "grantID"
+                      ],
+                      "properties": {
+                        "walletAddress": {
+                          "type": "string",
+                          "example": "0xabc123..."
+                        },
+                        "allocationAmount": {
+                          "type": "number",
+                          "example": 25000
+                        },
+                        "grantID": {
+                          "type": "string",
+                          "format": "uuid"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Allocations created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/updateCustodyAllocations": {
+      "post": {
+        "summary": "Update Custody Allocations",
+        "description": "Modifies allocation amounts for existing custody wallet assignments.",
+        "operationId": "updateCustodyAllocations",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "updates"
+                ],
+                "properties": {
+                  "updates": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "custodyAllocationID",
+                        "allocationAmount"
+                      ],
+                      "properties": {
+                        "custodyAllocationID": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "allocationAmount": {
+                          "type": "number",
+                          "example": 30000
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Allocations updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deleteCustodyAllocations": {
+      "post": {
+        "summary": "Delete Custody Allocations",
+        "description": "Removes custody wallet allocations.",
+        "operationId": "deleteCustodyAllocations",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "custodyAllocationIDs"
+                ],
+                "properties": {
+                  "custodyAllocationIDs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Allocations deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bulkUpdateCustodyWalletBalance": {
+      "post": {
+        "summary": "Refresh Custody Wallet Balances",
+        "description": "Fetches latest balances from custody providers for specified wallets.",
+        "operationId": "bulkUpdateCustodyWalletBalance",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "custodyWalletIDs"
+                ],
+                "properties": {
+                  "custodyWalletIDs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Balances refreshed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getFireblocksIntegration": {
+      "get": {
+        "summary": "Get Fireblocks Integration",
+        "description": "Returns Fireblocks integration status and configuration.",
+        "operationId": "getFireblocksIntegration",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Fireblocks integration details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "nullable": true,
+                  "properties": {
+                    "fireblocksApiKey": {
+                      "type": "string"
+                    },
+                    "fireblocksNetworkID": {
+                      "type": "string"
+                    },
+                    "fireblocksAssetId": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getFireblocksVaultAccounts": {
+      "get": {
+        "summary": "List Fireblocks Vault Accounts",
+        "description": "Returns vault accounts from your Fireblocks account.",
+        "operationId": "getFireblocksVaultAccounts",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vault accounts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "vaultAccountId": {
+                        "type": "string",
+                        "example": "vault-123"
+                      },
+                      "vaultAccountName": {
+                        "type": "string",
+                        "example": "Main Vault"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/saveFireblocksIntegration": {
+      "post": {
+        "summary": "Save Fireblocks Integration",
+        "description": "Configures Fireblocks API credentials and tests the connection.",
+        "operationId": "saveFireblocksIntegration",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "fireblocksApiKey",
+                  "fireblocksNetworkID"
+                ],
+                "properties": {
+                  "fireblocksApiKey": {
+                    "type": "string"
+                  },
+                  "fireblocksNetworkID": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Integration saved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "organizationFireblocksIntegrationID": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deleteFireblocksIntegration": {
+      "post": {
+        "summary": "Delete Fireblocks Integration",
+        "description": "Removes Fireblocks integration from the organization.",
+        "operationId": "deleteFireblocksIntegration",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Integration deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/createFireblocksCustodyWallet": {
+      "post": {
+        "summary": "Create Fireblocks Custody Wallet",
+        "description": "Creates new vault accounts in Fireblocks.",
+        "operationId": "createFireblocksCustodyWallet",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "walletNames"
+                ],
+                "properties": {
+                  "walletNames": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "Grant Vault 1",
+                      "Grant Vault 2"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Wallets created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "wallets": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/linkExistingFireblocksCustodyWallet": {
+      "post": {
+        "summary": "Link Existing Fireblocks Vault",
+        "description": "Links an existing Fireblocks vault account to TGA.",
+        "operationId": "linkExistingFireblocksCustodyWallet",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "vaultAccountId",
+                  "vaultAccountName"
+                ],
+                "properties": {
+                  "vaultAccountId": {
+                    "type": "string",
+                    "example": "vault-123"
+                  },
+                  "vaultAccountName": {
+                    "type": "string",
+                    "example": "Existing Vault"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Vault linked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getAnchorageIntegrationPublicKey": {
+      "get": {
+        "summary": "Get Anchorage Public Key",
+        "description": "Returns the ED25519 signer public key for Anchorage integration.",
+        "operationId": "getAnchorageIntegrationPublicKey",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Public key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "publicKey": {
+                      "type": "string",
+                      "example": "ed25519-public-key-here"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getAnchorageVaults": {
+      "get": {
+        "summary": "List Anchorage Vaults",
+        "description": "Returns available vaults in your Anchorage account.",
+        "operationId": "getAnchorageVaults",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vaults",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "vaults": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "vaultId": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/updateAnchorageIntegration": {
+      "post": {
+        "summary": "Configure Anchorage Integration",
+        "description": "Saves Anchorage API credentials, vault, asset, and network configuration.",
+        "operationId": "updateAnchorageIntegration",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "anchorageDigitalApiKey": {
+                    "type": "string"
+                  },
+                  "anchorageDigitalGrantVaultID": {
+                    "type": "string"
+                  },
+                  "anchorageDigitalAssetType": {
+                    "type": "string"
+                  },
+                  "anchorageNetworkID": {
+                    "type": "string"
+                  },
+                  "anchorageDigitalIntegrationEnabled": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Integration configured",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "organizationAnchorageIntegrationID": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "anchorageDigitalIntegrationEnabled": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deleteAnchorageIntegration": {
+      "post": {
+        "summary": "Delete Anchorage Integration",
+        "description": "Removes Anchorage integration from the organization.",
+        "operationId": "deleteAnchorageIntegration",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Integration deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/createAnchorageCustodyWallet": {
+      "post": {
+        "summary": "Create Anchorage Custody Wallet",
+        "description": "Creates new custody wallets in Anchorage.",
+        "operationId": "createAnchorageCustodyWallet",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "walletNames"
+                ],
+                "properties": {
+                  "walletNames": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "Grant Wallet 1"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Wallets created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "wallets": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/linkExistingAnchorageCustodyWallet": {
+      "post": {
+        "summary": "Link Existing Anchorage Wallet",
+        "description": "Links an existing Anchorage wallet to TGA.",
+        "operationId": "linkExistingAnchorageCustodyWallet",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "walletId",
+                  "walletName"
+                ],
+                "properties": {
+                  "walletId": {
+                    "type": "string"
+                  },
+                  "walletName": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Wallet linked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getGnosisSafeIntegration": {
+      "get": {
+        "summary": "Get Safe Integration",
+        "description": "Returns Safe/Gnosis integration status including proposer address, connected Safe, and balance.",
+        "operationId": "getGnosisSafeIntegration",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Safe integration details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "nullable": true,
+                  "properties": {
+                    "hasIntegration": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "signerPublicKey": {
+                      "type": "string"
+                    },
+                    "connectedSafeAddress": {
+                      "type": "string",
+                      "example": "0xsafe123..."
+                    },
+                    "connectedSafeChain": {
+                      "type": "string",
+                      "example": "1"
+                    },
+                    "isConnectionVerified": {
+                      "type": "boolean"
+                    },
+                    "walletBalance": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/testGnosisSafeConnection": {
+      "post": {
+        "summary": "Test Safe Connection",
+        "description": "Verifies Safe exists, proposer is registered as delegate, and syncs webhooks.",
+        "operationId": "testGnosisSafeConnection",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "safeAddress",
+                  "chainId"
+                ],
+                "properties": {
+                  "safeAddress": {
+                    "type": "string",
+                    "example": "0xsafe123..."
+                  },
+                  "chainId": {
+                    "type": "string",
+                    "example": "1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Connection tested",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "safeAddress": {
+                      "type": "string"
+                    },
+                    "chainId": {
+                      "type": "string"
+                    },
+                    "verifiedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deleteGnosisSafeIntegration": {
+      "post": {
+        "summary": "Delete Safe Integration",
+        "description": "Removes Safe/Gnosis integration from the organization.",
+        "operationId": "deleteGnosisSafeIntegration",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Integration deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "deletedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getSafeWallets": {
+      "get": {
+        "summary": "List Safe Wallets",
+        "description": "Returns paginated list of Safe multisig wallets.",
+        "operationId": "getSafeWallets",
+        "tags": [
+          "Custody"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "example": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Safe wallets",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "safeWallets": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "totalSafeWalletsCounts": {
+                      "type": "number",
+                      "example": 8
                     }
                   }
                 }
