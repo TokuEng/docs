@@ -202,7 +202,6 @@
       {
         "tab": "API Reference",
         "url": "api",
-        "href": "/api/overview",
         "groups": [
           {
             "group": "Getting Started",
@@ -226,241 +225,111 @@
           {
             "group": "Grants",
             "pages": [
-              {
-                "openapi": "GET /listGrants"
-              },
-              {
-                "openapi": "GET /listGrantConfigurations"
-              },
-              {
-                "openapi": "GET /getEmployeeGrants"
-              },
-              {
-                "openapi": "GET /getPayrollEmployeeID"
-              },
-              {
-                "openapi": "POST /addSingleGrant"
-              },
-              {
-                "openapi": "POST /createGrantForNewHire"
-              },
-              {
-                "openapi": "POST /terminateGrant"
-              },
-              {
-                "openapi": "POST /terminateGrants"
-              },
-              {
-                "openapi": "POST /terminateEmployeeGrants"
-              },
-              {
-                "openapi": "POST /revertGrantTermination"
-              },
-              {
-                "openapi": "POST /revertEmployeeGrantTermination"
-              },
-              {
-                "openapi": "POST /revertEmployeeGrants"
-              }
+              "api/endpoints/grants/list-grants",
+              "api/endpoints/grants/list-grant-configurations",
+              "api/endpoints/grants/get-employee-grants",
+              "api/endpoints/grants/get-payroll-employee-id",
+              "api/endpoints/grants/add-single-grant",
+              "api/endpoints/grants/create-grant-for-new-hire",
+              "api/endpoints/grants/terminate-grant",
+              "api/endpoints/grants/terminate-grants",
+              "api/endpoints/grants/terminate-employee-grants",
+              "api/endpoints/grants/revert-grant-termination",
+              "api/endpoints/grants/revert-employee-grant-termination",
+              "api/endpoints/grants/revert-employee-grants"
             ]
           },
           {
             "group": "Wallets",
             "pages": [
-              {
-                "openapi": "GET /getAllWallets"
-              },
-              {
-                "openapi": "GET /getCurrentWallet"
-              },
-              {
-                "openapi": "GET /getUserCurrentWallets"
-              },
-              {
-                "openapi": "GET /getHistoricalWallets"
-              },
-              {
-                "openapi": "GET /getAllHistoricalWallets"
-              },
-              {
-                "openapi": "GET /getEmployeeWallets"
-              },
-              {
-                "openapi": "GET /getEmployeeHistoricalWallets"
-              },
-              {
-                "openapi": "GET /getAllWalletsForAllRecipients"
-              },
-              {
-                "openapi": "GET /getPendingWallets"
-              },
-              {
-                "openapi": "GET /getPendingWalletRequest"
-              },
-              {
-                "openapi": "GET /getPendingWalletRequests"
-              },
-              {
-                "openapi": "POST /addWallet"
-              },
-              {
-                "openapi": "POST /updateWallet"
-              },
-              {
-                "openapi": "POST /markWalletAsNotCurrent"
-              },
-              {
-                "openapi": "POST /reactivateWallet"
-              },
-              {
-                "openapi": "POST /approveWallet"
-              },
-              {
-                "openapi": "POST /rejectWallet"
-              },
-              {
-                "openapi": "POST /approveWalletRequest"
-              },
-              {
-                "openapi": "POST /rejectWalletRequest"
-              },
-              {
-                "openapi": "POST /cancelWalletRequest"
-              },
-              {
-                "openapi": "POST /bulkUploadMultipleWallets"
-              }
+              "api/endpoints/wallets/get-all-wallets",
+              "api/endpoints/wallets/get-current-wallet",
+              "api/endpoints/wallets/get-user-current-wallets",
+              "api/endpoints/wallets/get-historical-wallets",
+              "api/endpoints/wallets/get-all-historical-wallets",
+              "api/endpoints/wallets/get-employee-wallets",
+              "api/endpoints/wallets/get-employee-historical-wallets",
+              "api/endpoints/wallets/get-all-wallets-for-recipients",
+              "api/endpoints/wallets/get-pending-wallets",
+              "api/endpoints/wallets/get-pending-wallet-request",
+              "api/endpoints/wallets/get-pending-wallet-requests",
+              "api/endpoints/wallets/add-wallet",
+              "api/endpoints/wallets/update-wallet",
+              "api/endpoints/wallets/mark-wallet-not-current",
+              "api/endpoints/wallets/reactivate-wallet",
+              "api/endpoints/wallets/approve-wallet",
+              "api/endpoints/wallets/reject-wallet",
+              "api/endpoints/wallets/approve-wallet-request",
+              "api/endpoints/wallets/reject-wallet-request",
+              "api/endpoints/wallets/cancel-wallet-request",
+              "api/endpoints/wallets/bulk-upload-wallets"
             ]
           },
           {
             "group": "Wallet Verification",
             "pages": [
-              {
-                "openapi": "GET /getTestTxnApprovalPendingWallets"
-              },
-              {
-                "openapi": "GET /getVerifiedWalletTestRequests"
-              },
-              {
-                "openapi": "GET /getPendingWalletTestRequests"
-              },
-              {
-                "openapi": "POST /addTestTransaction"
-              },
-              {
-                "openapi": "POST /sendTestTransaction"
-              },
-              {
-                "openapi": "POST /addTestTxnToWallet"
-              },
-              {
-                "openapi": "POST /resendTestTxnEmailToWalletOwner"
-              },
-              {
-                "openapi": "POST /processBulkTestTransactions"
-              }
+              "api/endpoints/wallet-verification/get-test-txn-pending",
+              "api/endpoints/wallet-verification/get-verified-test-requests",
+              "api/endpoints/wallet-verification/get-pending-test-requests",
+              "api/endpoints/wallet-verification/add-test-transaction",
+              "api/endpoints/wallet-verification/send-test-transaction",
+              "api/endpoints/wallet-verification/add-test-txn-to-wallet",
+              "api/endpoints/wallet-verification/resend-test-email",
+              "api/endpoints/wallet-verification/process-bulk-test"
             ]
           },
           {
             "group": "Wallet Distribution",
             "pages": [
-              {
-                "openapi": "GET /getAllWalletReferencesForAllGrants"
-              },
-              {
-                "openapi": "GET /getWalletReferencesWithNetworks"
-              },
-              {
-                "openapi": "POST /configureWalletRefsDistributionForGrant"
-              },
-              {
-                "openapi": "POST /setTokenWalletRefsDistribution"
-              }
+              "api/endpoints/wallet-distribution/get-wallet-refs-grants",
+              "api/endpoints/wallet-distribution/get-wallet-refs-networks",
+              "api/endpoints/wallet-distribution/configure-grant-distribution",
+              "api/endpoints/wallet-distribution/set-token-distribution"
             ]
           },
           {
             "group": "Employees",
             "pages": [
-              {
-                "openapi": "GET /getUserRoleInOrg"
-              },
-              {
-                "openapi": "POST /createUserRoleInOrg"
-              },
-              {
-                "openapi": "PUT /updateUserRoleInOrg"
-              },
-              {
-                "openapi": "PUT /batchUpdateRoleInOrg"
-              }
+              "api/endpoints/employees/get-user-role",
+              "api/endpoints/employees/create-user-role",
+              "api/endpoints/employees/update-user-role",
+              "api/endpoints/employees/batch-update-roles"
             ]
           },
           {
             "group": "Tokens & Networks",
             "pages": [
-              {
-                "openapi": "GET /getWalletTypes"
-              },
-              {
-                "openapi": "GET /getTokenTypes"
-              },
-              {
-                "openapi": "GET /getTokenTypesNew"
-              },
-              {
-                "openapi": "GET /getNetworks"
-              },
-              {
-                "openapi": "GET /getNetworksNew"
-              },
-              {
-                "openapi": "DELETE /deleteWalletType"
-              },
-              {
-                "openapi": "DELETE /deleteNetwork"
-              }
+              "api/endpoints/tokens-networks/get-wallet-types",
+              "api/endpoints/tokens-networks/get-token-types",
+              "api/endpoints/tokens-networks/get-token-types-new",
+              "api/endpoints/tokens-networks/get-networks",
+              "api/endpoints/tokens-networks/get-networks-new",
+              "api/endpoints/tokens-networks/delete-wallet-type",
+              "api/endpoints/tokens-networks/delete-network"
             ]
           },
           {
             "group": "Invoices",
             "pages": [
-              {
-                "openapi": "POST /submitBulkInvoicePayments"
-              },
-              {
-                "openapi": "POST /markInvoicePaymentAsSettled"
-              }
+              "api/endpoints/invoices/submit-bulk-payments",
+              "api/endpoints/invoices/mark-payment-settled"
             ]
           },
           {
             "group": "Organization",
             "pages": [
-              {
-                "openapi": "GET /hello"
-              },
-              {
-                "openapi": "GET /getOrgWalletInfo"
-              },
-              {
-                "openapi": "POST /updateOrgTokenAddress"
-              },
-              {
-                "openapi": "PUT /updateTestTransactionConfiguration"
-              }
+              "api/endpoints/organization/hello",
+              "api/endpoints/organization/get-org-wallet-info",
+              "api/endpoints/organization/update-org-token-address",
+              "api/endpoints/organization/update-test-txn-config"
             ]
           },
           {
             "group": "Authentication",
             "pages": [
-              {
-                "openapi": "POST /createUserApiToken"
-              },
-              {
-                "openapi": "POST /refreshUserApiToken"
-              },
-              {
-                "openapi": "POST /generateAuthNonce"
-              }
+              "api/endpoints/authentication/create-api-token",
+              "api/endpoints/authentication/refresh-api-token",
+              "api/endpoints/authentication/generate-auth-nonce"
             ]
           }
         ]
