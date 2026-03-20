@@ -1,0 +1,99 @@
+---
+title: "Adding Recipients"
+sidebarTitle: "Adding Recipients"
+description: "Onboard employees and manage their roles in your organization"
+---
+
+## Overview
+
+Recipients are the people who receive token grants. Before creating grants, you need to add recipients to your organization and assign them roles.
+
+<Frame caption="Employee/recipient list">
+  <img src="/images/tga/employees/user-list.png" />
+</Frame>
+
+---
+
+## Adding a Single Recipient
+
+<Steps>
+  <Step title="Navigate to Users">
+    Go to the admin sidebar and click **Users** or navigate to the org's user management page.
+  </Step>
+  <Step title="Click Add User">
+    Click the **Add User** button.
+  </Step>
+  <Step title="Fill in details">
+    - **Email** (required) — Must be unique across the organization
+    - **First Name** and **Last Name** (required)
+    - **Role** — Usually `RECIPIENT` for grant recipients
+    - **External Employee ID** — Your HRIS identifier (optional but recommended for API integrations)
+    - **Country** — Recipient's country of employment
+    - **Employment Type** — Full-time, part-time, contractor, etc.
+  </Step>
+  <Step title="Save">
+    Click **Save**. The recipient receives an activation email.
+  </Step>
+</Steps>
+
+<Tip>
+**API:** Use [Create User Role in Org](/api/employees/create-user-role-in-org) to add recipients programmatically.
+</Tip>
+
+---
+
+## Bulk Adding Recipients
+
+For large teams, use the bulk upload feature:
+
+<Steps>
+  <Step title="Go to Bulk Upload">
+    Navigate to **Bulk Upload** → **Recipients** tab.
+  </Step>
+  <Step title="Download the template">
+    Click **Download Template** to get the CSV format.
+  </Step>
+  <Step title="Fill and upload">
+    Add your recipients to the CSV and upload it.
+  </Step>
+  <Step title="Review">
+    Fix any validation errors and submit.
+  </Step>
+</Steps>
+
+---
+
+## Roles
+
+| Role | Description | Access |
+|------|-------------|--------|
+| `RECIPIENT` | Grant recipient / employee | View grants, manage wallet, see vesting schedule |
+| `CLIENT_ORG_ADMIN` | Organization administrator | Full access to all features |
+| `PAYROLL_ADMIN` | Payroll operations | Access to payroll and settlement |
+| `FINANCE_ADMIN` | Financial reporting | Access to reports and payments |
+| `MANAGER` | Team manager | Manager-level access for direct reports |
+
+---
+
+## Updating Recipients
+
+Update recipient details from the user management page or via API:
+
+<Tip>
+**API:** Use [Update User Role in Org](/api/employees/update-user-role-in-org) for single updates, or [Batch Update Roles](/api/employees/batch-update-roles) for bulk changes.
+</Tip>
+
+---
+
+## HRIS Integration
+
+If you use an HRIS system (ADP, Workday, UKG), you can sync employees automatically. Set the `externalEmployeeID` to match your HRIS identifier for seamless mapping between systems.
+
+<CardGroup cols={2}>
+  <Card title="ADP Integration" icon="circle-nodes" href="/integrations/adp">
+    Sync employees from ADP
+  </Card>
+  <Card title="Workday Integration" icon="circle-nodes" href="/integrations/workday">
+    Sync employees from Workday
+  </Card>
+</CardGroup>

@@ -1,0 +1,67 @@
+---
+title: "Grant Configurations"
+sidebarTitle: "Grant Configurations"
+description: "Create and manage grant type templates for your organization"
+---
+
+## Overview
+
+Grant configurations define the types of token grants your organization issues. Each configuration specifies the grant type, signing requirements, and default settings. All grants are created from a configuration template.
+
+<Frame caption="Grant configurations list">
+  <img src="/images/tga/grants/grant-configurations.png" />
+</Frame>
+
+---
+
+## Grant Types
+
+| Type | Description | Common Use |
+|------|-------------|------------|
+| **RTU** (Restricted Token Units) | Token units that vest over time | Standard employee token compensation |
+| **RTA** (Restricted Token Awards) | Token awards with restrictions | Performance-based awards |
+| **TPA** (Token Purchase Agreements) | Right to purchase tokens at a set price | Similar to stock options |
+| **TOKEN_BONUS** | One-time token bonus | Signing bonuses, spot awards |
+
+---
+
+## Creating a Configuration
+
+<Steps>
+  <Step title="Navigate to Grant Configurations">
+    Go to **Grants** → **Grant Configurations** in the sidebar.
+  </Step>
+  <Step title="Click Create">
+    Click **Create Grant Configuration** to open the setup form.
+  </Step>
+  <Step title="Select the grant type">
+    Choose RTU, RTA, TPA, or TOKEN_BONUS.
+  </Step>
+  <Step title="Name the configuration">
+    Give it a descriptive name (e.g., "Standard 4-Year RTU" or "Q1 Bonus").
+  </Step>
+  <Step title="Configure signing tabs">
+    Set up any document signing requirements for grants of this type.
+  </Step>
+  <Step title="Save">
+    Click **Save** to create the configuration.
+  </Step>
+</Steps>
+
+---
+
+## Managing Configurations
+
+From the Grant Configurations page, you can:
+
+- **Edit** — Update the name, type, or signing requirements
+- **View grants** — See all grants created with this configuration
+- **Archive** — Deactivate a configuration (existing grants are not affected)
+
+---
+
+## Using Configurations via API
+
+<Tip>
+**API:** Use [List Grant Configurations](/api/grants/list-grant-configurations) to retrieve all configurations. Pass the `grantConfigurationID` when creating grants via [Add Single Grant](/api/grants/add-single-grant).
+</Tip>

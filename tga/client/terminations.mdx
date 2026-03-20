@@ -1,0 +1,141 @@
+---
+title: "Grant Terminations"
+sidebarTitle: "Terminations"
+description: "Terminate and revert token grants when employees leave"
+---
+
+## Overview
+
+When an employee leaves or a grant needs to be cancelled, you can terminate their grants. Termination recalculates the vesting schedule — only tokens that have vested up to the termination date remain; future vestings are cancelled.
+
+---
+
+## Terminating a Single Grant
+
+<Steps>
+  <Step title="Navigate to the grant">
+    Go to **Grants** and find the grant to terminate.
+  </Step>
+  <Step title="Click Terminate">
+    Open the grant detail and click **Terminate Grant**.
+  </Step>
+  <Step title="Set the termination date">
+    Choose the effective termination date. Vestings after this date will be cancelled.
+  </Step>
+  <Step title="Confirm">
+    Review the impact and confirm. The grant status changes to `TERMINATED`.
+  </Step>
+</Steps>
+
+<Tip>
+**API:** Use [Terminate Grant](/api/grants/terminate-grant) with the `grantID` and `terminationDate`.
+</Tip>
+
+---
+
+## Terminating All Grants for an Employee
+
+When an employee leaves, terminate all their active grants at once:
+
+<Tip>
+**API:** Use [Terminate Employee Grants](/api/grants/terminate-employee-grants) with the `externalEmployeeID` and `terminationDate`. If `grantIDs` is omitted, all active grants are terminated.
+</Tip>
+
+```bash
+curl -X POST https://app.toku.com/api/tokuApi/v1/terminateEmployeeGrants \
+  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -H "x-role-type: CLIENT_ORG_ADMIN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "externalEmployeeID": "EMP-001",
+    "terminationDate": "2026-06-30T00:00:00.000Z"
+  }'
+```
+
+**Response:**
+```json
+{
+  "terminatedGrantIDs": ["grant-uuid-1", "grant-uuid-2"],
+  "alreadyTerminatedGrantIDs": []
+}
+```
+
+---
+
+## Bulk Termination
+
+Terminate specific grants across multiple employees:
+
+<Tip>
+**API:** Use [Terminate Grants (Bulk)](/api/grants/terminate-grants-bulk) with an array of `grantIDs` and `terminationDate`.
+</Tip>
+
+---
+
+## Reverting a Termination
+
+Made a mistake? Revert a termination to restore the grant to its previous status and regenerate future vestings.
+
+<Steps>
+  <Step title="Find the terminated grant">
+    Filter grants by status `TERMINATED`.
+  </Step>
+  <Step title="Click Revert">
+    Open the grant and click **Revert Termination**.
+  </Step>
+  <Step title="Confirm">
+    The grant returns to its pre-termination status with vestings regenerated.
+  </Step>
+</Steps>
+
+### Revert via API
+
+**Single grant:**
+```bash
+curl -X POST https://app.toku.com/api/tokuApi/v1/revertGrantTermination \
+  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -H "x-role-type: CLIENT_ORG_ADMIN" \
+  -H "Content-Type: application/json" \
+  -d '{"grantID": "grant-uuid"}'
+```
+
+**All grants for an employee:**
+```bash
+curl -X POST https://app.toku.com/api/tokuApi/v1/revertEmployeeGrants \
+  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -H "x-role-type: CLIENT_ORG_ADMIN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "externalEmployeeID": "EMP-001",
+    "grantIDs": ["grant-uuid-1", "grant-uuid-2"]
+  }'
+```
+
+---
+
+## Grant Status After Termination
+
+| Status | Meaning |
+|--------|---------|
+| `TERMINATED` | Grant terminated, future vestings cancelled |
+| `MARKED_FOR_FUTURE_TERMINATION` | Termination scheduled for a future date |
+| `ACCEPTED` | Grant restored after revert (back to active) |
+
+---
+
+## Related API Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Terminate Grant" icon="scissors" href="/api/grants/terminate-grant">
+    Terminate a single grant
+  </Card>
+  <Card title="Terminate Employee Grants" icon="user-minus" href="/api/grants/terminate-employee-grants">
+    Terminate all grants for an employee
+  </Card>
+  <Card title="Revert Termination" icon="rotate-left" href="/api/grants/revert-grant-termination">
+    Undo a termination
+  </Card>
+  <Card title="Revert Employee Grants" icon="rotate-left" href="/api/grants/revert-employee-grants">
+    Bulk revert for an employee
+  </Card>
+</CardGroup>

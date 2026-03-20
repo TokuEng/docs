@@ -1,0 +1,91 @@
+---
+title: "Bulk Upload Grants"
+sidebarTitle: "Bulk Upload"
+description: "Upload grants, recipients, wallets, and more via CSV"
+---
+
+## Overview
+
+The Bulk Upload interface lets you import large datasets via CSV files. It supports multiple upload types from a single page with smart column matching and inline validation.
+
+<Frame caption="Bulk upload interface">
+  <img src="/images/tga/grants/bulk-upload.png" />
+</Frame>
+
+---
+
+## Supported Upload Types
+
+| Type | Description |
+|------|-------------|
+| **Recipients** | Add employees/recipients to your organization |
+| **Grants** | Create grants for existing recipients |
+| **Update Grants** | Modify fields on existing grants |
+| **Wallets** | Add wallets for recipients |
+| **Multiple Wallets** | Add multiple wallets per recipient |
+| **Grant Templates** | Import vesting schedule templates |
+| **Custom Vestings** | Upload custom vesting tranches |
+| **Bulk Update Vesting Tranches** | Modify vesting schedules in bulk |
+| **Settlements** | Import settlement data |
+| **Lockups** | Upload lockup schedules |
+| **Investors** | Add investor entities |
+| **Distribution Processing** | Process distribution batches |
+
+---
+
+## Upload Process
+
+<Steps>
+  <Step title="Select upload type">
+    Choose the tab for the data type you want to upload.
+  </Step>
+  <Step title="Download template">
+    Click **Download Template** to get a CSV with the correct column headers.
+  </Step>
+  <Step title="Fill in your data">
+    Populate the CSV with your data. Required columns are marked in the template.
+  </Step>
+  <Step title="Upload the CSV">
+    Drag and drop or click to select your CSV file.
+  </Step>
+  <Step title="Map columns">
+    The system auto-matches columns. Review and correct any mismatches (e.g., "First Name" maps to `givenName`).
+  </Step>
+  <Step title="Review and fix errors">
+    Invalid cells are highlighted in red with error messages. Fix them inline or re-upload.
+  </Step>
+  <Step title="Submit">
+    Click **Submit** to process the upload.
+  </Step>
+</Steps>
+
+---
+
+## Grant CSV Fields
+
+| Column | Required | Description |
+|--------|----------|-------------|
+| `email` | Yes | Recipient's email address |
+| `grantName` | Yes | Name for the grant |
+| `grantAmount` | Yes | Number of token units |
+| `grantConfigurationID` | No | ID of the grant config template |
+| `grantDate` | No | Date the grant was issued |
+| `vestingStartDate` | No | When vesting begins |
+| `pricePerUnit` | No | Token price at grant date |
+| `currency` | No | Price currency code |
+| `tags` | No | Comma-separated tags |
+
+---
+
+## API Alternative
+
+For programmatic bulk operations:
+
+<CardGroup cols={2}>
+  <Card title="Batch Update Roles" icon="users" href="/api/employees/batch-update-roles">
+    Update multiple employees at once
+  </Card>
+  <Card title="Bulk Upload Wallets" icon="wallet" href="/api/wallets/bulk-upload-wallets">
+    Upload multiple wallets via API
+  </Card>
+</CardGroup>

@@ -1,0 +1,92 @@
+---
+title: "Custody Integrations"
+sidebarTitle: "Custody Overview"
+description: "Connect custody providers for secure token settlement"
+---
+
+## Overview
+
+Custody integrations enable automated token settlement through institutional-grade custody providers. When vestings are ready for distribution, settlements are routed through your connected provider.
+
+<Frame caption="Custody integrations page">
+  <img src="/images/tga/custody/integrations-overview.png" />
+</Frame>
+
+---
+
+## Supported Providers
+
+<CardGroup cols={3}>
+  <Card title="Fireblocks" icon="fire">
+    Enterprise-grade digital asset infrastructure with MPC key management and policy engine.
+  </Card>
+  <Card title="Anchorage" icon="shield-halved">
+    Institutional digital asset platform with qualified custody and staking.
+  </Card>
+  <Card title="Safe (Gnosis)" icon="vault">
+    Multisig smart contract wallets with customizable signer thresholds.
+  </Card>
+</CardGroup>
+
+Additional providers available:
+- **Squads** — Solana multisig
+- **Coinbase Prime** — Institutional trading and custody
+- **Galaxy** — Trading and custody services
+
+---
+
+## Connecting a Provider
+
+<Steps>
+  <Step title="Navigate to Integrations">
+    Go to **Admin** → **Integrations** from the sidebar.
+  </Step>
+  <Step title="Select your provider">
+    Click on the custody provider you want to connect.
+  </Step>
+  <Step title="Enter credentials">
+    Provide the required API keys and configuration:
+    - **Fireblocks**: API key, secret key, vault account ID
+    - **Anchorage**: API key, organization ID
+    - **Safe**: Safe wallet address
+  </Step>
+  <Step title="Test connection">
+    The system verifies connectivity before saving.
+  </Step>
+  <Step title="Configure settlement settings">
+    Set default vault accounts, signing policies, and notification preferences.
+  </Step>
+</Steps>
+
+---
+
+## Settlement Flow by Provider
+
+### Fireblocks
+1. Settlement submitted to Fireblocks vault
+2. Policy engine evaluates the transaction
+3. Required signers approve in Fireblocks console
+4. Transaction broadcasts on-chain
+
+### Anchorage
+1. Settlement submitted to Anchorage
+2. Anchorage processes the transfer
+3. Transaction confirms on-chain
+
+### Safe (Multisig)
+1. Transaction proposal created in Safe
+2. Required signers approve the transaction
+3. Final signer executes the transaction on-chain
+
+---
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Settlements" icon="file-invoice-dollar" href="/tga/client/settlements">
+    Learn about the full settlement process
+  </Card>
+  <Card title="Wallet Setup" icon="wallet" href="/tga/client/wallet-setup">
+    Configure recipient wallets
+  </Card>
+</CardGroup>

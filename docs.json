@@ -127,12 +127,55 @@
             "pages": ["tga/overview"]
           },
           {
-            "group": "Client Guides",
+            "group": "Getting Started",
             "pages": [
-              "tga/client/setting-up-your-account",
+              "tga/client/onboarding-checklist",
+              "tga/client/setting-up-your-account"
+            ]
+          },
+          {
+            "group": "Grant Management",
+            "pages": [
               "tga/client/creating-grants",
-              "tga/client/managing-vesting-schedules",
+              "tga/client/grant-configurations",
+              "tga/client/bulk-upload-grants"
+            ]
+          },
+          {
+            "group": "Vesting & Schedules",
+            "pages": [
+              "tga/client/managing-vesting-schedules"
+            ]
+          },
+          {
+            "group": "Distributions",
+            "pages": [
               "tga/client/token-distributions",
+              "tga/client/settlements"
+            ]
+          },
+          {
+            "group": "Wallets",
+            "pages": [
+              "tga/client/wallet-setup"
+            ]
+          },
+          {
+            "group": "Custody Integrations",
+            "pages": [
+              "tga/client/custody-overview"
+            ]
+          },
+          {
+            "group": "Recipients & Employees",
+            "pages": [
+              "tga/client/adding-recipients",
+              "tga/client/terminations"
+            ]
+          },
+          {
+            "group": "Settings & Reports",
+            "pages": [
               "tga/client/reporting-and-compliance",
               "tga/client/cap-table-management"
             ]

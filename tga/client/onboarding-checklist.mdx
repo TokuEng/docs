@@ -1,0 +1,188 @@
+---
+title: "Onboarding Checklist"
+sidebarTitle: "Onboarding Checklist"
+description: "Complete your TGA account setup in 6 steps"
+---
+
+## Overview
+
+When you first log in as a Client Admin, the TGA dashboard shows a setup checklist that walks you through everything needed to start managing token grants. Complete all 6 steps to fully configure your organization.
+
+<Frame caption="Dashboard with setup checklist">
+  <img src="/images/tga/dashboard/dashboard-overview.png" />
+</Frame>
+
+---
+
+## Step 1: Add Employees
+
+Upload your employees who will receive token grants. You can add them one at a time or upload a CSV.
+
+<Steps>
+  <Step title="Open the Add Employees modal">
+    Click **Upload** next to "Add Employees" in the checklist.
+  </Step>
+  <Step title="Choose your method">
+    - **Manual entry**: Add employees one by one with name and email
+    - **CSV upload**: Upload a spreadsheet with columns for first name, last name, email, and optional fields like department, country, and external employee ID
+  </Step>
+  <Step title="Review and submit">
+    Verify the employee list, fix any validation errors (highlighted in red), then click **Submit**.
+  </Step>
+</Steps>
+
+<Tip>
+**API:** Use [Create User Role in Org](/api/employees/create-user-role-in-org) to add employees programmatically, or [Batch Update Roles](/api/employees/batch-update-roles) for bulk operations.
+</Tip>
+
+---
+
+## Step 2: Create Grant Configuration
+
+Define what type of token grants your organization issues.
+
+<Steps>
+  <Step title="Select a grant type">
+    Choose from: **RTU** (Restricted Token Units), **RTA** (Restricted Token Awards), **TPA** (Token Purchase Agreements), or **TOKEN_BONUS**.
+  </Step>
+  <Step title="Name your configuration">
+    A default name is generated from the type. You can customize it.
+  </Step>
+  <Step title="Save">
+    Click **Create** to save the configuration. You can create additional configurations later.
+  </Step>
+</Steps>
+
+<Tip>
+**API:** Use [List Grant Configurations](/api/grants/list-grant-configurations) to retrieve your configurations.
+</Tip>
+
+---
+
+## Step 3: Configure Vesting Schedules
+
+Set up how tokens vest over time using pre-built templates or custom schedules.
+
+**Pre-built templates:**
+
+| Template | Cliff | Vesting | Total Duration |
+|----------|-------|---------|----------------|
+| 4-Year, 1-Year Cliff | 25% at 12 months | 2.08% monthly | 48 months |
+| 3-Year, No Cliff | None | 2.78% monthly | 36 months |
+| 2-Year Quarterly | None | 12.5% quarterly | 24 months |
+| 1-Year Monthly | None | 8.33% monthly | 12 months |
+| Custom | You define | You define | You define |
+
+<Steps>
+  <Step title="Pick a template or create custom">
+    Select a pre-built template or click **Custom** to open the full vesting builder.
+  </Step>
+  <Step title="Review the schedule">
+    The system generates vesting tranches based on your template. Review the percentage allocations and timing.
+  </Step>
+  <Step title="Save">
+    Click **Create** to save the vesting schedule template.
+  </Step>
+</Steps>
+
+---
+
+## Step 4: Create Grants
+
+Assign token grants to your employees.
+
+<Steps>
+  <Step title="Open the Create Grants modal">
+    Click **Upload** next to "Create Grants" in the checklist.
+  </Step>
+  <Step title="Add grants">
+    - **Manual**: Enter email, grant name, and amount for each employee
+    - **CSV**: Upload a spreadsheet with grant details including grant type, amount, vesting start date, and optional fields
+  </Step>
+  <Step title="Submit">
+    Review the grant list and click **Submit** to create all grants.
+  </Step>
+</Steps>
+
+<Frame caption="Grant list after creation">
+  <img src="/images/tga/grants/grant-list.png" />
+</Frame>
+
+<Tip>
+**API:** Use [Add Single Grant](/api/grants/add-single-grant) or [Create Grant for New Hire](/api/grants/create-grant-for-new-hire) to create grants programmatically.
+</Tip>
+
+---
+
+## Step 5: Set Up Wallet Settings
+
+Configure which blockchain networks and token contracts your organization uses.
+
+<Steps>
+  <Step title="Select networks">
+    Choose from popular networks: **Ethereum**, **Base**, **Solana**, **Polygon**, **Arbitrum**, **Optimism**, **Avalanche**, or add a custom network.
+  </Step>
+  <Step title="Set your token address">
+    Enter your token's contract address. This is used for distributions and wallet verification.
+  </Step>
+  <Step title="Save">
+    Click **Save** to apply the configuration.
+  </Step>
+</Steps>
+
+<Tip>
+**API:** Use [Get Networks](/api/tokens-and-networks/get-networks) and [Update Token Address](/api/organization/update-token-address) to configure programmatically.
+</Tip>
+
+---
+
+## Step 6: Connect Custody Integration
+
+Connect your custody provider for secure token distribution.
+
+**Supported providers:**
+
+<CardGroup cols={3}>
+  <Card title="Anchorage" icon="shield-halved">
+    Institutional-grade digital asset custody
+  </Card>
+  <Card title="Fireblocks" icon="fire">
+    Enterprise crypto infrastructure
+  </Card>
+  <Card title="Safe" icon="vault">
+    Multisig wallet management
+  </Card>
+</CardGroup>
+
+<Steps>
+  <Step title="Choose a provider">
+    Select Anchorage, Fireblocks, or Safe from the options.
+  </Step>
+  <Step title="Enter credentials">
+    Follow the inline setup dialog for your chosen provider. You'll need API keys and configuration details from your custody account.
+  </Step>
+  <Step title="Test and save">
+    The system verifies the connection before saving.
+  </Step>
+</Steps>
+
+---
+
+## After Setup
+
+Once all 6 steps are complete, the checklist disappears and you have full access to:
+
+<CardGroup cols={2}>
+  <Card title="Grant Management" icon="award" href="/tga/client/creating-grants">
+    Create, edit, terminate, and bulk upload grants
+  </Card>
+  <Card title="Distributions" icon="share-nodes" href="/tga/client/token-distributions">
+    Manage vesting, settlements, and token distributions
+  </Card>
+  <Card title="Wallets" icon="wallet" href="/tga/client/wallet-setup">
+    Manage recipient wallets and verification
+  </Card>
+  <Card title="Reports" icon="chart-line" href="/tga/client/reporting-and-compliance">
+    Grant reports, activity logs, and compliance
+  </Card>
+</CardGroup>
