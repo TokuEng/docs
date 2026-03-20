@@ -19,6 +19,17 @@
       "href": "https://app.toku.com"
     }
   },
+  "openapi": "openapi.json",
+  "api": {
+    "baseUrl": "https://app.toku.com/api/tokuApi/v1",
+    "playground": {
+      "mode": "simple"
+    },
+    "auth": {
+      "method": "bearer",
+      "name": "Authorization"
+    }
+  },
   "navigation": {
     "tabs": [
       {
@@ -154,14 +165,243 @@
             ]
           },
           {
-            "group": "API Reference",
+            "group": "Grants",
             "pages": [
-              "api/grants",
-              "api/wallets",
-              "api/employees",
-              "api/invoices",
-              "api/organization",
-              "api/webhooks"
+              {
+                "openapi": "GET /listGrants"
+              },
+              {
+                "openapi": "GET /listGrantConfigurations"
+              },
+              {
+                "openapi": "GET /getEmployeeGrants"
+              },
+              {
+                "openapi": "GET /getPayrollEmployeeID"
+              },
+              {
+                "openapi": "POST /addSingleGrant"
+              },
+              {
+                "openapi": "POST /createGrantForNewHire"
+              },
+              {
+                "openapi": "POST /terminateGrant"
+              },
+              {
+                "openapi": "POST /terminateGrants"
+              },
+              {
+                "openapi": "POST /terminateEmployeeGrants"
+              },
+              {
+                "openapi": "POST /revertGrantTermination"
+              },
+              {
+                "openapi": "POST /revertEmployeeGrantTermination"
+              },
+              {
+                "openapi": "POST /revertEmployeeGrants"
+              }
+            ]
+          },
+          {
+            "group": "Wallets",
+            "pages": [
+              {
+                "openapi": "GET /getAllWallets"
+              },
+              {
+                "openapi": "GET /getCurrentWallet"
+              },
+              {
+                "openapi": "GET /getUserCurrentWallets"
+              },
+              {
+                "openapi": "GET /getHistoricalWallets"
+              },
+              {
+                "openapi": "GET /getAllHistoricalWallets"
+              },
+              {
+                "openapi": "GET /getEmployeeWallets"
+              },
+              {
+                "openapi": "GET /getEmployeeHistoricalWallets"
+              },
+              {
+                "openapi": "GET /getAllWalletsForAllRecipients"
+              },
+              {
+                "openapi": "GET /getPendingWallets"
+              },
+              {
+                "openapi": "GET /getPendingWalletRequest"
+              },
+              {
+                "openapi": "GET /getPendingWalletRequests"
+              },
+              {
+                "openapi": "POST /addWallet"
+              },
+              {
+                "openapi": "POST /updateWallet"
+              },
+              {
+                "openapi": "POST /markWalletAsNotCurrent"
+              },
+              {
+                "openapi": "POST /reactivateWallet"
+              },
+              {
+                "openapi": "POST /approveWallet"
+              },
+              {
+                "openapi": "POST /rejectWallet"
+              },
+              {
+                "openapi": "POST /approveWalletRequest"
+              },
+              {
+                "openapi": "POST /rejectWalletRequest"
+              },
+              {
+                "openapi": "POST /cancelWalletRequest"
+              },
+              {
+                "openapi": "POST /bulkUploadMultipleWallets"
+              }
+            ]
+          },
+          {
+            "group": "Wallet Verification",
+            "pages": [
+              {
+                "openapi": "GET /getTestTxnApprovalPendingWallets"
+              },
+              {
+                "openapi": "GET /getVerifiedWalletTestRequests"
+              },
+              {
+                "openapi": "GET /getPendingWalletTestRequests"
+              },
+              {
+                "openapi": "POST /addTestTransaction"
+              },
+              {
+                "openapi": "POST /sendTestTransaction"
+              },
+              {
+                "openapi": "POST /addTestTxnToWallet"
+              },
+              {
+                "openapi": "POST /resendTestTxnEmailToWalletOwner"
+              },
+              {
+                "openapi": "POST /processBulkTestTransactions"
+              }
+            ]
+          },
+          {
+            "group": "Wallet Distribution",
+            "pages": [
+              {
+                "openapi": "GET /getAllWalletReferencesForAllGrants"
+              },
+              {
+                "openapi": "GET /getWalletReferencesWithNetworks"
+              },
+              {
+                "openapi": "POST /configureWalletRefsDistributionForGrant"
+              },
+              {
+                "openapi": "POST /setTokenWalletRefsDistribution"
+              }
+            ]
+          },
+          {
+            "group": "Employees",
+            "pages": [
+              {
+                "openapi": "GET /getUserRoleInOrg"
+              },
+              {
+                "openapi": "POST /createUserRoleInOrg"
+              },
+              {
+                "openapi": "PUT /updateUserRoleInOrg"
+              },
+              {
+                "openapi": "PUT /batchUpdateRoleInOrg"
+              }
+            ]
+          },
+          {
+            "group": "Tokens & Networks",
+            "pages": [
+              {
+                "openapi": "GET /getWalletTypes"
+              },
+              {
+                "openapi": "GET /getTokenTypes"
+              },
+              {
+                "openapi": "GET /getTokenTypesNew"
+              },
+              {
+                "openapi": "GET /getNetworks"
+              },
+              {
+                "openapi": "GET /getNetworksNew"
+              },
+              {
+                "openapi": "DELETE /deleteWalletType"
+              },
+              {
+                "openapi": "DELETE /deleteNetwork"
+              }
+            ]
+          },
+          {
+            "group": "Invoices",
+            "pages": [
+              {
+                "openapi": "POST /submitBulkInvoicePayments"
+              },
+              {
+                "openapi": "POST /markInvoicePaymentAsSettled"
+              }
+            ]
+          },
+          {
+            "group": "Organization",
+            "pages": [
+              {
+                "openapi": "GET /hello"
+              },
+              {
+                "openapi": "GET /getOrgWalletInfo"
+              },
+              {
+                "openapi": "POST /updateOrgTokenAddress"
+              },
+              {
+                "openapi": "PUT /updateTestTransactionConfiguration"
+              }
+            ]
+          },
+          {
+            "group": "Authentication",
+            "pages": [
+              {
+                "openapi": "POST /createUserApiToken"
+              },
+              {
+                "openapi": "POST /refreshUserApiToken"
+              },
+              {
+                "openapi": "POST /generateAuthNonce"
+              }
             ]
           }
         ]
