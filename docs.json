@@ -198,6 +198,7 @@
       },
       {
         "tab": "API Reference",
+        "url": "api",
         "groups": [
           {
             "group": "Getting Started",
