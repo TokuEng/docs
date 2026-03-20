@@ -11,6 +11,7 @@
   },
   "navbar": {
     "links": [
+      { "label": "API Reference", "href": "/api/overview" },
       { "label": "Support", "href": "https://www.toku.com/contact" }
     ],
     "primary": {
