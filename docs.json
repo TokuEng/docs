@@ -202,6 +202,7 @@
       {
         "tab": "API Reference",
         "url": "api",
+        "href": "/api/overview",
         "groups": [
           {
             "group": "Getting Started",
