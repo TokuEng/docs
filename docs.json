@@ -19,7 +19,7 @@
       "href": "https://app.toku.com"
     }
   },
-  "openapi": "openapi.json",
+  "openapi": ["openapi.json"],
   "api": {
     "baseUrl": "https://app.toku.com/api/tokuApi/v1",
     "playground": {
