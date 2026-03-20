@@ -140,6 +140,31 @@
             "pages": ["tga/faq"]
           }
         ]
+      },
+      {
+        "tab": "API",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "api/overview",
+              "api/authentication",
+              "api/quickstart",
+              "api/errors"
+            ]
+          },
+          {
+            "group": "API Reference",
+            "pages": [
+              "api/grants",
+              "api/wallets",
+              "api/employees",
+              "api/invoices",
+              "api/organization",
+              "api/webhooks"
+            ]
+          }
+        ]
       }
     ]
   },

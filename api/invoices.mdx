@@ -1,0 +1,73 @@
+---
+title: "Invoices API"
+sidebarTitle: "Invoices"
+description: "Submit and settle invoice payments for contractors"
+---
+
+## Overview
+
+The Invoices API handles payment processing for contractor invoices. Use these endpoints to submit bulk payments and mark invoices as settled.
+
+---
+
+## Submit Bulk Invoice Payments
+
+Submits multiple invoice payments for processing in a single batch.
+
+```
+POST /api/tokuApi/v1/submitBulkInvoicePayments
+```
+
+**Request Body:**
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `invoicePayments` | array | Yes | Array of invoice payment objects |
+
+Each invoice payment object:
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `invoiceID` | uuid | Yes | The invoice to pay |
+| `amount` | number | Yes | Payment amount |
+| `currency` | string | Yes | Payment currency code |
+
+**Example:**
+```bash
+curl -X POST https://app.toku.com/api/tokuApi/v1/submitBulkInvoicePayments \
+  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -H "x-role-type: CLIENT_ORG_ADMIN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "invoicePayments": [
+      {"invoiceID": "inv-uuid-1", "amount": 5000, "currency": "USDC"},
+      {"invoiceID": "inv-uuid-2", "amount": 3000, "currency": "USDC"}
+    ]
+  }'
+```
+
+---
+
+## Mark Invoice Payment as Settled
+
+Marks a specific invoice payment as settled after the on-chain transaction confirms.
+
+```
+POST /api/tokuApi/v1/markInvoicePaymentAsSettled
+```
+
+**Request Body:**
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `invoicePaymentID` | uuid | Yes | The invoice payment to mark as settled |
+| `transactionHash` | string | No | On-chain transaction hash for verification |
+
+**Example:**
+```bash
+curl -X POST https://app.toku.com/api/tokuApi/v1/markInvoicePaymentAsSettled \
+  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -H "x-role-type: CLIENT_ORG_ADMIN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "invoicePaymentID": "payment-uuid",
+    "transactionHash": "0xabc123..."
+  }'
+```

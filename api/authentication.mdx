@@ -1,0 +1,102 @@
+---
+title: "Authentication"
+sidebarTitle: "Authentication"
+description: "How to authenticate with the Toku API using personal API tokens"
+---
+
+## Overview
+
+The Toku API uses **Bearer token authentication**. Every request must include a personal API token in the `Authorization` header, along with a role type header specifying the permission context.
+
+## Getting Your API Token
+
+<Steps>
+  <Step title="Create a token">
+    Call the `createUserApiToken` endpoint with your existing session credentials, or ask a Toku administrator to provision one for you.
+
+    ```bash
+    curl -X POST https://app.toku.com/api/tokuApi/v1/createUserApiToken \
+      -H "Authorization: Bearer EXISTING_TOKEN" \
+      -H "x-role-type: CLIENT_ORG_ADMIN" \
+      -H "Content-Type: application/json"
+    ```
+
+    The response includes your new API token. **Store it securely** — it cannot be retrieved again.
+  </Step>
+  <Step title="Use the token">
+    Include the token in every API request:
+
+    ```bash
+    curl https://app.toku.com/api/tokuApi/v1/listGrants \
+      -H "Authorization: Bearer YOUR_API_TOKEN" \
+      -H "x-role-type: CLIENT_ORG_ADMIN"
+    ```
+  </Step>
+  <Step title="Refresh when needed">
+    Tokens expire after 30 days. Refresh before expiry:
+
+    ```bash
+    curl -X POST https://app.toku.com/api/tokuApi/v1/refreshUserApiToken \
+      -H "Authorization: Bearer YOUR_API_TOKEN" \
+      -H "x-role-type: CLIENT_ORG_ADMIN" \
+      -H "Content-Type: application/json"
+    ```
+  </Step>
+</Steps>
+
+## Required Headers
+
+| Header | Required | Description |
+|--------|----------|-------------|
+| `Authorization` | Yes | `Bearer YOUR_API_TOKEN` |
+| `x-role-type` | Yes | Role context for the request (see below) |
+| `Content-Type` | For POST/PUT/DELETE | Must be `application/json` |
+
+## Role Types
+
+The `x-role-type` header determines what permissions your request has. Your API token must belong to a user with the specified role in the organization.
+
+| Role | Description |
+|------|-------------|
+| `CLIENT_ORG_ADMIN` | Full administrative access to the organization. Use this for most integrations. |
+| `PAYROLL_ADMIN` | Access to payroll and settlement operations |
+| `FINANCE_ADMIN` | Access to financial reporting and payment operations |
+| `INVESTOR` | Read access to investment and warrant data |
+
+<Tip>
+For most 3rd party integrations, `CLIENT_ORG_ADMIN` is the recommended role type. It provides full access to grants, wallets, employees, and organization settings.
+</Tip>
+
+## Token Scoping
+
+Each API token is scoped to a single organization. If you manage multiple organizations, you need a separate token for each.
+
+The token inherits the permissions of the user who created it. If the user's role is revoked, the token stops working.
+
+## Security Best Practices
+
+- **Never expose tokens in client-side code** — API tokens should only be used in server-to-server communication
+- **Rotate tokens regularly** — use `refreshUserApiToken` to get a new token before the current one expires
+- **Use the minimum required role** — if your integration only needs to read grants, consider using a role with read-only access
+- **Monitor usage** — Toku logs all API access by token for audit purposes
+
+## Error Responses
+
+| Status | Meaning |
+|--------|---------|
+| `401` | Token is missing, invalid, or expired |
+| `403` | Token is valid but the user doesn't have the required role |
+| `429` | Rate limit exceeded (100 req/min per IP) |
+
+```json
+// 401 Unauthorized
+{
+  "error": "Invalid token or insufficient permissions",
+  "details": "Token expired at 2026-03-01T00:00:00.000Z. Please refresh your API token."
+}
+
+// 403 Forbidden
+{
+  "error": "User does not have role CLIENT_ORG_ADMIN in organization"
+}
+```

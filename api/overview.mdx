@@ -1,0 +1,78 @@
+---
+title: "API Overview"
+sidebarTitle: "Overview"
+description: "Build on the Toku platform with our REST API. Manage grants, wallets, employees, invoices, and more."
+---
+
+## Introduction
+
+The Toku API lets you programmatically manage token grants, wallets, employees, payroll, and invoices. Everything you can do in the Toku dashboard is available via API, enabling you to build custom integrations and automate your token compensation workflows.
+
+## Base URL
+
+All API requests are made to:
+
+```
+https://app.toku.com/api/tokuApi/v1/{operationName}
+```
+
+## Request Format
+
+- **GET** requests pass parameters as query strings
+- **POST / PUT / DELETE** requests send JSON in the request body
+- All responses return JSON
+
+```bash
+# GET request example
+curl https://app.toku.com/api/tokuApi/v1/listGrants \
+  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -H "x-role-type: CLIENT_ORG_ADMIN"
+
+# POST request example
+curl -X POST https://app.toku.com/api/tokuApi/v1/addSingleGrant \
+  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -H "x-role-type: CLIENT_ORG_ADMIN" \
+  -H "Content-Type: application/json" \
+  -d '{"grantName": "Q1 Token Grant", "grantAmount": 10000}'
+```
+
+## Required Headers
+
+Every authenticated request must include:
+
+| Header | Description |
+|--------|-------------|
+| `Authorization` | `Bearer YOUR_API_TOKEN` — your personal API token |
+| `x-role-type` | The role to act as (e.g., `CLIENT_ORG_ADMIN`, `PAYROLL_ADMIN`, `FINANCE_ADMIN`) |
+| `Content-Type` | `application/json` (for POST/PUT/DELETE requests) |
+
+## API Domains
+
+<CardGroup cols={2}>
+  <Card title="Grants" icon="award" href="/api/grants">
+    Create, list, terminate, and revert token grants
+  </Card>
+  <Card title="Wallets" icon="wallet" href="/api/wallets">
+    Manage recipient wallets, test transactions, and distributions
+  </Card>
+  <Card title="Employees" icon="users" href="/api/employees">
+    Create and manage user roles within your organization
+  </Card>
+  <Card title="Invoices" icon="file-invoice-dollar" href="/api/invoices">
+    Submit and settle invoice payments
+  </Card>
+  <Card title="Organization" icon="building" href="/api/organization">
+    Configure organization settings and token addresses
+  </Card>
+  <Card title="Webhooks" icon="bell" href="/api/webhooks">
+    Receive real-time notifications for events
+  </Card>
+</CardGroup>
+
+## Rate Limits
+
+The API is rate-limited to **100 requests per minute** per IP address. If you exceed this limit, you'll receive a `429 Too Many Requests` response.
+
+## Versioning
+
+The current API version is **v1**. All endpoints are prefixed with `/api/tokuApi/v1/`.

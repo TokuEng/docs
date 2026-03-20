@@ -1,0 +1,115 @@
+---
+title: "Errors & Rate Limits"
+sidebarTitle: "Errors"
+description: "Error codes, rate limits, and how to handle API errors"
+---
+
+## HTTP Status Codes
+
+| Status | Meaning | Common Cause |
+|--------|---------|--------------|
+| `200` | Success | Request completed successfully |
+| `400` | Bad Request | Invalid request body or missing required fields |
+| `401` | Unauthorized | Missing, invalid, or expired API token |
+| `403` | Forbidden | Valid token but insufficient role permissions |
+| `404` | Not Found | Resource doesn't exist or operation name is invalid |
+| `405` | Method Not Allowed | Wrong HTTP method for the endpoint |
+| `429` | Too Many Requests | Rate limit exceeded |
+| `500` | Internal Server Error | Unexpected server error |
+
+## Error Response Format
+
+All errors return a JSON object with an `error` field and an optional `details` field:
+
+```json
+{
+  "error": "Short error message",
+  "details": "Additional information to aid debugging"
+}
+```
+
+## Common Errors
+
+### Authentication Errors (401)
+
+```json
+// Missing token
+{ "error": "Token is required" }
+
+// Expired token
+{
+  "error": "Invalid token or insufficient permissions",
+  "details": "Token expired at 2026-03-01T00:00:00.000Z. Please refresh your API token."
+}
+
+// Invalid token
+{
+  "error": "Invalid token or insufficient permissions",
+  "details": "No PersonalToken found"
+}
+```
+
+### Authorization Errors (403)
+
+```json
+// Wrong role
+{
+  "error": "Invalid token or insufficient permissions",
+  "details": "User does not have role CLIENT_ORG_ADMIN in organization abc-123"
+}
+```
+
+### Validation Errors (400)
+
+```json
+// Missing required field
+{
+  "error": "grantID is required"
+}
+
+// Invalid format
+{
+  "error": "terminationDate must be a valid ISO 8601 date"
+}
+```
+
+### Not Found (404)
+
+```json
+// Unknown operation
+{
+  "error": "No external API operation found for unknownEndpoint"
+}
+
+// Resource not found
+{
+  "error": "Grant not found"
+}
+```
+
+## Rate Limiting
+
+The API enforces **100 requests per minute** per IP address.
+
+When rate limited, you'll receive:
+
+```json
+// 429 Too Many Requests
+{
+  "error": "Too Many Requests"
+}
+```
+
+### Handling Rate Limits
+
+- Implement exponential backoff when you receive a `429`
+- Batch operations where possible (e.g., use `terminateEmployeeGrants` instead of multiple individual calls)
+- Cache responses that don't change frequently (e.g., `listGrantConfigurations`, `getTokenTypes`)
+
+## Best Practices
+
+1. **Always check the status code** before parsing the response body
+2. **Log error details** — the `details` field often contains actionable information
+3. **Implement retries** for `500` errors with exponential backoff
+4. **Don't retry** `400`, `401`, `403`, or `404` errors — fix the request first
+5. **Handle token expiry gracefully** — call `refreshUserApiToken` when you get a `401` with an expiry message

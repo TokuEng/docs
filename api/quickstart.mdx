@@ -1,0 +1,116 @@
+---
+title: "Quick Start"
+sidebarTitle: "Quick Start"
+description: "Make your first Toku API call in under 5 minutes"
+---
+
+## Prerequisites
+
+- A Toku account with `CLIENT_ORG_ADMIN` access
+- A personal API token (see [Authentication](/api/authentication))
+
+## Your First API Call
+
+Verify your token works by calling the hello endpoint:
+
+```bash
+curl https://app.toku.com/api/tokuApi/v1/hello \
+  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -H "x-role-type: CLIENT_ORG_ADMIN"
+```
+
+Response:
+```json
+{
+  "message": "Hello World"
+}
+```
+
+## List Your Grants
+
+Retrieve all grants in your organization:
+
+```bash
+curl https://app.toku.com/api/tokuApi/v1/listGrants \
+  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -H "x-role-type: CLIENT_ORG_ADMIN"
+```
+
+Response:
+```json
+[
+  {
+    "grantID": "550e8400-e29b-41d4-a716-446655440000",
+    "grantName": "Q1 2026 Token Grant",
+    "grantAmount": 50000,
+    "grantStatus": "ACCEPTED",
+    "grantAmountInFiat": 25000,
+    "grantConfigurationName": "Standard Vesting",
+    "vestingStartDate": "2026-01-01T00:00:00.000Z",
+    "vestingPeriods": 48,
+    "vestingFrequencyType": "MONTHLY",
+    "vestingCliffPeriods": 12,
+    "vestingCliffPercentage": 25,
+    "percentageOfUnitsVested": 16.67,
+    "recipientFullName": "Jane Smith",
+    "grantDate": "2025-12-15T00:00:00.000Z",
+    "tags": ["engineering", "2026"],
+    "roleInOrgID": "660e8400-e29b-41d4-a716-446655440001",
+    "roleInOrgExternalID": 12345
+  }
+]
+```
+
+## Create a Grant
+
+Add a new token grant for an employee:
+
+```bash
+curl -X POST https://app.toku.com/api/tokuApi/v1/addSingleGrant \
+  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -H "x-role-type: CLIENT_ORG_ADMIN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grantName": "New Hire Grant",
+    "grantConfigurationID": "YOUR_GRANT_CONFIG_ID",
+    "grantAmount": 10000,
+    "vestingStartDate": "2026-04-01T00:00:00.000Z",
+    "vestingFrequencyType": "MONTHLY",
+    "vestingPeriods": 48,
+    "vestingCliffPeriods": 12,
+    "vestingCliffPercentage": 25,
+    "recipientID": "ROLE_IN_ORG_ID",
+    "tags": ["new-hire", "2026"]
+  }'
+```
+
+## Common Workflows
+
+<CardGroup cols={2}>
+  <Card title="Grant Lifecycle" icon="rotate" href="/api/grants">
+    Create grants, manage vesting, handle terminations
+  </Card>
+  <Card title="Wallet Setup" icon="wallet" href="/api/wallets">
+    Add wallets, verify with test transactions, configure distributions
+  </Card>
+  <Card title="Employee Management" icon="users" href="/api/employees">
+    Onboard employees, assign roles, sync from HRIS
+  </Card>
+  <Card title="Invoice Processing" icon="file-invoice-dollar" href="/api/invoices">
+    Submit and settle contractor invoices
+  </Card>
+</CardGroup>
+
+## Next Steps
+
+<Steps>
+  <Step title="Explore the API reference">
+    Browse the full [Grants API](/api/grants), [Wallets API](/api/wallets), and [Employees API](/api/employees)
+  </Step>
+  <Step title="Set up webhooks">
+    Configure [webhook endpoints](/api/webhooks) to receive real-time event notifications
+  </Step>
+  <Step title="Handle errors">
+    Review [error codes](/api/errors) and implement proper error handling
+  </Step>
+</Steps>

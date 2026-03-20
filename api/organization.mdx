@@ -1,0 +1,48 @@
+---
+title: "Organization API"
+sidebarTitle: "Organization"
+description: "Configure organization settings and token addresses"
+---
+
+## Overview
+
+The Organization API lets you manage your organization's token configuration. These endpoints are typically called during initial setup or when migrating to a new token contract.
+
+---
+
+## Update Token Address
+
+Updates the token contract address for your organization.
+
+```
+POST /api/tokuApi/v1/updateOrgTokenAddress
+```
+
+**Request Body:**
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `tokenAddress` | string | Yes | The new token contract address |
+| `network` | string | No | Blockchain network (e.g., `ethereum`, `polygon`) |
+
+**Example:**
+```bash
+curl -X POST https://app.toku.com/api/tokuApi/v1/updateOrgTokenAddress \
+  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -H "x-role-type: CLIENT_ORG_ADMIN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "tokenAddress": "0x1234567890abcdef1234567890abcdef12345678"
+  }'
+```
+
+---
+
+## Generate Auth Nonce
+
+Generates a nonce for HRIS authentication flows.
+
+```
+POST /api/tokuApi/v1/generateAuthNonce
+```
+
+This endpoint is used by HRIS integrations to generate single-use authentication nonces for secure cross-system authentication.
