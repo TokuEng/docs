@@ -8,148 +8,160 @@ description: "Which API endpoints each role can access"
 
 Every API request includes an `x-role-type` header that determines what the caller can do. Your API token must belong to a user with the specified role in the organization.
 
+There are three permission levels in the Toku API:
+
+| Level | Base Class | Who Can Call | Count |
+|-------|-----------|--------------|-------|
+| **Any authenticated user** | `AuthorisedOperation` | Any user with a valid token + org membership | 36 endpoints (61%) |
+| **Admin only** | `AdminOperation` | `CLIENT_ORG_ADMIN` or equivalent admin role | 28 endpoints (38%) |
+| **Client Admin only** | `TokuClientAdminOperation` | `CLIENT_ORG_ADMIN` specifically | 4 endpoints |
+
 <Tip>
-**For 3rd party integrations, use `CLIENT_ORG_ADMIN`.** It has full access to all grant, wallet, employee, and organization endpoints.
+**For 3rd party integrations, use `CLIENT_ORG_ADMIN`.** It has access to all 68 public endpoints. Other roles have more limited scope.
 </Tip>
-
----
-
-## Roles
-
-| Role | Description | Typical Use |
-|------|-------------|-------------|
-| `CLIENT_ORG_ADMIN` | Full administrative access | 3rd party integrations, HRIS sync |
-| `PAYROLL_ADMIN` | Payroll and settlement operations | Payroll systems |
-| `FINANCE_ADMIN` | Financial reporting and payments | Accounting integrations |
-| `INVESTOR` | Read-only investment data | Investor portals |
 
 ---
 
 ## Permissions by Endpoint
 
-### Grants
+### Grants (Admin Required)
 
-| Endpoint | CLIENT_ORG_ADMIN | PAYROLL_ADMIN | FINANCE_ADMIN | INVESTOR |
-|----------|:---:|:---:|:---:|:---:|
-| `listGrants` | Yes | Yes | Yes | Read own |
-| `listGrantConfigurations` | Yes | Yes | Yes | No |
-| `getEmployeeGrants` | Yes | Yes | Yes | No |
-| `getPayrollEmployeeID` | Yes | Yes | No | No |
-| `addSingleGrant` | Yes | No | No | No |
-| `createGrantForNewHire` | Yes | No | No | No |
-| `terminateGrant` | Yes | No | No | No |
-| `terminateGrants` | Yes | No | No | No |
-| `terminateEmployeeGrants` | Yes | No | No | No |
-| `revertGrantTermination` | Yes | No | No | No |
-| `revertEmployeeGrantTermination` | Yes | No | No | No |
-| `revertEmployeeGrants` | Yes | No | No | No |
+All grant write operations require admin access.
 
-### Wallets
+| Endpoint | Method | Permission |
+|----------|--------|------------|
+| `listGrants` | GET | Admin |
+| `listGrantConfigurations` | GET | Admin |
+| `getEmployeeGrants` | GET | Admin |
+| `getPayrollEmployeeID` | GET | Admin |
+| `addSingleGrant` | POST | Admin |
+| `createGrantForNewHire` | POST | **CLIENT_ORG_ADMIN only** |
+| `terminateGrant` | POST | Admin |
+| `terminateGrants` | POST | Admin |
+| `terminateEmployeeGrants` | POST | Admin |
+| `revertGrantTermination` | POST | Admin |
+| `revertEmployeeGrantTermination` | POST | Admin |
+| `revertEmployeeGrants` | POST | Admin |
 
-| Endpoint | CLIENT_ORG_ADMIN | PAYROLL_ADMIN | FINANCE_ADMIN |
-|----------|:---:|:---:|:---:|
-| `getAllWallets` | Yes | Yes | Yes |
-| `getCurrentWallet` | Yes | Yes | Yes |
-| `getUserCurrentWallets` | Yes | Yes | Yes |
-| `getEmployeeWallets` | Yes | Yes | No |
-| `getPendingWallets` | Yes | Yes | No |
-| `addWallet` | Yes | No | No |
-| `updateWallet` | Yes | No | No |
-| `approveWallet` | Yes | No | No |
-| `rejectWallet` | Yes | No | No |
-| `approveWalletRequest` | Yes | No | No |
-| `rejectWalletRequest` | Yes | No | No |
-| `cancelWalletRequest` | Yes | No | No |
-| `markWalletAsNotCurrent` | Yes | No | No |
-| `reactivateWallet` | Yes | No | No |
-| `bulkUploadMultipleWallets` | Yes | No | No |
+### Wallets (Mostly Any Authenticated User)
 
-### Wallet Verification
+Most wallet operations are available to any authenticated user — this allows recipients to manage their own wallets.
 
-| Endpoint | CLIENT_ORG_ADMIN | PAYROLL_ADMIN |
-|----------|:---:|:---:|
-| `addTestTransaction` | Yes | No |
-| `sendTestTransaction` | Yes | No |
-| `addTestTxnToWallet` | Yes | No |
-| `processBulkTestTransactions` | Yes | No |
-| `resendTestTxnEmailToWalletOwner` | Yes | No |
-| `getTestTxnApprovalPendingWallets` | Yes | Yes |
-| `getVerifiedWalletTestRequests` | Yes | Yes |
-| `getPendingWalletTestRequests` | Yes | Yes |
+| Endpoint | Method | Permission |
+|----------|--------|------------|
+| `getAllWallets` | GET | Any user |
+| `getCurrentWallet` | GET | Any user |
+| `getUserCurrentWallets` | GET | Any user |
+| `getHistoricalWallets` | GET | Any user |
+| `getAllHistoricalWallets` | GET | Any user |
+| `getAllWalletsForAllRecipients` | GET | Any user |
+| `getPendingWallets` | GET | Any user |
+| `getPendingWalletRequest` | GET | Any user |
+| `getTestTxnApprovalPendingWallets` | GET | Any user |
+| `getOrgWalletInfo` | GET | Any user |
+| `getEmployeeWallets` | GET | **Admin** |
+| `getEmployeeHistoricalWallets` | GET | **Admin** |
+| `getPendingWalletRequests` | GET | **Admin** |
+| `getVerifiedWalletTestRequests` | GET | **Admin** |
+| `getPendingWalletTestRequests` | GET | **Admin** |
+| `addWallet` | POST | Any user |
+| `updateWallet` | POST/PUT | Any user |
+| `markWalletAsNotCurrent` | POST | Any user |
+| `reactivateWallet` | POST | Any user |
+| `approveWallet` | POST | Any user |
+| `rejectWallet` | POST | Any user |
+| `approveWalletRequest` | POST | Any user |
+| `rejectWalletRequest` | POST | Any user |
+| `cancelWalletRequest` | POST | Any user |
+| `bulkUploadMultipleWallets` | POST | Any user |
+| `addTestTransaction` | POST | Any user |
+| `sendTestTransaction` | POST | Any user |
+| `addTestTxnToWallet` | POST | Any user |
+| `processBulkTestTransactions` | POST | Any user |
+| `resendTestTxnEmailToWalletOwner` | POST | Any user |
 
-### Wallet Distribution
+### Wallet Distribution (Any Authenticated User)
 
-| Endpoint | CLIENT_ORG_ADMIN | PAYROLL_ADMIN |
-|----------|:---:|:---:|
-| `configureWalletRefsDistributionForGrant` | Yes | No |
-| `setTokenWalletRefsDistribution` | Yes | No |
-| `getAllWalletReferencesForAllGrants` | Yes | Yes |
-| `getWalletReferencesWithNetworks` | Yes | Yes |
+| Endpoint | Method | Permission |
+|----------|--------|------------|
+| `getAllWalletReferencesForAllGrants` | GET | Any user |
+| `getWalletReferencesWithNetworks` | GET | Any user |
+| `configureWalletRefsDistributionForGrant` | POST | Any user |
+| `setTokenWalletRefsDistribution` | POST | Any user |
 
-### Employees
+### Employees (Admin Required)
 
-| Endpoint | CLIENT_ORG_ADMIN | PAYROLL_ADMIN |
-|----------|:---:|:---:|
-| `getUserRoleInOrg` | Yes | Yes |
-| `createUserRoleInOrg` | Yes | No |
-| `updateUserRoleInOrg` | Yes | No |
-| `batchUpdateRoleInOrg` | Yes | No |
+| Endpoint | Method | Permission |
+|----------|--------|------------|
+| `getUserRoleInOrg` | GET | Admin |
+| `createUserRoleInOrg` | POST | Admin |
+| `updateUserRoleInOrg` | PUT | Admin |
+| `batchUpdateRoleInOrg` | PUT | Admin |
 
 ### Tokens & Networks
 
-| Endpoint | CLIENT_ORG_ADMIN | PAYROLL_ADMIN | FINANCE_ADMIN |
-|----------|:---:|:---:|:---:|
-| `getWalletTypes` | Yes | Yes | Yes |
-| `getTokenTypes` | Yes | Yes | Yes |
-| `getTokenTypesNew` | Yes | Yes | Yes |
-| `getNetworks` | Yes | Yes | Yes |
-| `getNetworksNew` | Yes | Yes | Yes |
-| `deleteWalletType` | Yes | No | No |
-| `deleteNetwork` | Yes | No | No |
+| Endpoint | Method | Permission |
+|----------|--------|------------|
+| `getWalletTypes` | GET | Any user |
+| `getTokenTypes` | GET | Any user |
+| `getTokenTypesNew` | GET | Any user |
+| `getNetworks` | GET | Any user |
+| `getNetworksNew` | GET | Any user |
+| `deleteWalletType` | DELETE | **Admin** |
+| `deleteNetwork` | DELETE | **Admin** |
 
-### Invoices
+### Invoices (Admin Required)
 
-| Endpoint | CLIENT_ORG_ADMIN | PAYROLL_ADMIN | FINANCE_ADMIN |
-|----------|:---:|:---:|:---:|
-| `submitBulkInvoicePayments` | Yes | Yes | No |
-| `markInvoicePaymentAsSettled` | Yes | Yes | No |
+| Endpoint | Method | Permission |
+|----------|--------|------------|
+| `submitBulkInvoicePayments` | POST | Admin |
+| `markInvoicePaymentAsSettled` | POST | Admin |
 
 ### Organization
 
-| Endpoint | CLIENT_ORG_ADMIN | PAYROLL_ADMIN |
-|----------|:---:|:---:|
-| `hello` | Yes | Yes |
-| `getOrgWalletInfo` | Yes | Yes |
-| `updateOrgTokenAddress` | Yes | No |
-| `updateTestTransactionConfiguration` | Yes | No |
+| Endpoint | Method | Permission |
+|----------|--------|------------|
+| `hello` | GET | **CLIENT_ORG_ADMIN only** |
+| `getOrgWalletInfo` | GET | Any user |
+| `updateOrgTokenAddress` | POST | Admin |
+| `updateTestTransactionConfiguration` | PUT | Admin |
 
-### Authentication
+### Authentication (CLIENT_ORG_ADMIN Only)
 
-| Endpoint | CLIENT_ORG_ADMIN |
-|----------|:---:|
-| `createUserApiToken` | Yes |
-| `refreshUserApiToken` | Yes |
-| `generateAuthNonce` | Yes |
+| Endpoint | Method | Permission |
+|----------|--------|------------|
+| `createUserApiToken` | POST | **CLIENT_ORG_ADMIN only** |
+| `refreshUserApiToken` | POST | **CLIENT_ORG_ADMIN only** |
+| `generateAuthNonce` | POST | Any user |
 
 ---
 
-## How Permissions Work
+## Permission Levels Explained
 
-1. **Token scoping**: Each API token is tied to a specific user and organization
-2. **Role verification**: The `x-role-type` header is validated against the token's user roles
-3. **If the role doesn't match**: You get a `403 Forbidden` error:
+### Any Authenticated User (`AuthorisedOperation`)
+Requires a valid API token and membership in the organization. Any role works — `CLIENT_ORG_ADMIN`, `PAYROLL_ADMIN`, `FINANCE_ADMIN`, `INVESTOR`, or `RECIPIENT`.
+
+### Admin (`AdminOperation`)
+Requires `CLIENT_ORG_ADMIN` or another admin-level role (`PAYROLL_ADMIN` for some operations). The exact admin roles accepted vary by endpoint, but `CLIENT_ORG_ADMIN` always works.
+
+### CLIENT_ORG_ADMIN Only (`TokuClientAdminOperation`)
+Strictly requires the `CLIENT_ORG_ADMIN` role. No other admin role is accepted.
+
+---
+
+## Error When Permission Denied
 
 ```json
 {
   "error": "Invalid token or insufficient permissions",
-  "details": "User does not have role CLIENT_ORG_ADMIN in organization abc-123"
+  "details": "User does not have role CLIENT_ORG_ADMIN in organization aa0e8400-..."
 }
 ```
 
+**Status code:** `403 Forbidden` (role mismatch) or `401 Unauthorized` (invalid token)
+
 ---
 
-## Minimum Required Role
+## Recommendation
 
-For a complete 3rd party integration that manages grants, wallets, and employees, you need **`CLIENT_ORG_ADMIN`**. This is the only role with write access to all critical endpoints.
-
-If your integration only needs to read data (e.g., a reporting dashboard), `FINANCE_ADMIN` or `PAYROLL_ADMIN` may be sufficient with more limited scope.
+For a complete 3rd party integration that manages grants, wallets, and employees, create your API token with **`CLIENT_ORG_ADMIN`**. This is the only role guaranteed to work with all 68 public endpoints.
