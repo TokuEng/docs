@@ -6,31 +6,47 @@ description: "Manage token grants, vesting schedules, and distributions"
 
 ## What is TGA?
 
-Token Grant Administration (TGA) is Toku's platform for managing token-based equity compensation. It helps organizations:
+Token Grant Administration (TGA) is Toku's platform for managing token-based equity compensation. It covers the full lifecycle from grant creation through vesting to settlement.
 
-- Create and issue token grants to employees, contractors, and investors
-- Configure flexible vesting schedules
-- Track cap table and ownership
-- Process token distributions with institutional custody
-- Maintain compliance with tax and reporting requirements
+<Frame caption="TGA Dashboard">
+  <img src="/images/tga/dashboard/dashboard-overview.png" />
+</Frame>
 
 ---
 
-## Who Uses TGA?
+## Core Capabilities
 
-### Clients (Administrators)
-Organization admins use TGA to set up grant programs, create individual grants, and process distributions.
+<CardGroup cols={3}>
+  <Card title="Grants" icon="award">
+    Create and manage token grants with configurable vesting schedules
+  </Card>
+  <Card title="Distributions" icon="share-nodes">
+    Process settlements through institutional custody providers
+  </Card>
+  <Card title="Wallets" icon="wallet">
+    Manage recipient wallets with automated verification
+  </Card>
+  <Card title="Cap Table" icon="chart-pie">
+    Track token ownership across your organization
+  </Card>
+  <Card title="Tax & Compliance" icon="shield-check">
+    Tax calculation, withholding, and settlement documents
+  </Card>
+  <Card title="API" icon="code">
+    Full REST API for programmatic integration
+  </Card>
+</CardGroup>
 
-<Card title="Client Guides" icon="user-gear" href="/tga/client/setting-up-your-account">
-  Learn how to manage token grants
-</Card>
+---
 
-### Recipients (Employees, Investors)
-Grant recipients use TGA to view their grants, track vesting progress, and claim tokens.
+## Grant Types
 
-<Card title="User Guides" icon="user" href="/tga/user/employee-portal">
-  Learn how to view and claim grants
-</Card>
+| Type | Description |
+|------|-------------|
+| **RTU** (Restricted Token Units) | Tokens that vest over time with no purchase required |
+| **RTA** (Restricted Token Awards) | Token awards with performance or other restrictions |
+| **TPA** (Token Purchase Agreements) | Right to purchase tokens at a set price |
+| **TOKEN_BONUS** | One-time token awards |
 
 ---
 
@@ -38,89 +54,57 @@ Grant recipients use TGA to view their grants, track vesting progress, and claim
 
 ```mermaid
 flowchart LR
-    A[Create Grant] --> B[Recipient Accepts]
+    A[Add Recipients] --> B[Create Grants]
     B --> C[Tokens Vest]
-    C --> D[Recipient Claims]
-    D --> E[Admin Approves]
-    E --> F[Tokens Distributed]
+    C --> D[Tax Calculation]
+    D --> E[Settlement]
+    E --> F[Distribution to Wallets]
 ```
+
+1. **Add recipients** — Onboard employees and assign roles
+2. **Create grants** — Issue grants with vesting schedules
+3. **Tokens vest** — Automatic vesting based on schedule
+4. **Tax calculation** — Calculate and finalize tax obligations
+5. **Settlement** — Execute distributions through custody providers
+6. **Distribution** — Tokens delivered to recipient wallets
 
 ---
 
-## Key Features
+## For Administrators
 
 <CardGroup cols={2}>
-  <Card title="Grant Management" icon="gift">
-    Create grants with customizable terms, vesting schedules, and conditions.
+  <Card title="Onboarding Checklist" icon="list-check" href="/tga/client/onboarding-checklist">
+    Complete your 6-step account setup
   </Card>
-  <Card title="Vesting Schedules" icon="calendar">
-    Configure cliff, linear, milestone, or custom vesting.
+  <Card title="Creating Grants" icon="plus" href="/tga/client/creating-grants">
+    Issue token grants to recipients
   </Card>
-  <Card title="Token Distributions" icon="paper-plane">
-    Process distributions through institutional custody providers.
+  <Card title="Wallet Setup" icon="wallet" href="/tga/client/wallet-setup">
+    Configure wallets and verification
   </Card>
-  <Card title="Cap Table" icon="chart-pie">
-    Track ownership and grants across your organization.
-  </Card>
-  <Card title="Compliance" icon="shield-check">
-    Built-in KYC verification and tax withholding.
-  </Card>
-  <Card title="Reporting" icon="chart-bar">
-    Generate reports for accounting and compliance.
+  <Card title="Settlements" icon="file-invoice-dollar" href="/tga/client/settlements">
+    Process token distributions
   </Card>
 </CardGroup>
 
----
-
-## Example: Issuing an RTU Grant to Alex
-
-Alex joins Acme Labs as a founding engineer. The company awards him 50,000 RTUs with a standard 4-year vesting schedule and 1-year cliff.
-
-**1. Admin creates the grant.** In TGA, the admin selects RTU, enters Alex's details, and configures 4-year vesting with a 1-year cliff and monthly vesting thereafter.
-
-**2. Alex receives a notification** and logs into TGA to review the grant terms. He accepts the grant and sets up his wallet address.
-
-**3. After the 1-year cliff,** 12,500 tokens (25%) vest immediately. Alex navigates to his grants page and clicks "Claim" to request distribution.
-
-```json
-{
-  "grantID": "grant_8Kx2mP",
-  "recipient": "Alex Rivera",
-  "type": "RTU",
-  "totalTokens": 50000,
-  "vestedTokens": 12500,
-  "claimedTokens": 12500,
-  "vestingSchedule": {
-    "totalPeriod": "4 years",
-    "cliff": "1 year",
-    "frequency": "Monthly"
-  },
-  "status": "Active"
-}
-```
-
-**4. Admin approves the claim.** TGA sends the distribution request to the custody provider, withholds tokens for tax obligations, and transfers the net tokens to Alex's wallet. Alex can track the on-chain transaction in real time.
-
----
-
-## Supported Grant Types
-
-| Type | Description |
-|------|-------------|
-| **RTU** | Restricted Token Units — tokens that vest over time |
-| **Options** | Right to purchase tokens at a set strike price |
-| **Warrants** | Similar to options, typically for investors |
-| **Token Bonus** | One-time token awards |
-
----
-
-## Getting Started
+## For Recipients
 
 <CardGroup cols={2}>
-  <Card title="Set Up Your Account" icon="gear" href="/tga/client/setting-up-your-account">
-    Configure TGA for your organization
+  <Card title="Employee Portal" icon="user" href="/tga/user/employee-portal">
+    Navigate the TGA portal
   </Card>
-  <Card title="Create Your First Grant" icon="plus" href="/tga/client/creating-grants">
-    Issue a token grant to a recipient
+  <Card title="Understanding Vesting" icon="calendar" href="/tga/user/understanding-vesting">
+    Learn how your tokens vest
+  </Card>
+</CardGroup>
+
+## For Developers
+
+<CardGroup cols={2}>
+  <Card title="API Reference" icon="code" href="/api/overview">
+    65+ REST API endpoints with interactive playground
+  </Card>
+  <Card title="Quick Start" icon="rocket" href="/api/quickstart">
+    Make your first API call in 5 minutes
   </Card>
 </CardGroup>

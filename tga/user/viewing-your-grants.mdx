@@ -6,13 +6,13 @@ description: "Understand and track your token grants"
 
 ## Overview
 
-The Grants section shows all token grants you've received from your organization. Here you can see grant details, track vesting progress, and initiate claims.
+The Grants page shows all token grants you've received from your organization. View grant details, track vesting progress, and see your total token compensation.
 
 ---
 
 ## Accessing Your Grants
 
-1. Log in to TGA
+1. Log in to TGA at [app.toku.com](https://app.toku.com)
 2. Click **Grants** in the sidebar
 3. View your list of grants
 
@@ -24,74 +24,65 @@ Each grant displays:
 
 | Field | Description |
 |-------|-------------|
-| **Grant Type** | RTU, Options, Warrants, or Token Bonus |
-| **Token** | Which token you're receiving |
+| **Grant Name** | Descriptive name for the grant |
+| **Grant Type** | RTU, RTA, TPA, or Token Bonus |
 | **Total Amount** | Total tokens in this grant |
-| **Vested** | Tokens currently vested and claimable |
-| **Unvested** | Tokens still in the vesting period |
-| **Claimed** | Tokens you've already claimed |
+| **Vested** | Tokens currently vested |
 | **Grant Date** | When the grant was issued |
+| **Vesting Start** | When vesting begins |
 | **Status** | Current grant status |
+| **Tags** | Categorization labels |
 
 ---
 
-## Grant Types
+## Grant Detail View
 
-### RTU (Restricted Token Units)
-Tokens that vest over time. No payment required — once vested, you can claim them.
+Click any grant to see the full detail:
 
-### Options
-The right to buy tokens at a set price (strike price). You'll need to pay the strike price to receive the tokens.
-
-### Warrants
-Similar to options, typically offered to investors or advisors.
-
-### Token Bonus
-One-time token awards that may vest immediately or on a specific date.
+- **Vesting schedule** — Visual timeline with each tranche
+- **Vesting progress** — Percentage complete with breakdown
+- **Grant agreement** — Original terms and signed documents
+- **Settlement history** — Past distributions from this grant
 
 ---
 
-## Grant Status
+## Grant Statuses
 
-| Status | Meaning |
-|--------|---------|
-| **Pending** | Grant issued but not yet accepted |
-| **Active** | Grant accepted and actively vesting |
-| **Fully Vested** | All tokens have vested |
-| **Completed** | All tokens have been claimed |
-| **Cancelled** | Grant was cancelled |
-
----
-
-## Grant Details
-
-Click on any grant to see:
-
-- **Full vesting schedule** — When each portion vests
-- **Vesting progress** — Visual timeline of past and future vesting
-- **Claim history** — Previous claims from this grant
-- **Grant agreement** — Original terms and conditions
+| Status | What It Means |
+|--------|---------------|
+| **PENDING** | Grant issued, waiting for you to accept |
+| **ACCEPTED** | You've accepted the grant, tokens are actively vesting |
+| **COMPLETED** | All tokens have fully vested |
+| **TERMINATED** | Grant was terminated (e.g., due to departure) |
+| **PAUSED** | Vesting temporarily paused |
 
 ---
 
 ## Accepting a Grant
 
-New grants require acceptance:
+When you receive a new grant:
 
-1. Review the grant terms carefully
-2. Read the grant agreement
-3. Click **Accept Grant**
-4. Sign electronically if required
+<Steps>
+  <Step title="Review the terms">
+    Read the grant name, token amount, vesting schedule, and any conditions.
+  </Step>
+  <Step title="Read the agreement">
+    Review the full grant agreement document if one is attached.
+  </Step>
+  <Step title="Accept">
+    Click **Accept Grant** to start the vesting clock.
+  </Step>
+</Steps>
 
 <Warning>
-  Review grant terms carefully before accepting. Once accepted, terms generally cannot be changed.
+Review grant terms carefully before accepting. Once accepted, terms generally cannot be changed.
 </Warning>
 
 ---
 
-<Tip>
-**TGA User Guide** — Step 2 of 4. [Previous: Employee Portal](/tga/user/employee-portal) | [Next: Understanding Vesting](/tga/user/understanding-vesting)
-</Tip>
+## Multiple Grants
+
+If you have multiple grants (e.g., initial grant + refresh grant), each vests independently according to its own schedule. Your dashboard shows the combined totals.
 
 ---
 
@@ -99,9 +90,9 @@ New grants require acceptance:
 
 <CardGroup cols={2}>
   <Card title="Understanding Vesting" icon="calendar" href="/tga/user/understanding-vesting">
-    Learn how vesting works
+    Learn how your tokens vest over time
   </Card>
-  <Card title="Tax Documents" icon="file" href="/tga/user/tax-documents">
-    Access your tax documents
+  <Card title="Wallet Setup" icon="wallet" href="/tga/user/wallet-setup">
+    Set up your wallet to receive tokens
   </Card>
 </CardGroup>

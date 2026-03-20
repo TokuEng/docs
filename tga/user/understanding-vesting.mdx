@@ -6,97 +6,89 @@ description: "How token vesting works and tracking your schedule"
 
 ## What is Vesting?
 
-Vesting is the process by which you earn the right to your tokens over time. Tokens in a grant don't belong to you immediately — you earn them as they vest according to your grant's schedule.
+Vesting is the process of earning your tokens over time. When you receive a grant, the tokens don't belong to you all at once — you earn them gradually according to a vesting schedule.
 
 ---
 
 ## How Vesting Works
 
-### Example: 4-Year Vesting with 1-Year Cliff
+### The Cliff
 
-A common vesting schedule:
-- **Year 1** — No tokens vest (this is the "cliff" period)
-- **After 1 year** — 25% of your tokens vest immediately
-- **Years 2-4** — Remaining 75% vest monthly
+Most grants have a **cliff period** — an initial waiting period before any tokens vest. If you leave before the cliff, you typically forfeit all tokens.
 
-If you receive a grant of 10,000 tokens:
-- After 12 months: 2,500 tokens vest (25%)
-- Each month after: ~208 tokens vest (1/48 of total)
-- After 48 months: All 10,000 tokens have vested
+### After the Cliff
+
+Once the cliff passes, a chunk of tokens vest immediately. After that, tokens continue vesting on a regular schedule (usually monthly).
+
+---
+
+## Example: 10,000 Token Grant with 4-Year Vesting, 1-Year Cliff
+
+| Timeline | Event | Tokens Vested | Total |
+|----------|-------|---------------|-------|
+| Month 0 | Grant starts | 0 | 0 |
+| Month 1–11 | Cliff period (nothing vests) | 0 | 0 |
+| Month 12 | **Cliff!** 25% vests | 2,500 | 2,500 |
+| Month 13 | Monthly vest | ~208 | 2,708 |
+| Month 14 | Monthly vest | ~208 | 2,917 |
+| ... | ... | ... | ... |
+| Month 48 | **Fully vested** | ~208 | 10,000 |
 
 ---
 
 ## Key Terms
 
-### Cliff
-A waiting period before any tokens vest. If you leave the company during the cliff, you typically forfeit all tokens.
-
-### Vesting Period
-The total time over which your tokens vest (commonly 3-4 years).
-
-### Vesting Frequency
-How often tokens vest after the cliff:
-- **Monthly** — Most common
-- **Quarterly** — Every 3 months
-- **Annually** — Once per year
+| Term | Definition |
+|------|-----------|
+| **Unvested** | Tokens you haven't earned yet |
+| **Vested** | Tokens you've earned and can receive |
+| **Cliff** | Waiting period before any tokens vest |
+| **Vesting Frequency** | How often tokens vest (monthly, quarterly, annually) |
+| **Fully Vested** | All tokens in the grant have vested |
 
 ---
 
 ## Tracking Your Vesting
 
-### Vesting Timeline
-View your grant to see a visual timeline showing:
-- Past vesting events
-- Upcoming vesting dates
-- Tokens vesting at each event
+In the TGA portal:
 
-### Vesting Calendar
-See when tokens will vest:
-1. Navigate to your grant
-2. Click **Vesting Schedule**
-3. View the calendar of vesting events
+1. Go to **Grants** and click on a grant
+2. View the **Vesting Schedule** tab
+3. See a timeline of past and upcoming vesting events
+4. Check how many tokens are currently vested vs unvested
 
 ---
 
-## Vesting Status
+## What Happens When You Leave
 
-| Status | Meaning |
-|--------|---------|
-| **Unvested** | Tokens not yet earned — still in vesting period |
-| **Vested** | Tokens earned — available to claim |
-| **Claimed** | Tokens you've already received |
+| Scenario | Result |
+|----------|--------|
+| **Before cliff** | All tokens forfeited |
+| **After cliff** | Keep vested tokens, forfeit unvested |
+| **Fully vested** | Keep all tokens |
+| **Terminated grant** | Vesting recalculated to termination date |
 
----
-
-## What Happens If...
-
-### You Leave Before the Cliff
-You typically forfeit all unvested tokens. Check your grant agreement for specific terms.
-
-### You Leave After the Cliff
-You keep tokens that have already vested. Unvested tokens are typically forfeited, though some grants have provisions for continued vesting.
-
-### There's an Acquisition
-Terms vary by grant. Some grants accelerate vesting upon acquisition ("single trigger" or "double trigger" acceleration).
+Your organization's admin handles the termination process. Check your grant agreement for specific terms regarding departure.
 
 ---
 
-## Claiming Vested Tokens
+## Vesting Frequencies
 
-Once tokens vest, you can claim them:
-
-1. Go to your grant
-2. View available (vested) tokens
-3. Click **Claim**
-4. Confirm your wallet address
-5. Submit the claim
-
-<Card title="TGA FAQ" icon="circle-question" href="/tga/faq">
-  More questions about vesting
-</Card>
+| Frequency | How It Works |
+|-----------|-------------|
+| **Monthly** | Tokens vest once per month (most common) |
+| **Quarterly** | Tokens vest every 3 months |
+| **Annually** | Tokens vest once per year |
 
 ---
 
-<Tip>
-**TGA User Guide** — Step 3 of 4. [Previous: Viewing Your Grants](/tga/user/viewing-your-grants) | [Next: Tax Documents](/tga/user/tax-documents)
-</Tip>
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Wallet Setup" icon="wallet" href="/tga/user/wallet-setup">
+    Set up your wallet to receive vested tokens
+  </Card>
+  <Card title="Tax Documents" icon="file-lines" href="/tga/user/tax-documents">
+    Understand tax implications
+  </Card>
+</CardGroup>

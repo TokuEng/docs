@@ -1,45 +1,41 @@
 ---
 title: "Creating Grants"
 sidebarTitle: "Creating Grants"
-description: "Issue token grants to employees, contractors, and investors"
+description: "Issue token grants to employees and recipients"
 ---
 
 ## Overview
 
-Create token grants to award equity to your team members and investors. Each grant specifies the recipient, token amount, and vesting schedule.
+Create token grants to award equity to your team. Each grant specifies the recipient, token amount, vesting schedule, and grant configuration.
+
+<Frame caption="Grant list">
+  <img src="/images/tga/grants/grant-list.png" />
+</Frame>
 
 ---
 
-## Creating a New Grant
+## Creating a Single Grant
 
 <Tabs>
   <Tab title="Dashboard">
     <Steps>
       <Step title="Navigate to Grants">
-        From the dashboard, click **Grants** in the sidebar.
+        Click **Grants** in the sidebar.
       </Step>
       <Step title="Click New Grant">
-        Select **New Grant** to open the grant creation form.
+        Select **New Grant** to open the creation form.
       </Step>
-      <Step title="Select grant type">
-        Choose the type of grant:
-        - **RTU** — Restricted Token Units
-        - **Options** — With strike price
-        - **Warrants** — For investors
-        - **Token Bonus** — One-time award
+      <Step title="Select grant configuration">
+        Choose from your configured grant types (RTU, RTA, TPA, or TOKEN_BONUS). See [Grant Configurations](/tga/client/grant-configurations) to set these up.
       </Step>
-      <Step title="Enter recipient details">
-        Add the recipient:
-        - Email address
-        - Full legal name
-        - Country of residence
-      </Step>
-      <Step title="Configure grant terms">
-        Specify the grant details:
-        - Number of tokens
-        - Grant date
-        - Vesting schedule
-        - Any conditions or notes
+      <Step title="Enter grant details">
+        - **Recipient** — Select or search by email
+        - **Grant amount** — Number of token units
+        - **Grant name** — Descriptive name
+        - **Grant date** — When the grant was issued
+        - **Vesting start date** — When vesting begins
+        - **Vesting schedule** — Select a template or configure custom
+        - **Tags** — Optional categorization
       </Step>
       <Step title="Review and create">
         Review the summary and click **Create Grant**.
@@ -50,124 +46,93 @@ Create token grants to award equity to your team members and investors. Each gra
     Use the [Add Single Grant](/api/grants/add-single-grant) endpoint:
 
     ```bash
-    curl -X POST "https://api.toku.com/api/grants/addSingleGrant" \
-      -H "Authorization: Bearer YOUR_API_KEY" \
+    curl -X POST https://app.toku.com/api/tokuApi/v1/addSingleGrant \
+      -H "Authorization: Bearer YOUR_API_TOKEN" \
+      -H "x-role-type: CLIENT_ORG_ADMIN" \
       -H "Content-Type: application/json" \
       -d '{
-        "configurationID": 1,
-        "recipientEmail": "alex@example.com",
-        "recipientName": "Alex Rivera",
-        "tokenAmount": 50000,
-        "grantDate": "2025-02-01",
-        "vestingPeriodMonths": 48,
-        "cliffMonths": 12,
-        "vestingFrequency": "monthly"
+        "grantName": "Q1 2026 Token Grant - Jane Smith",
+        "grantConfigurationID": "config-uuid",
+        "grantAmount": 50000,
+        "recipientID": "role-in-org-uuid",
+        "vestingStartDate": "2026-01-01T00:00:00.000Z",
+        "vestingFrequencyType": "MONTHLY",
+        "vestingPeriods": 48,
+        "vestingCliffPeriods": 12,
+        "vestingCliffPercentage": 25,
+        "tags": ["engineering", "2026"]
       }'
     ```
 
-    For new hires, use [Create Grant for New Hire](/api/grants/create-grant-for-new-hire) to create the grant and employee record in one call.
+    For new hires, use [Create Grant for New Hire](/api/grants/create-grant-for-new-hire) to create the user and grant in one call.
   </Tab>
 </Tabs>
 
 ---
 
-## Grant Types
-
-### RTU (Restricted Token Units)
-Tokens that vest over time with no purchase required. Once vested, the recipient can claim them.
-
-### Options
-The right to purchase tokens at a predetermined strike price. Recipients must exercise their options to receive tokens.
-
-**Additional fields for Options:**
-- Strike price per token
-- Exercise window (when options can be exercised)
-- Expiration date
-
-### Warrants
-Similar to options but typically issued to investors, advisors, or strategic partners.
-
-### Token Bonus
-One-time token awards that may vest immediately or on a specific date.
-
----
-
-## Vesting Configuration
-
-When creating a grant, select or configure a vesting schedule:
-
-| Parameter | Description |
-|-----------|-------------|
-| **Vesting Period** | Total time over which tokens vest (e.g., 4 years) |
-| **Cliff** | Initial period before any tokens vest (e.g., 1 year) |
-| **Vesting Frequency** | How often tokens vest after the cliff (monthly, quarterly, yearly) |
-
-**Example:** 4-year vesting with 1-year cliff
-- Year 1: No tokens vest (cliff)
-- After cliff: 25% vests immediately
-- Years 2-4: Remaining 75% vests monthly
-
-<Card title="Vesting Schedules" icon="calendar" href="/tga/client/managing-vesting-schedules">
-  Learn more about vesting configurations
-</Card>
-
----
-
-## Recipient Notification
-
-After creating a grant, the recipient receives an email with:
-- Grant details and terms
-- Link to view their grant in TGA
-- Instructions for setting up their account
-
----
-
-## Grant Status
+## Grant Status Lifecycle
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Draft
-    Draft --> Pending : Send to recipient
-    Pending --> Active : Recipient accepts
-    Pending --> Cancelled : Recipient declines
-    Active --> Completed : Fully vested and claimed
-    Active --> Cancelled : Admin cancels
-    Draft --> Cancelled : Admin cancels
+    [*] --> PENDING : Grant created
+    PENDING --> ACCEPTED : Recipient accepts
+    PENDING --> REJECTED : Recipient declines
+    ACCEPTED --> COMPLETED : Fully vested
+    ACCEPTED --> TERMINATED : Admin terminates
+    ACCEPTED --> MARKED_FOR_FUTURE_TERMINATION : Future termination scheduled
+    TERMINATED --> ACCEPTED : Termination reverted
 ```
 
 | Status | Description |
 |--------|-------------|
-| **Draft** | Grant created but not sent to recipient |
-| **Pending** | Sent to recipient, awaiting acceptance |
-| **Active** | Accepted and actively vesting |
-| **Completed** | Fully vested and claimed |
-| **Cancelled** | Grant cancelled before completion |
+| `PENDING` | Created, awaiting recipient acceptance |
+| `ACCEPTED` | Accepted and actively vesting |
+| `COMPLETED` | All vesting periods complete |
+| `TERMINATED` | Terminated early |
+| `MARKED_FOR_FUTURE_TERMINATION` | Termination scheduled for future date |
+| `PAUSED` | Vesting temporarily paused |
+| `REJECTED` | Declined by recipient |
 
 ---
 
 ## Bulk Grant Creation
 
-For multiple grants, use the bulk import feature:
+For multiple grants, use [Bulk Upload](/tga/client/bulk-upload-grants):
 
-1. Navigate to **Grants** > **Import**
+1. Navigate to **Bulk Upload** → **Grants** tab
 2. Download the CSV template
 3. Fill in grant details for each recipient
-4. Upload the completed CSV
-5. Review and confirm all grants
+4. Upload and review
+5. Submit
 
 ---
 
+## Updating Grants
+
+Edit pending grants before they're accepted:
+- Change token amount, vesting dates, or tags
+- Update grant configuration
+- Modify recipient assignment
+
 <Tip>
-**TGA Client Guide** — Step 2 of 6. [Previous: Setting Up Your Account](/tga/client/setting-up-your-account) | [Next: Managing Vesting Schedules](/tga/client/managing-vesting-schedules)
+After acceptance, use [Terminate Grant](/api/grants/terminate-grant) to end a grant, or create a new grant with updated terms.
 </Tip>
+
+---
 
 ## Next Steps
 
 <CardGroup cols={2}>
-  <Card title="Manage Vesting" icon="calendar" href="/tga/client/managing-vesting-schedules">
+  <Card title="Grant Configurations" icon="gear" href="/tga/client/grant-configurations">
+    Set up grant type templates
+  </Card>
+  <Card title="Vesting Schedules" icon="calendar" href="/tga/client/managing-vesting-schedules">
     Configure vesting schedules
   </Card>
-  <Card title="Distribute Tokens" icon="paper-plane" href="/tga/client/token-distributions">
-    Process token distributions
+  <Card title="Terminations" icon="scissors" href="/tga/client/terminations">
+    Handle employee departures
+  </Card>
+  <Card title="Bulk Upload" icon="upload" href="/tga/client/bulk-upload-grants">
+    Import grants via CSV
   </Card>
 </CardGroup>

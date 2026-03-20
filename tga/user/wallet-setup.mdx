@@ -1,0 +1,134 @@
+---
+title: "Setting Up Your Wallet"
+sidebarTitle: "Wallet Setup"
+description: "Add and verify your blockchain wallet to receive token distributions"
+---
+
+## Overview
+
+Before you can receive token distributions, you need to add your blockchain wallet address to TGA and complete the verification process.
+
+---
+
+## Step 1: Add Your Wallet
+
+<Steps>
+  <Step title="Navigate to Wallet Settings">
+    Click **Wallet Settings** in the sidebar, or look for the wallet setup prompt on your dashboard.
+  </Step>
+  <Step title="Enter your wallet address">
+    Paste your blockchain wallet address. Make sure it's on a network supported by your organization (e.g., Ethereum, Solana, Polygon).
+  </Step>
+  <Step title="Select the network">
+    Choose the blockchain network that matches your wallet. Your organization will have specific networks configured.
+  </Step>
+  <Step title="Submit">
+    Click **Submit** to save your wallet. It will be in **Pending** status until verified.
+  </Step>
+</Steps>
+
+<Warning>
+**Double-check your wallet address.** Tokens sent to an incorrect address cannot be recovered. Copy-paste the address directly from your wallet app — never type it manually.
+</Warning>
+
+---
+
+## Step 2: Verify Your Wallet
+
+Your organization uses test transactions to verify wallet ownership.
+
+<Steps>
+  <Step title="Receive test transaction">
+    Your admin will send a small amount of tokens to your wallet. You'll get an email notification.
+  </Step>
+  <Step title="Check your wallet">
+    Open your wallet app and confirm you received the test amount.
+  </Step>
+  <Step title="Confirm in TGA">
+    Log back into TGA and confirm that you received the test transaction.
+  </Step>
+  <Step title="Wait for approval">
+    Your admin reviews and approves the verified wallet. You'll receive a notification when approved.
+  </Step>
+</Steps>
+
+---
+
+## Wallet Statuses
+
+| Status | Meaning |
+|--------|---------|
+| **Pending** | Wallet submitted, awaiting test transaction |
+| **Test Sent** | Test transaction sent, awaiting your confirmation |
+| **Verified** | You confirmed receipt, awaiting admin approval |
+| **Approved** | Wallet is active and ready for distributions |
+| **Archived** | Wallet deactivated (replaced by a new one) |
+
+---
+
+## Multiple Wallets
+
+You may have multiple wallets if:
+- You use different wallets for different networks
+- Your organization supports multi-wallet distributions
+
+If you have multiple active wallets, your admin configures how tokens are split across them (e.g., 70% to Wallet A, 30% to Wallet B).
+
+---
+
+## Changing Your Wallet
+
+To update your wallet address:
+
+1. Go to **Wallet Settings**
+2. Add a new wallet with the updated address
+3. The new wallet goes through verification
+4. Once approved, your old wallet is automatically archived
+
+<Tip>
+You cannot edit an existing wallet address. Add a new wallet instead, and the old one will be deactivated after the new one is approved.
+</Tip>
+
+---
+
+## Wallet Security Tips
+
+- **Use a self-custody wallet** — Hardware wallets (Ledger, Trezor) are recommended for large amounts
+- **Back up your seed phrase** — Store it offline in a secure location
+- **Never share private keys** — Toku will never ask for your private key
+- **Verify the network** — Ensure your wallet supports the same network your organization uses
+
+---
+
+## Supported Wallet Types
+
+Most standard wallets are supported, including:
+- **MetaMask** — Ethereum, Polygon, Arbitrum, Base, Optimism
+- **Phantom** — Solana
+- **Ledger / Trezor** — Hardware wallets (via compatible interfaces)
+- **Coinbase Wallet** — Multi-chain
+- **Privy** — Embedded wallets (if enabled by your organization)
+
+---
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Test transaction not received | Check you're on the correct network; wait 10-15 minutes for confirmation |
+| Wrong network | Add a new wallet on the correct network |
+| Wallet rejected | Contact your admin for the rejection reason |
+| Can't find wallet settings | Check your sidebar — wallet setup may be under a different menu depending on your role |
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Understanding Vesting" icon="calendar" href="/tga/user/understanding-vesting">
+    Learn when your tokens vest
+  </Card>
+  <Card title="Tax Documents" icon="file-lines" href="/tga/user/tax-documents">
+    Access tax-related documents
+  </Card>
+</CardGroup>

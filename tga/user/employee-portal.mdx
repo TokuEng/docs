@@ -6,49 +6,56 @@ description: "Navigate the TGA portal as a grant recipient"
 
 ## Overview
 
-The TGA employee portal is your hub for viewing token grants, tracking vesting progress, and claiming your tokens.
+The TGA employee portal is where you view your token grants, track vesting progress, manage your wallet, and access tax documents.
 
 ---
 
-## Getting Started
+## First Login
 
-### First Login
+<Steps>
+  <Step title="Check your email">
+    You'll receive an invitation email from Toku with a link to set up your account.
+  </Step>
+  <Step title="Create your account">
+    Click the link, set a secure password, and complete any required identity verification.
+  </Step>
+  <Step title="Set up MFA">
+    If your organization requires multi-factor authentication, configure your authenticator app during first login.
+  </Step>
+  <Step title="Review your grants">
+    After login, you'll see your dashboard with all token grants and vesting details.
+  </Step>
+</Steps>
 
-1. Check your email for an invitation from Toku
-2. Click the link to set up your account
-3. Create a secure password
-4. Complete any required identity verification (KYC)
+---
 
-### Dashboard
+## Dashboard
 
-After logging in, your dashboard shows:
-- **Total grants** — All grants issued to you
-- **Vested tokens** — Tokens you can claim
-- **Upcoming vesting** — When more tokens will vest
-- **Recent activity** — Claims, distributions, and updates
+Your dashboard shows at a glance:
+
+| Section | What You See |
+|---------|-------------|
+| **Token Grants** | All grants issued to you with status |
+| **Vested Tokens** | Tokens currently available |
+| **Upcoming Vesting** | Next vesting dates and amounts |
+| **Wallet Status** | Whether your wallet is set up and verified |
 
 ---
 
 ## Portal Sections
 
 <CardGroup cols={2}>
-  <Card title="Grants" icon="gift" href="/tga/user/viewing-your-grants">
-    View all your token grants
+  <Card title="Your Grants" icon="award" href="/tga/user/viewing-your-grants">
+    View grant details, amounts, and status
   </Card>
-  <Card title="Vesting" icon="calendar" href="/tga/user/understanding-vesting">
-    Track your vesting schedule
+  <Card title="Vesting Schedule" icon="calendar" href="/tga/user/understanding-vesting">
+    Track when your tokens vest
   </Card>
-  <Card title="Claims" icon="hand-holding-dollar">
-    Claim vested tokens
+  <Card title="Wallet Setup" icon="wallet" href="/tga/user/wallet-setup">
+    Add and verify your wallet address
   </Card>
-  <Card title="Wallets" icon="wallet">
-    Manage your wallet addresses
-  </Card>
-  <Card title="Documents" icon="file" href="/tga/user/tax-documents">
-    Access tax documents
-  </Card>
-  <Card title="Settings" icon="gear">
-    Update your profile
+  <Card title="Tax Documents" icon="file-lines" href="/tga/user/tax-documents">
+    Access tax forms and settlement documents
   </Card>
 </CardGroup>
 
@@ -56,62 +63,34 @@ After logging in, your dashboard shows:
 
 ## Key Actions
 
-### View Your Grants
-See all grants you've received, including:
-- Token amounts
-- Vesting schedules
-- Current status
+### Accept a Grant
+When a new grant is issued to you, review the terms and click **Accept**. This starts the vesting clock.
+
+### Set Up Your Wallet
+Add your blockchain wallet address so you can receive token distributions. Your wallet must be verified through a test transaction before tokens can be sent.
 
 ### Track Vesting
-Monitor when your tokens vest with a visual timeline and upcoming vesting events.
+Monitor your vesting progress with a visual timeline showing past and upcoming vesting events.
 
-### Claim Tokens
-When tokens vest, submit a claim to receive them in your wallet.
-
-### Manage Wallets
-Add and verify wallet addresses where you want to receive tokens.
+### Access Documents
+View and download grant agreements, settlement confirmations, and tax documents.
 
 ---
 
 ## Notifications
 
-Stay informed with notifications for:
+You'll receive emails for:
 - New grants issued to you
 - Vesting events (tokens newly available)
-- Claim status updates
+- Wallet verification requests
+- Settlement confirmations
 - Document availability
-
-Configure notification preferences in **Settings** > **Notifications**.
 
 ---
 
 ## Security
 
-### Protect Your Account
-- Use a strong, unique password
-- Enable two-factor authentication if available
-- Never share your login credentials
-
-### Wallet Security
-- Double-check wallet addresses before saving
-- Use a secure, self-custody wallet
-- Never share your private keys or seed phrase
-
----
-
-## Need Help?
-
-<CardGroup cols={2}>
-  <Card title="View Grants" icon="gift" href="/tga/user/viewing-your-grants">
-    Learn about your grants
-  </Card>
-  <Card title="TGA FAQ" icon="circle-question" href="/tga/faq">
-    Common questions
-  </Card>
-</CardGroup>
-
----
-
-<Tip>
-**TGA User Guide** — Step 1 of 4. [Next: Viewing Your Grants](/tga/user/viewing-your-grants)
-</Tip>
+- **Use a strong password** and enable MFA if available
+- **Verify wallet addresses carefully** — tokens sent to wrong addresses cannot be recovered
+- **Never share your private keys** or wallet seed phrase with anyone
+- **Check the URL** — always ensure you're on the official Toku platform

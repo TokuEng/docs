@@ -1,157 +1,123 @@
 ---
 title: "Token Distributions"
 sidebarTitle: "Distributions"
-description: "Process and track token distributions to grant recipients"
+description: "Process and track token distributions to recipient wallets"
 ---
 
 ## Overview
 
-Token distributions are the process of sending vested tokens from your organization to recipients' wallets. TGA handles distributions through integrated custody providers for security and compliance.
+Token distributions send vested tokens from your organization to recipients' wallets through your connected custody provider. TGA handles the full flow from vesting through tax calculation to on-chain settlement.
+
+<Frame caption="Upcoming distributions">
+  <img src="/images/tga/distributions/upcoming.png" />
+</Frame>
+
+---
+
+## Distribution Views
+
+### Upcoming Distributions
+
+Shows vestings that are coming due. Monitor what's approaching and prepare for settlement.
+
+### Historical Distributions
+
+<Frame caption="Historical distributions">
+  <img src="/images/tga/distributions/historical.png" />
+</Frame>
+
+View completed distributions with transaction details, amounts, and on-chain confirmations.
 
 ---
 
 ## Distribution Workflow
 
-<Tabs>
-  <Tab title="Dashboard">
-    <Steps>
-      <Step title="Recipient claims tokens">
-        Recipients request to claim their vested tokens in the TGA portal.
-      </Step>
-      <Step title="Admin reviews claims">
-        Review pending claims in the **Distributions** dashboard.
-      </Step>
-      <Step title="Approve distribution">
-        Approve individual claims or batch multiple claims together.
-      </Step>
-      <Step title="Process payment">
-        Tokens are sent via your custody provider to recipient wallets.
-      </Step>
-      <Step title="Confirm completion">
-        Track transaction status until tokens are delivered.
-      </Step>
-    </Steps>
-  </Tab>
-  <Tab title="API">
-    Distribution management via API is coming soon. Currently, distributions are managed through the TGA dashboard.
-
-    You can monitor distribution status programmatically by polling grant details through the [List Grant Configurations](/api/grants/list-configurations) endpoint.
-  </Tab>
-</Tabs>
-
----
-
-## Processing Distributions
-
-### Individual Distribution
-
-1. Navigate to **Distributions**
-2. Find the pending claim
-3. Review recipient details and wallet address
-4. Click **Approve** to process
-
-### Batch Distribution
-
-Process multiple claims at once:
-
-1. Navigate to **Distributions**
-2. Select multiple pending claims
-3. Click **Batch Approve**
-4. Review the summary
-5. Confirm to process all selected claims
-
----
-
-## Distribution Status
-
 ```mermaid
-stateDiagram-v2
-    [*] --> Pending
-    Pending --> Approved : Admin approves
-    Pending --> Rejected : Admin rejects
-    Approved --> Processing : Sent to custody
-    Processing --> Completed : Tokens delivered
-    Processing --> Failed : Transaction fails
-    Failed --> Pending : Retry claim
+graph TD
+    A[Token Vests] --> B[Admin Approves]
+    B --> C[Tax Calculated]
+    C --> D[Tax Finalized]
+    D --> E[Settlement Created]
+    E --> F{Custody Provider}
+    F --> G[Fireblocks]
+    F --> H[Anchorage]
+    F --> I[Safe Multisig]
+    G --> J[On-Chain Confirmation]
+    H --> J
+    I --> J
+    J --> K[Distribution Complete]
 ```
 
-| Status | Description |
-|--------|-------------|
-| **Pending** | Claim submitted, awaiting approval |
-| **Approved** | Approved by admin, pending transaction |
-| **Processing** | Transaction submitted to custody provider |
-| **Completed** | Tokens delivered to recipient wallet |
-| **Failed** | Transaction failed — requires attention |
+<Steps>
+  <Step title="Vesting occurs">
+    Tokens vest according to the grant's schedule. Vested amounts appear in the **Pending Approval** queue.
+  </Step>
+  <Step title="Admin approves">
+    Review and approve vesting events. Batch approve multiple vestings at once.
+  </Step>
+  <Step title="Tax calculation">
+    Assign tax details — manual, from payroll, or mark as tax-exempt. Tax amounts are calculated based on FMV and jurisdiction rules.
+  </Step>
+  <Step title="Tax finalization">
+    Review tax calculations and finalize. Rejected items return to tax grouping.
+  </Step>
+  <Step title="Settlement execution">
+    Create settlement batches and route through your custody provider:
+    - **Fireblocks** — Direct vault transaction
+    - **Anchorage** — Institutional settlement
+    - **Safe** — Multisig approval required
+  </Step>
+  <Step title="Confirmation">
+    Track on-chain transaction status. Once confirmed, the distribution is complete.
+  </Step>
+</Steps>
+
+---
+
+## Batch Transactions
+
+Process multiple settlements together for efficiency:
+
+1. Navigate to **Batch Transactions**
+2. Select vestings ready for settlement
+3. Choose your custody provider
+4. Submit the batch
+5. Track status: Pending Allocation → Pending Execution → Executed
 
 ---
 
 ## Tax Withholding
 
-TGA automatically calculates and applies tax withholding when required:
+TGA supports tax withholding during settlement:
 
-- **Withholding rates** are configured per jurisdiction
-- **Withheld tokens** are held separately for tax remittance
-- **Net tokens** are sent to the recipient
-
-### Viewing Withholding Details
-
-Each distribution shows:
-- Gross tokens (total claimed)
-- Withheld tokens (for taxes)
-- Net tokens (sent to recipient)
+| Detail | Description |
+|--------|-------------|
+| **Gross tokens** | Total vested amount |
+| **Withholding** | Tokens held for tax obligations |
+| **Net tokens** | Amount sent to recipient wallet |
+| **FMV** | Fair market value at time of vesting |
 
 ---
 
-## Custody Integration
+## Settlement Documents
 
-Distributions are processed through your connected custody provider:
-
-| Provider | Settlement Time |
-|----------|-----------------|
-| Fireblocks | Near-instant |
-| Anchorage | Same day |
-| Coinbase Prime | Same day |
-| Safe (Multi-sig) | After approvals |
-
-<Card title="Integration Setup" icon="plug" href="/integrations/overview">
-  Connect your custody provider
-</Card>
+Generate proof-of-payment and tax documents:
+- Settlement summaries per recipient
+- Tax reference documents
+- Distribution confirmation records
 
 ---
-
-## Transaction Tracking
-
-After approval, track the distribution:
-
-1. **Transaction ID** — Internal reference number
-2. **Blockchain hash** — On-chain transaction hash
-3. **Status updates** — Real-time status from custody provider
-4. **Confirmation** — Final confirmation when complete
-
----
-
-## Failed Distributions
-
-If a distribution fails:
-
-1. Check the error message in the distribution details
-2. Verify the recipient's wallet address is correct
-3. Ensure sufficient tokens are available in custody
-4. Contact support if the issue persists
-
----
-
-<Tip>
-**TGA Client Guide** — Step 4 of 6. [Previous: Managing Vesting Schedules](/tga/client/managing-vesting-schedules) | [Next: Reporting & Compliance](/tga/client/reporting-and-compliance)
-</Tip>
 
 ## Next Steps
 
 <CardGroup cols={2}>
-  <Card title="Reporting" icon="chart-bar" href="/tga/client/reporting-and-compliance">
-    Generate distribution reports
+  <Card title="Settlements" icon="file-invoice-dollar" href="/tga/client/settlements">
+    Detailed settlement workflow
   </Card>
-  <Card title="Cap Table" icon="chart-pie" href="/tga/client/cap-table-management">
-    View ownership changes
+  <Card title="Custody Integrations" icon="vault" href="/tga/client/custody-overview">
+    Connect custody providers
+  </Card>
+  <Card title="Reporting" icon="chart-line" href="/tga/client/reporting-and-compliance">
+    Distribution reports
   </Card>
 </CardGroup>
