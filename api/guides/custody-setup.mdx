@@ -1,0 +1,196 @@
+---
+title: "Custody Setup Guide"
+sidebarTitle: "Custody Setup"
+description: "Connect Fireblocks, Anchorage, or Safe for automated token settlement"
+---
+
+## Overview
+
+Before you can submit settlements via API, you need to connect a custody provider. This guide covers setup for all three supported providers.
+
+---
+
+## Fireblocks
+
+<Steps>
+  <Step title="Save integration credentials">
+    ```typescript
+    await tokuAPI('POST', 'saveFireblocksIntegration', {
+      fireblocksApiKey: 'your-fireblocks-api-key',
+      fireblocksNetworkID: 'network-uuid'  // from getNetworksNew
+    });
+    ```
+    This tests the connection before saving.
+  </Step>
+  <Step title="List vault accounts">
+    ```typescript
+    const vaults = await tokuAPI('GET', 'getFireblocksVaultAccounts');
+    // [{ vaultAccountId: "vault-123", vaultAccountName: "Main Vault" }]
+    ```
+  </Step>
+  <Step title="Create or link a custody wallet">
+    **Create new vault:**
+    ```typescript
+    await tokuAPI('POST', 'createFireblocksCustodyWallet', {
+      walletNames: ['Grant Vault 1', 'Grant Vault 2']
+    });
+    ```
+
+    **Or link existing:**
+    ```typescript
+    await tokuAPI('POST', 'linkExistingFireblocksCustodyWallet', {
+      vaultAccountId: 'vault-123',
+      vaultAccountName: 'Existing Vault'
+    });
+    ```
+  </Step>
+  <Step title="Allocate to grants">
+    ```typescript
+    await tokuAPI('POST', 'addCustodyAllocationsToGrant', {
+      allocations: [{
+        walletAddress: '0xvault-address...',
+        allocationAmount: 50000,
+        grantID: 'grant-uuid'
+      }]
+    });
+    ```
+  </Step>
+</Steps>
+
+---
+
+## Anchorage
+
+<Steps>
+  <Step title="Get your signer public key">
+    ```typescript
+    const { publicKey } = await tokuAPI('GET', 'getAnchorageIntegrationPublicKey');
+    // Register this key in your Anchorage account
+    ```
+  </Step>
+  <Step title="Configure integration">
+    ```typescript
+    await tokuAPI('POST', 'updateAnchorageIntegration', {
+      anchorageDigitalApiKey: 'your-anchorage-api-key',
+      anchorageDigitalGrantVaultID: 'vault-id',
+      anchorageDigitalAssetType: 'ETH',
+      anchorageNetworkID: 'network-uuid',
+      anchorageDigitalIntegrationEnabled: true
+    });
+    ```
+  </Step>
+  <Step title="List vaults">
+    ```typescript
+    const { vaults } = await tokuAPI('GET', 'getAnchorageVaults');
+    // [{ vaultId: "vault-abc", name: "Primary Vault" }]
+    ```
+  </Step>
+  <Step title="Create or link custody wallet">
+    ```typescript
+    await tokuAPI('POST', 'createAnchorageCustodyWallet', {
+      walletNames: ['Grant Wallet']
+    });
+    ```
+  </Step>
+  <Step title="Allocate to grants">
+    Same as Fireblocks — use `addCustodyAllocationsToGrant`.
+  </Step>
+</Steps>
+
+---
+
+## Safe (Gnosis Multisig)
+
+<Steps>
+  <Step title="Check integration status">
+    ```typescript
+    const safe = await tokuAPI('GET', 'getGnosisSafeIntegration');
+    // { hasIntegration: true, signerPublicKey: "0x...", connectedSafeAddress: "0x..." }
+    ```
+  </Step>
+  <Step title="Test Safe connection">
+    ```typescript
+    await tokuAPI('POST', 'testGnosisSafeConnection', {
+      safeAddress: '0xsafe-address...',
+      chainId: '1'  // Ethereum mainnet
+    });
+    ```
+    This verifies the Safe exists and Toku's proposer is registered as a delegate.
+  </Step>
+  <Step title="List Safe wallets">
+    ```typescript
+    const { safeWallets } = await tokuAPI('GET', 'getSafeWallets');
+    ```
+  </Step>
+</Steps>
+
+---
+
+## Managing Custody Wallets
+
+### List all wallets
+```typescript
+const wallets = await tokuAPI('GET', 'getAllCustodyWallets');
+```
+
+### Check wallet counts by provider
+```typescript
+const { totalCount, countsByProvider } = await tokuAPI('GET', 'getCustodyWalletCount');
+// { totalCount: 12, countsByProvider: { FIREBLOCKS: 5, ANCHORAGE: 4, SAFE: 3 } }
+```
+
+### Refresh balances
+```typescript
+await tokuAPI('POST', 'bulkUpdateCustodyWalletBalance', {
+  custodyWalletIDs: ['wallet-1', 'wallet-2']
+});
+```
+
+### View allocations for a grant
+```typescript
+const wallets = await tokuAPI('GET', 'getCustodyWalletsForGrant?grantID=grant-uuid');
+```
+
+### Update allocation amounts
+```typescript
+await tokuAPI('POST', 'updateCustodyAllocations', {
+  updates: [
+    { custodyAllocationID: 'alloc-uuid', allocationAmount: 30000 }
+  ]
+});
+```
+
+### Remove allocations
+```typescript
+await tokuAPI('POST', 'deleteCustodyAllocations', {
+  custodyAllocationIDs: ['alloc-uuid-1', 'alloc-uuid-2']
+});
+```
+
+---
+
+## Removing an Integration
+
+```typescript
+// Fireblocks
+await tokuAPI('POST', 'deleteFireblocksIntegration');
+
+// Anchorage
+await tokuAPI('POST', 'deleteAnchorageIntegration');
+
+// Safe
+await tokuAPI('POST', 'deleteGnosisSafeIntegration');
+```
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Distribution Workflow" icon="share-nodes" href="/api/guides/distribution-workflow">
+    Submit settlements through your connected provider
+  </Card>
+  <Card title="Build a Dashboard" icon="code" href="/api/guides/build-a-dashboard">
+    Complete integration guide
+  </Card>
+</CardGroup>

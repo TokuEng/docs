@@ -219,7 +219,9 @@
               "api/guides/grant-lifecycle",
               "api/guides/wallet-verification-flow",
               "api/guides/rbac-permissions",
-              "api/guides/best-practices"
+              "api/guides/best-practices",
+              "api/guides/distribution-workflow",
+              "api/guides/custody-setup"
             ]
           },
           {
@@ -236,7 +238,14 @@
               "api/endpoints/grants/terminate-employee-grants",
               "api/endpoints/grants/revert-grant-termination",
               "api/endpoints/grants/revert-employee-grant-termination",
-              "api/endpoints/grants/revert-employee-grants"
+              "api/endpoints/grants/revert-employee-grants",
+              "api/endpoints/grants/get-grant-by-id",
+              "api/endpoints/grants/get-grant-vesting-data",
+              "api/endpoints/grants/create-grant-configuration",
+              "api/endpoints/grants/update-pending-grant",
+              "api/endpoints/grants/bulk-add-grants",
+              "api/endpoints/grants/get-grant-templates",
+              "api/endpoints/grants/create-grant-template"
             ]
           },
           {
@@ -321,7 +330,12 @@
               "api/endpoints/organization/hello",
               "api/endpoints/organization/get-org-wallet-info",
               "api/endpoints/organization/update-org-token-address",
-              "api/endpoints/organization/update-test-txn-config"
+              "api/endpoints/organization/update-test-txn-config",
+              "api/endpoints/organization/send-onboarding-email",
+              "api/endpoints/organization/send-client-admin-onboarding-email",
+              "api/endpoints/organization/get-documents-admin",
+              "api/endpoints/organization/get-my-documents",
+              "api/endpoints/organization/create-document"
             ]
           },
           {

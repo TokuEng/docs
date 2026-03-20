@@ -9927,6 +9927,1560 @@
         }
       }
     },
+    "/getGrantByID": {
+      "get": {
+        "summary": "Get Grant Details",
+        "description": "Returns full details for a single grant including vesting schedule, wallet info, and configuration.",
+        "operationId": "getGrantByID",
+        "tags": [
+          "Grants"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          },
+          {
+            "name": "grantID",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Grant details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "grantID": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "grantName": {
+                      "type": "string",
+                      "example": "Q1 2026 Token Grant"
+                    },
+                    "grantDescription": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "grantAmount": {
+                      "type": "number",
+                      "example": 50000
+                    },
+                    "grantStatus": {
+                      "type": "string",
+                      "example": "ACCEPTED"
+                    },
+                    "grantAmountInFiat": {
+                      "type": "number"
+                    },
+                    "grantDate": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "vestingStartDate": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "vestingPeriods": {
+                      "type": "integer"
+                    },
+                    "vestingFrequencyType": {
+                      "type": "string"
+                    },
+                    "vestingCliffPeriods": {
+                      "type": "integer"
+                    },
+                    "vestingCliffPercentage": {
+                      "type": "number"
+                    },
+                    "recipientFullName": {
+                      "type": "string"
+                    },
+                    "externalEmployeeID": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "tags": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "terminationDate": {
+                      "type": "string",
+                      "format": "date-time",
+                      "nullable": true
+                    },
+                    "futureTerminationDate": {
+                      "type": "string",
+                      "format": "date-time",
+                      "nullable": true
+                    },
+                    "grantConfigurationName": {
+                      "type": "string"
+                    },
+                    "grantConfigurationID": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "grantWallets": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "autoVesting": {
+                      "type": "boolean"
+                    },
+                    "grantTemplateID": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getGrantVestingData": {
+      "get": {
+        "summary": "Get Grant Vesting Schedule",
+        "description": "Returns the vesting schedule with individual tranche dates, amounts, and settlement status.",
+        "operationId": "getGrantVestingData",
+        "tags": [
+          "Grants"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          },
+          {
+            "name": "grantID",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vesting schedule data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "lineChartData": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "cliff": {
+                            "type": "boolean",
+                            "example": false
+                          },
+                          "scheduleDate": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2026-02-01T00:00:00.000Z"
+                          },
+                          "tokensAmount": {
+                            "type": "number",
+                            "example": 1042
+                          },
+                          "tokensSettled": {
+                            "type": "number",
+                            "example": 1042
+                          },
+                          "tokensToBeVested": {
+                            "type": "number",
+                            "example": 0
+                          },
+                          "tokensWithheld": {
+                            "type": "number",
+                            "example": 385
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/createGrantConfiguration": {
+      "post": {
+        "summary": "Create Grant Configuration",
+        "description": "Creates a grant type template (RTU, RTA, TPA, TOKEN_BONUS) for your organization.",
+        "operationId": "createGrantConfiguration",
+        "tags": [
+          "Grants"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "kind"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Standard 4-Year RTU"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "RTU",
+                      "RTA",
+                      "TPA",
+                      "TOKEN_BONUS"
+                    ],
+                    "example": "RTU"
+                  },
+                  "grantAssetType": {
+                    "type": "string",
+                    "enum": [
+                      "TOKEN",
+                      "FIAT",
+                      "HYBRID"
+                    ],
+                    "example": "TOKEN"
+                  },
+                  "isExercisable": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "isPerformance": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "isCashCompensation": {
+                    "type": "boolean",
+                    "example": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Configuration created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "grantConfigurationID": {
+                      "type": "string",
+                      "format": "uuid",
+                      "example": "gc-0e8400-e29b-41d4-a716-446655440030"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/updatePendingGrant": {
+      "post": {
+        "summary": "Update Pending Grant",
+        "description": "Updates a grant that is still in PENDING status (not yet accepted by recipient).",
+        "operationId": "updatePendingGrant",
+        "tags": [
+          "Grants"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "grantID"
+                ],
+                "properties": {
+                  "grantID": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "grantName": {
+                    "type": "string"
+                  },
+                  "grantDescription": {
+                    "type": "string"
+                  },
+                  "grantAmount": {
+                    "type": "number"
+                  },
+                  "vestingStartDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "grantDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "vestingFrequencyType": {
+                    "type": "string",
+                    "enum": [
+                      "MONTHLY",
+                      "QUARTERLY",
+                      "ANNUALLY"
+                    ]
+                  },
+                  "vestingCliffPercentage": {
+                    "type": "number"
+                  },
+                  "vestingCliffPeriods": {
+                    "type": "number"
+                  },
+                  "vestingPeriods": {
+                    "type": "number"
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "pricePerUnit": {
+                    "type": "number"
+                  },
+                  "grantTemplateID": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Grant updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "grantID": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bulkAddGrants": {
+      "post": {
+        "summary": "Bulk Add Grants",
+        "description": "Creates multiple grants in a single request.",
+        "operationId": "bulkAddGrants",
+        "tags": [
+          "Grants"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "roleInOrgExternalID",
+                    "grantName",
+                    "grantConfigurationName",
+                    "grantAmount"
+                  ],
+                  "properties": {
+                    "roleInOrgExternalID": {
+                      "type": "integer",
+                      "description": "External ID of the recipient",
+                      "example": 12345
+                    },
+                    "grantName": {
+                      "type": "string",
+                      "example": "Q1 Grant"
+                    },
+                    "grantConfigurationName": {
+                      "type": "string",
+                      "example": "Standard RTU"
+                    },
+                    "grantConfigurationID": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "grantAmount": {
+                      "type": "number",
+                      "example": 10000
+                    },
+                    "grantAmountInFiat": {
+                      "type": "number"
+                    },
+                    "vestingStartDate": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "vestingFrequencyType": {
+                      "type": "string",
+                      "enum": [
+                        "MONTHLY",
+                        "QUARTERLY",
+                        "ANNUALLY"
+                      ]
+                    },
+                    "vestingPeriods": {
+                      "type": "number"
+                    },
+                    "vestingCliffPeriods": {
+                      "type": "number"
+                    },
+                    "vestingCliffPercentage": {
+                      "type": "number"
+                    },
+                    "grantDate": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "tags": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "pricePerUnit": {
+                      "type": "number"
+                    },
+                    "grantTemplateID": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Grants created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "description": "Array of created grant IDs"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getGrantTemplates": {
+      "get": {
+        "summary": "List Grant Templates",
+        "description": "Returns vesting schedule templates for the organization.",
+        "operationId": "getGrantTemplates",
+        "tags": [
+          "Grants"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Grant templates",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "grantTemplateID": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "templateName": {
+                        "type": "string",
+                        "example": "4-Year, 1-Year Cliff"
+                      },
+                      "templateDescription": {
+                        "type": "string"
+                      },
+                      "vestingFrequencyType": {
+                        "type": "string",
+                        "example": "MONTHLY"
+                      },
+                      "vestingItems": {
+                        "type": "array",
+                        "items": {
+                          "type": "object"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/createGrantTemplate": {
+      "post": {
+        "summary": "Create Grant Template",
+        "description": "Creates a vesting schedule template with custom tranches.",
+        "operationId": "createGrantTemplate",
+        "tags": [
+          "Grants"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "templateName",
+                  "vestingCSVContent",
+                  "vestingFrequencyType"
+                ],
+                "properties": {
+                  "templateName": {
+                    "type": "string",
+                    "example": "Custom 3-Year Quarterly"
+                  },
+                  "templateDescription": {
+                    "type": "string"
+                  },
+                  "vestingCSVContent": {
+                    "type": "string",
+                    "description": "CSV content defining vesting tranches"
+                  },
+                  "lockupCSVContent": {
+                    "type": "string"
+                  },
+                  "vestingFrequencyType": {
+                    "type": "string",
+                    "enum": [
+                      "MONTHLY",
+                      "QUARTERLY",
+                      "ANNUALLY"
+                    ]
+                  },
+                  "lockupFrequencyType": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Template created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isSuccess": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sendOnboardingEmail": {
+      "post": {
+        "summary": "Send Onboarding Email",
+        "description": "Sends an onboarding/activation email to a user.",
+        "operationId": "sendOnboardingEmail",
+        "tags": [
+          "Organization"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "userID"
+                ],
+                "properties": {
+                  "userID": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Email sent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean",
+                  "example": true
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sendClientAdminOnboardingEmail": {
+      "post": {
+        "summary": "Send Client Admin Onboarding Email",
+        "description": "Sends an onboarding email to a client admin.",
+        "operationId": "sendClientAdminOnboardingEmail",
+        "tags": [
+          "Organization"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "userID"
+                ],
+                "properties": {
+                  "userID": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Email sent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean",
+                  "example": true
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getDocumentsAdmin": {
+      "get": {
+        "summary": "List Documents (Admin)",
+        "description": "Returns all documents in the organization, optionally filtered by recipient.",
+        "operationId": "getDocumentsAdmin",
+        "tags": [
+          "Organization"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          },
+          {
+            "name": "roleInOrgID",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "includeArchivedDocuments",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Documents",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "documentID": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "documentName": {
+                        "type": "string",
+                        "example": "Grant Agreement - Jane Smith"
+                      },
+                      "documentType": {
+                        "type": "string"
+                      },
+                      "documentDescription": {
+                        "type": "string"
+                      },
+                      "fileKey": {
+                        "type": "string"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getMyDocuments": {
+      "get": {
+        "summary": "List My Documents",
+        "description": "Returns documents visible to the authenticated user.",
+        "operationId": "getMyDocuments",
+        "tags": [
+          "Organization"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User documents",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "documentID": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "documentName": {
+                        "type": "string"
+                      },
+                      "documentType": {
+                        "type": "string"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/createDocument": {
+      "post": {
+        "summary": "Create Document",
+        "description": "Creates a document record linked to a recipient and optionally a grant.",
+        "operationId": "createDocument",
+        "tags": [
+          "Organization"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "roleInOrgID",
+                  "documentType",
+                  "documentName",
+                  "fileKey"
+                ],
+                "properties": {
+                  "roleInOrgID": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "documentType": {
+                    "type": "string",
+                    "example": "GRANT_AGREEMENT"
+                  },
+                  "documentName": {
+                    "type": "string",
+                    "example": "Grant Agreement - Jane Smith"
+                  },
+                  "documentDescription": {
+                    "type": "string"
+                  },
+                  "fileKey": {
+                    "type": "string",
+                    "description": "S3 file key for the uploaded document"
+                  },
+                  "visibleToEmployee": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "visibleToClientAdmin": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "grantID": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Document created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "documentID": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/getAllCustodyWallets": {
       "get": {
         "summary": "List All Custody Wallets",
