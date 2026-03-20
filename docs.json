@@ -325,6 +325,32 @@
             ]
           },
           {
+            "group": "Distributions",
+            "pages": [
+              "api/endpoints/distributions/get-pending-schedules",
+              "api/endpoints/distributions/batch-approve-schedules",
+              "api/endpoints/distributions/revert-schedule-approval",
+              "api/endpoints/distributions/get-tax-grouping",
+              "api/endpoints/distributions/add-no-tax-details",
+              "api/endpoints/distributions/add-manual-tax-details",
+              "api/endpoints/distributions/batch-update-fmv",
+              "api/endpoints/distributions/get-tax-finalization",
+              "api/endpoints/distributions/batch-finalize-tax",
+              "api/endpoints/distributions/batch-reject-tax",
+              "api/endpoints/distributions/get-pending-settlement",
+              "api/endpoints/distributions/submit-settlement",
+              "api/endpoints/distributions/retry-settlement",
+              "api/endpoints/distributions/get-settlement-status",
+              "api/endpoints/distributions/get-all-settlements",
+              "api/endpoints/distributions/record-settlement",
+              "api/endpoints/distributions/batch-record-settlements",
+              "api/endpoints/distributions/revert-tax-details",
+              "api/endpoints/distributions/bulk-distribution-processing",
+              "api/endpoints/distributions/get-processing-count",
+              "api/endpoints/distributions/can-submit-settlement"
+            ]
+          },
+          {
             "group": "Authentication",
             "pages": [
               "api/endpoints/authentication/create-api-token",

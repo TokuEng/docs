@@ -39,6 +39,10 @@
     {
       "name": "Authentication",
       "description": "Create and manage API tokens"
+    },
+    {
+      "name": "Distributions",
+      "description": "Approve vestings, add tax details, update FMV, finalize, submit settlements, and track status"
     }
   ],
   "components": {
@@ -7522,6 +7526,2565 @@
                       "type": "string"
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getPendingSchedules": {
+      "get": {
+        "summary": "Get Pending Schedules",
+        "description": "Returns vestings, lockups, and warrant lockups pending approval.",
+        "operationId": "getPendingSchedules",
+        "tags": [
+          "Distributions"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          },
+          {
+            "name": "scheduleTypes",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-separated: VESTING,LOCKUP,WARRANT_LOCKUP"
+          },
+          {
+            "name": "lookaheadMonths",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "enum": [
+                1,
+                3,
+                6
+              ]
+            },
+            "description": "Filter by upcoming months"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pending schedules",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "pendingSchedules": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "scheduleID": {
+                            "type": "string",
+                            "format": "uuid",
+                            "example": "ee0e8400-e29b-41d4-a716-446655440010"
+                          },
+                          "scheduleType": {
+                            "type": "string",
+                            "example": "VESTING"
+                          },
+                          "grantName": {
+                            "type": "string",
+                            "example": "Q1 2026 Token Grant"
+                          },
+                          "recipientName": {
+                            "type": "string",
+                            "example": "Jane Smith"
+                          },
+                          "units": {
+                            "type": "number",
+                            "example": 2500
+                          },
+                          "vestDate": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2026-04-01T00:00:00.000Z"
+                          },
+                          "status": {
+                            "type": "string",
+                            "example": "PENDING"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getSchedulesAwaitingTaxGrouping": {
+      "get": {
+        "summary": "Get Schedules Awaiting Tax Grouping",
+        "description": "Returns approved schedules grouped by recipient, ready for tax details.",
+        "operationId": "getSchedulesAwaitingTaxGrouping",
+        "tags": [
+          "Distributions"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          },
+          {
+            "name": "scheduleTypes",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Schedules awaiting tax grouping",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "groupedSchedules": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getSchedulesAwaitingTaxFinalization": {
+      "get": {
+        "summary": "Get Schedules Awaiting Tax Finalization",
+        "description": "Returns schedules with tax details pending admin approval.",
+        "operationId": "getSchedulesAwaitingTaxFinalization",
+        "tags": [
+          "Distributions"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          },
+          {
+            "name": "scheduleTypes",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Schedules awaiting tax finalization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "taxFinalizationGroups": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getSchedulesPendingSettlement": {
+      "get": {
+        "summary": "Get Schedules Pending Settlement",
+        "description": "Returns schedules with finalized tax, ready for settlement execution.",
+        "operationId": "getSchedulesPendingSettlement",
+        "tags": [
+          "Distributions"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          },
+          {
+            "name": "scheduleTypes",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Schedules pending settlement",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "pendingSettlements": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getProcessingSchedulesCount": {
+      "get": {
+        "summary": "Get Processing Schedules Count",
+        "description": "Returns count of schedules currently being processed.",
+        "operationId": "getProcessingSchedulesCount",
+        "tags": [
+          "Distributions"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Processing counts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "type": "number",
+                      "example": 15
+                    },
+                    "byType": {
+                      "type": "object",
+                      "properties": {
+                        "vesting": {
+                          "type": "number",
+                          "example": 10
+                        },
+                        "lockup": {
+                          "type": "number",
+                          "example": 3
+                        },
+                        "warrantLockup": {
+                          "type": "number",
+                          "example": 2
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/canSubmitScheduleSettlement": {
+      "get": {
+        "summary": "Can Submit Settlement",
+        "description": "Checks if a settlement can be submitted to the custody provider.",
+        "operationId": "canSubmitScheduleSettlement",
+        "tags": [
+          "Distributions"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          },
+          {
+            "name": "taxReferenceID",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Settlement eligibility",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "allowed": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "reason": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getScheduleSettlementStatus": {
+      "get": {
+        "summary": "Get Settlement Status",
+        "description": "Returns the current settlement status for a tax reference.",
+        "operationId": "getScheduleSettlementStatus",
+        "tags": [
+          "Distributions"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          },
+          {
+            "name": "taxReferenceID",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Settlement status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "hasTransaction": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "COMPLETED"
+                    },
+                    "canSubmit": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "canRetry": {
+                      "type": "boolean",
+                      "example": false
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getAllSettlementsForOrg": {
+      "get": {
+        "summary": "Get All Settlements",
+        "description": "Returns paginated settlement history for the organization.",
+        "operationId": "getAllSettlementsForOrg",
+        "tags": [
+          "Distributions"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          },
+          {
+            "name": "statusFilter",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "completed",
+                "all"
+              ]
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "example": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Settlement history",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "settlements": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "total": {
+                      "type": "number",
+                      "example": 150
+                    },
+                    "page": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "number",
+                      "example": 50
+                    },
+                    "hasMore": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/batchApproveSchedules": {
+      "post": {
+        "summary": "Batch Approve Schedules",
+        "description": "Approves a batch of pending vestings, lockups, or warrant lockups.",
+        "operationId": "batchApproveSchedules",
+        "tags": [
+          "Distributions"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "scheduleIDs",
+                  "scheduleType"
+                ],
+                "properties": {
+                  "scheduleIDs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "example": [
+                      "ee0e8400-e29b-41d4-a716-446655440010"
+                    ]
+                  },
+                  "scheduleType": {
+                    "type": "string",
+                    "enum": [
+                      "VESTING",
+                      "LOCKUP",
+                      "WARRANT_LOCKUP"
+                    ],
+                    "example": "VESTING"
+                  },
+                  "performanceFactor": {
+                    "type": "number",
+                    "description": "Multiplier for performance-based grants",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Schedules approved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/revertScheduleApproval": {
+      "post": {
+        "summary": "Revert Schedule Approval",
+        "description": "Reverts approved schedules back to pending status.",
+        "operationId": "revertScheduleApproval",
+        "tags": [
+          "Distributions"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "scheduleIDs",
+                  "scheduleType"
+                ],
+                "properties": {
+                  "scheduleIDs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  },
+                  "scheduleType": {
+                    "type": "string",
+                    "enum": [
+                      "VESTING",
+                      "LOCKUP",
+                      "WARRANT_LOCKUP"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Approval reverted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/addNoTaxDetails": {
+      "post": {
+        "summary": "Add No-Tax Details",
+        "description": "Marks schedules as tax-exempt with FMV tracking only.",
+        "operationId": "addNoTaxDetails",
+        "tags": [
+          "Distributions"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "scheduleIDs",
+                  "scheduleType",
+                  "taxCurrencyCode",
+                  "fmvPerUnit"
+                ],
+                "properties": {
+                  "scheduleIDs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  },
+                  "scheduleType": {
+                    "type": "string",
+                    "enum": [
+                      "VESTING",
+                      "LOCKUP",
+                      "WARRANT_LOCKUP"
+                    ],
+                    "example": "VESTING"
+                  },
+                  "taxCurrencyCode": {
+                    "type": "string",
+                    "example": "USD"
+                  },
+                  "fmvPerUnit": {
+                    "type": "number",
+                    "description": "Fair market value per token unit",
+                    "example": 0.5
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tax details added",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "taxReferenceIDs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    },
+                    "recipientCount": {
+                      "type": "number",
+                      "example": 5
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/addManualTaxDetails": {
+      "post": {
+        "summary": "Add Manual Tax Details",
+        "description": "Adds manual tax withholding details to approved schedules.",
+        "operationId": "addManualTaxDetails",
+        "tags": [
+          "Distributions"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "scheduleIDs",
+                  "scheduleType",
+                  "taxCurrencyCode",
+                  "fmvPerUnit",
+                  "withholdingPercentage"
+                ],
+                "properties": {
+                  "scheduleIDs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  },
+                  "scheduleType": {
+                    "type": "string",
+                    "enum": [
+                      "VESTING",
+                      "LOCKUP",
+                      "WARRANT_LOCKUP"
+                    ],
+                    "example": "VESTING"
+                  },
+                  "taxCurrencyCode": {
+                    "type": "string",
+                    "example": "USD"
+                  },
+                  "fmvPerUnit": {
+                    "type": "number",
+                    "description": "Fair market value per token unit",
+                    "example": 0.5
+                  },
+                  "withholdingPercentage": {
+                    "type": "number",
+                    "description": "Tax withholding rate (0-100)",
+                    "example": 37
+                  },
+                  "totalValueInTaxCurrency": {
+                    "type": "number",
+                    "description": "Override total taxable value"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tax details added",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "taxReferenceIDs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    },
+                    "recipientCount": {
+                      "type": "number",
+                      "example": 5
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/batchUpdateFMV": {
+      "post": {
+        "summary": "Batch Update FMV",
+        "description": "Updates fair market value for tax references before finalization.",
+        "operationId": "batchUpdateFMV",
+        "tags": [
+          "Distributions"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "taxReferenceIDs",
+                  "scheduleType",
+                  "newFmv"
+                ],
+                "properties": {
+                  "taxReferenceIDs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  },
+                  "scheduleType": {
+                    "type": "string",
+                    "enum": [
+                      "VESTING",
+                      "LOCKUP",
+                      "WARRANT_LOCKUP"
+                    ],
+                    "example": "VESTING"
+                  },
+                  "newFmv": {
+                    "type": "number",
+                    "description": "New FMV per unit",
+                    "example": 0.55
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "FMV updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/batchFinalizeTaxDetails": {
+      "post": {
+        "summary": "Finalize Tax Details",
+        "description": "Approves and finalizes tax details, moving schedules to ready-for-settlement.",
+        "operationId": "batchFinalizeTaxDetails",
+        "tags": [
+          "Distributions"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "taxReferenceIDs",
+                  "scheduleType"
+                ],
+                "properties": {
+                  "taxReferenceIDs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  },
+                  "scheduleType": {
+                    "type": "string",
+                    "enum": [
+                      "VESTING",
+                      "LOCKUP",
+                      "WARRANT_LOCKUP"
+                    ],
+                    "example": "VESTING"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tax details finalized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/batchRejectTaxDetails": {
+      "post": {
+        "summary": "Reject Tax Details",
+        "description": "Rejects tax details, returning schedules to tax grouping stage.",
+        "operationId": "batchRejectTaxDetails",
+        "tags": [
+          "Distributions"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "taxReferenceIDs",
+                  "scheduleType"
+                ],
+                "properties": {
+                  "taxReferenceIDs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  },
+                  "scheduleType": {
+                    "type": "string",
+                    "enum": [
+                      "VESTING",
+                      "LOCKUP",
+                      "WARRANT_LOCKUP"
+                    ]
+                  },
+                  "reason": {
+                    "type": "string",
+                    "description": "Rejection reason"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tax details rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/submitScheduleSettlement": {
+      "post": {
+        "summary": "Submit Settlement to Custody",
+        "description": "Submits a settlement to your custody provider (Fireblocks or Anchorage) for on-chain execution.",
+        "operationId": "submitScheduleSettlement",
+        "tags": [
+          "Distributions"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "taxReferenceID",
+                  "providerName"
+                ],
+                "properties": {
+                  "taxReferenceID": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "ff0e8400-e29b-41d4-a716-446655440011"
+                  },
+                  "providerName": {
+                    "type": "string",
+                    "enum": [
+                      "FIREBLOCKS",
+                      "ANCHORAGE"
+                    ],
+                    "example": "FIREBLOCKS"
+                  },
+                  "custodyWalletID": {
+                    "type": "string",
+                    "description": "Specific custody wallet to use"
+                  },
+                  "unitsOverride": {
+                    "type": "string",
+                    "description": "Override settlement units"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Settlement submitted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "transactionID": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "providerName": {
+                      "type": "string",
+                      "example": "FIREBLOCKS"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/retryScheduleSettlement": {
+      "post": {
+        "summary": "Retry Failed Settlement",
+        "description": "Retries a failed settlement with the same custody provider.",
+        "operationId": "retryScheduleSettlement",
+        "tags": [
+          "Distributions"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "taxReferenceID"
+                ],
+                "properties": {
+                  "taxReferenceID": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Settlement retried",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "transactionID": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "providerName": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/settleTaxReference": {
+      "post": {
+        "summary": "Record Settlement",
+        "description": "Records a completed on-chain settlement with transaction hash.",
+        "operationId": "settleTaxReference",
+        "tags": [
+          "Distributions"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "taxReferenceID",
+                  "scheduleType",
+                  "settlementDate"
+                ],
+                "properties": {
+                  "taxReferenceID": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "scheduleType": {
+                    "type": "string",
+                    "enum": [
+                      "VESTING",
+                      "LOCKUP",
+                      "WARRANT_LOCKUP"
+                    ],
+                    "example": "VESTING"
+                  },
+                  "settlementDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2026-04-15T00:00:00.000Z"
+                  },
+                  "transactionHash": {
+                    "type": "string",
+                    "example": "0xabc123..."
+                  },
+                  "transactionLink": {
+                    "type": "string",
+                    "example": "https://etherscan.io/tx/0xabc123..."
+                  },
+                  "walletAddress": {
+                    "type": "string"
+                  },
+                  "tokenNetwork": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Settlement recorded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/batchSettleSchedules": {
+      "post": {
+        "summary": "Batch Record Settlements",
+        "description": "Records multiple completed settlements in one call.",
+        "operationId": "batchSettleSchedules",
+        "tags": [
+          "Distributions"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "settlements",
+                  "scheduleType"
+                ],
+                "properties": {
+                  "settlements": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "taxReferenceID": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "settlementDate": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "transactionHash": {
+                          "type": "string"
+                        },
+                        "transactionLink": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "scheduleType": {
+                    "type": "string",
+                    "enum": [
+                      "VESTING",
+                      "LOCKUP",
+                      "WARRANT_LOCKUP"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Settlements recorded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/revertTaxDetails": {
+      "post": {
+        "summary": "Revert Tax Details",
+        "description": "Reverts finalized tax details back to tax grouping stage.",
+        "operationId": "revertTaxDetails",
+        "tags": [
+          "Distributions"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "taxReferenceIDs",
+                  "scheduleType"
+                ],
+                "properties": {
+                  "taxReferenceIDs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  },
+                  "scheduleType": {
+                    "type": "string",
+                    "enum": [
+                      "VESTING",
+                      "LOCKUP",
+                      "WARRANT_LOCKUP"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tax details reverted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bulkDistributionProcessing": {
+      "post": {
+        "summary": "Bulk Distribution Processing",
+        "description": "Process multiple schedules with per-schedule tax method (NO_TAX or MANUAL_TAX).",
+        "operationId": "bulkDistributionProcessing",
+        "tags": [
+          "Distributions"
+        ],
+        "parameters": [
+          {
+            "name": "x-role-type",
+            "in": "header",
+            "required": true,
+            "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLIENT_ORG_ADMIN",
+                "PAYROLL_ADMIN",
+                "FINANCE_ADMIN",
+                "TOKU_ADMIN"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "items"
+                ],
+                "properties": {
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "scheduleID",
+                        "scheduleType",
+                        "taxMethod",
+                        "fmvPerUnit"
+                      ],
+                      "properties": {
+                        "scheduleID": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "scheduleType": {
+                          "type": "string",
+                          "enum": [
+                            "VESTING",
+                            "LOCKUP",
+                            "WARRANT_LOCKUP"
+                          ]
+                        },
+                        "taxMethod": {
+                          "type": "string",
+                          "enum": [
+                            "NO_TAX",
+                            "MANUAL_TAX"
+                          ],
+                          "example": "NO_TAX"
+                        },
+                        "fmvPerUnit": {
+                          "type": "number",
+                          "example": 0.5
+                        },
+                        "taxRate": {
+                          "type": "number",
+                          "description": "Required for MANUAL_TAX",
+                          "example": 37
+                        },
+                        "taxCurrencyCode": {
+                          "type": "string",
+                          "example": "USD"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Distribution processed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "processedCount": {
+                      "type": "number",
+                      "example": 10
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "scheduleID": {
+                            "type": "string"
+                          },
+                          "success": {
+                            "type": "boolean"
+                          },
+                          "error": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed — token missing, invalid, or expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller does not have the required role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded (100 req/min per IP)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
