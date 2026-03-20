@@ -72,20 +72,24 @@
           "grantID": {
             "type": "string",
             "format": "uuid",
-            "description": "Unique identifier"
+            "description": "Unique identifier",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
           },
           "grantName": {
             "type": "string",
-            "description": "Human-readable name"
+            "description": "Human-readable name",
+            "example": "Q1 2026 Token Grant - Jane Smith"
           },
           "externalEmployeeID": {
             "type": "string",
             "nullable": true,
-            "description": "External HRIS identifier"
+            "description": "External HRIS identifier",
+            "example": "EMP-001"
           },
           "grantAmount": {
             "type": "number",
-            "description": "Total token units (0 for fiat grants)"
+            "description": "Total token units (0 for fiat grants)",
+            "example": 50000
           },
           "grantStatus": {
             "type": "string",
@@ -97,22 +101,27 @@
               "TERMINATED",
               "PAUSED",
               "MARKED_FOR_FUTURE_TERMINATION"
-            ]
+            ],
+            "example": "ACCEPTED"
           },
           "grantAmountInFiat": {
             "type": "number",
-            "description": "Fiat value of the grant"
+            "description": "Fiat value of the grant",
+            "example": 25000
           },
           "grantConfigurationName": {
             "type": "string",
-            "description": "Template name"
+            "description": "Template name",
+            "example": "Standard 4-Year RTU"
           },
           "vestingStartDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "example": "2026-01-01T00:00:00.000Z"
           },
           "vestingPeriods": {
-            "type": "integer"
+            "type": "integer",
+            "example": 48
           },
           "vestingFrequencyType": {
             "type": "string",
@@ -120,44 +129,58 @@
               "MONTHLY",
               "QUARTERLY",
               "ANNUALLY"
-            ]
+            ],
+            "example": "MONTHLY"
           },
           "vestingCliffPeriods": {
-            "type": "integer"
+            "type": "integer",
+            "example": 12
           },
           "vestingCliffPercentage": {
-            "type": "number"
+            "type": "number",
+            "example": 25
           },
           "percentageOfUnitsVested": {
             "type": "number",
-            "description": "Percentage vested to date"
+            "description": "Percentage vested to date",
+            "example": 16.67
           },
           "recipientFullName": {
-            "type": "string"
+            "type": "string",
+            "example": "Jane Smith"
           },
           "grantDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "example": "2025-12-15T00:00:00.000Z"
           },
           "tags": {
             "type": "array",
             "items": {
               "type": "string"
-            }
+            },
+            "example": [
+              "engineering",
+              "2026"
+            ]
           },
           "roleInOrgID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "example": "660e8400-e29b-41d4-a716-446655440001"
           },
           "roleInOrgExternalID": {
-            "type": "integer"
+            "type": "integer",
+            "example": 12345
           },
           "hasGrantDocuments": {
-            "type": "boolean"
+            "type": "boolean",
+            "example": false
           },
           "createdAt": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "example": "2025-12-15T10:30:00.000Z"
           }
         }
       },
@@ -166,74 +189,93 @@
         "properties": {
           "grantID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
           },
           "grantName": {
-            "type": "string"
+            "type": "string",
+            "example": "Q1 2026 Token Grant"
           },
           "grantDescription": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "example": "Annual token compensation"
           },
           "grantStatus": {
-            "type": "string"
+            "type": "string",
+            "example": "ACCEPTED"
           },
           "grantAmount": {
-            "type": "number"
+            "type": "number",
+            "example": 50000
           },
           "grantAmountInFiat": {
             "type": "number",
-            "nullable": true
+            "nullable": true,
+            "example": 25000
           },
           "pricePerUnit": {
             "type": "number",
-            "nullable": true
+            "nullable": true,
+            "example": 0.5
           },
           "pricePerUnitCurrencyCode": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "example": "USD"
           },
           "grantDate": {
             "type": "string",
             "format": "date-time",
-            "nullable": true
+            "nullable": true,
+            "example": "2025-12-15T00:00:00.000Z"
           },
           "vestingStartDate": {
             "type": "string",
             "format": "date-time",
-            "nullable": true
+            "nullable": true,
+            "example": "2026-01-01T00:00:00.000Z"
           },
           "vestingFrequencyType": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "example": "MONTHLY"
           },
           "vestingCliffPercentage": {
             "type": "number",
-            "nullable": true
+            "nullable": true,
+            "example": 25
           },
           "vestingCliffPeriods": {
             "type": "integer",
-            "nullable": true
+            "nullable": true,
+            "example": 12
           },
           "vestingPeriods": {
             "type": "number",
-            "nullable": true
+            "nullable": true,
+            "example": 48
           },
           "terminationDate": {
             "type": "string",
             "format": "date-time",
-            "nullable": true
+            "nullable": true,
+            "example": null
           },
           "futureTerminationDate": {
             "type": "string",
             "format": "date-time",
-            "nullable": true
+            "nullable": true,
+            "example": null
           },
           "tags": {
             "type": "array",
             "items": {
               "type": "string"
-            }
+            },
+            "example": [
+              "engineering"
+            ]
           }
         }
       },
@@ -242,16 +284,20 @@
         "properties": {
           "walletID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "example": "770e8400-e29b-41d4-a716-446655440002"
           },
           "walletAddress": {
-            "type": "string"
+            "type": "string",
+            "example": "0x1234567890abcdef1234567890abcdef12345678"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "example": "Primary ETH Wallet"
           },
           "network": {
-            "type": "string"
+            "type": "string",
+            "example": "Ethereum"
           },
           "status": {
             "type": "string",
@@ -261,23 +307,28 @@
               "ARCHIVED",
               "CANCELLED",
               "REJECTED"
-            ]
+            ],
+            "example": "CURRENT"
           },
           "nickName": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "example": "My Ledger"
           },
           "roleInOrgID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "example": "660e8400-e29b-41d4-a716-446655440001"
           },
           "orgNetworkID": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "example": "880e8400-e29b-41d4-a716-446655440003"
           },
           "tokenTypeID": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "example": "990e8400-e29b-41d4-a716-446655440004"
           }
         }
       },
@@ -286,39 +337,48 @@
         "properties": {
           "roleInOrgID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "example": "660e8400-e29b-41d4-a716-446655440001"
           },
           "orgID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "example": "aa0e8400-e29b-41d4-a716-446655440005"
           },
           "personID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "example": "bb0e8400-e29b-41d4-a716-446655440006"
           },
           "role": {
-            "type": "string"
+            "type": "string",
+            "example": "RECIPIENT"
           },
           "externalEmployeeID": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "example": "EMP-001"
           },
           "payrollEmployeeID": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "example": "PAY-12345"
           },
           "country": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "example": "US"
           },
           "employmentType": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "example": "FULL_TIME"
           },
           "revokedAt": {
             "type": "string",
             "format": "date-time",
-            "nullable": true
+            "nullable": true,
+            "example": null
           }
         }
       },
@@ -327,17 +387,21 @@
         "properties": {
           "tokenTypeID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "example": "990e8400-e29b-41d4-a716-446655440004"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "example": "USDC"
           },
           "currencyCode": {
-            "type": "string"
+            "type": "string",
+            "example": "USDC"
           },
           "isTokenEnabled": {
             "type": "boolean",
-            "nullable": true
+            "nullable": true,
+            "example": true
           }
         }
       },
@@ -346,21 +410,26 @@
         "properties": {
           "networkID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "example": "880e8400-e29b-41d4-a716-446655440003"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "example": "Ethereum"
           },
           "icon": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "example": "ethereum.svg"
           },
           "tokenType": {
-            "type": "string"
+            "type": "string",
+            "example": "EVM"
           },
           "isNetworkEnabled": {
             "type": "boolean",
-            "nullable": true
+            "nullable": true,
+            "example": true
           }
         }
       },
@@ -369,15 +438,77 @@
         "properties": {
           "token": {
             "type": "string",
-            "description": "The API token value. Store securely — cannot be retrieved again."
+            "description": "The API token value. Store securely — cannot be retrieved again.",
+            "example": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"
           },
           "personalTokenID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "example": "cc0e8400-e29b-41d4-a716-446655440007"
           },
           "expiresAt": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "example": "2026-04-20T00:00:00.000Z"
+          }
+        }
+      },
+      "WalletReference": {
+        "type": "object",
+        "description": "Links a wallet to a grant with a distribution ratio",
+        "properties": {
+          "walletReferenceID": {
+            "type": "string",
+            "format": "uuid",
+            "example": "dd0e8400-e29b-41d4-a716-446655440008"
+          },
+          "walletID": {
+            "type": "string",
+            "format": "uuid",
+            "example": "770e8400-e29b-41d4-a716-446655440002"
+          },
+          "grantID": {
+            "type": "string",
+            "format": "uuid",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "distRatio": {
+            "type": "number",
+            "description": "Distribution ratio (0-1)",
+            "example": 1
+          },
+          "wallet": {
+            "$ref": "#/components/schemas/Wallet"
+          },
+          "roleInOrg": {
+            "type": "object",
+            "properties": {
+              "roleInOrgID": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "personID": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          }
+        }
+      },
+      "WalletTypeCustom": {
+        "type": "object",
+        "properties": {
+          "walletTypeCustomID": {
+            "type": "string",
+            "example": "hot-wallet"
+          },
+          "name": {
+            "type": "string",
+            "example": "Hot Wallet"
+          },
+          "orgID": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       }
@@ -403,6 +534,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -485,6 +617,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -583,6 +716,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -681,6 +815,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -779,6 +914,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -936,6 +1072,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -1114,6 +1251,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -1221,6 +1359,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -1363,6 +1502,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -1488,6 +1628,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -1586,6 +1727,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -1693,6 +1835,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -1815,6 +1958,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -1897,6 +2041,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -1981,6 +2126,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -2071,6 +2217,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -2153,6 +2300,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -2243,6 +2391,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -2334,6 +2483,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -2425,6 +2575,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -2507,6 +2658,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -2597,6 +2749,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -2692,6 +2845,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -2774,6 +2928,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -2864,6 +3019,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -2946,6 +3102,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -3028,6 +3185,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -3063,7 +3221,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "type": "object"
+                    "$ref": "#/components/schemas/WalletReference"
                   }
                 }
               }
@@ -3126,6 +3284,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -3163,7 +3322,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "type": "object"
+                    "$ref": "#/components/schemas/WalletReference"
                   }
                 }
               }
@@ -3226,6 +3385,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -3357,6 +3517,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -3489,6 +3650,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -3598,6 +3760,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -3704,6 +3867,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -3807,6 +3971,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -3914,6 +4079,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -4020,6 +4186,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -4123,6 +4290,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -4226,6 +4394,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -4360,6 +4529,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -4468,6 +4638,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -4571,6 +4742,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -4685,6 +4857,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -4721,7 +4894,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
                 }
               }
             }
@@ -4783,6 +4962,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -4892,6 +5072,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -5018,6 +5199,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -5149,6 +5331,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -5245,6 +5428,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -5378,6 +5562,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -5500,6 +5685,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -5661,6 +5847,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -5749,6 +5936,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -5837,6 +6025,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -5951,6 +6140,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -6039,6 +6229,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -6148,6 +6339,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -6183,7 +6375,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/WalletTypeCustom"
                 }
               }
             }
@@ -6245,6 +6437,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -6343,6 +6536,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -6519,6 +6713,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -6624,6 +6819,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -6725,6 +6921,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -6832,6 +7029,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -6889,7 +7087,21 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "type": "object",
+                  "properties": {
+                    "networkID": {
+                      "type": "string",
+                      "format": "uuid",
+                      "example": "880e8400-e29b-41d4-a716-446655440003"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Ethereum"
+                    },
+                    "testTransactionConfiguration": {
+                      "type": "object"
+                    }
+                  }
                 }
               }
             }
@@ -6951,6 +7163,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -7068,6 +7281,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -7181,6 +7395,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [
@@ -7283,6 +7498,7 @@
             "in": "header",
             "required": true,
             "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+            "example": "CLIENT_ORG_ADMIN",
             "schema": {
               "type": "string",
               "enum": [

@@ -209,6 +209,16 @@
             ]
           },
           {
+            "group": "Guides",
+            "pages": [
+              "api/guides/build-a-dashboard",
+              "api/guides/grant-lifecycle",
+              "api/guides/wallet-verification-flow",
+              "api/guides/rbac-permissions",
+              "api/guides/best-practices"
+            ]
+          },
+          {
             "group": "Grants",
             "pages": [
               {

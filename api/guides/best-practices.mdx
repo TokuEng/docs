@@ -1,0 +1,176 @@
+---
+title: "Integration Best Practices"
+sidebarTitle: "Best Practices"
+description: "Rate limiting, caching, error handling, and polling strategies"
+---
+
+## No Pagination
+
+List endpoints (`listGrants`, `getAllWallets`, etc.) return **all results** in a single response. There are no `limit`, `offset`, or cursor parameters.
+
+**Implications:**
+- Cache responses locally and refresh periodically
+- Don't call list endpoints on every page load in your UI
+- For large organizations (1000+ grants), responses may be several MB
+
+```typescript
+// Good: cache and refresh every 5 minutes
+let grantCache = [];
+let lastFetch = 0;
+
+async function getGrants() {
+  if (Date.now() - lastFetch > 5 * 60 * 1000) {
+    grantCache = await tokuAPI('GET', 'listGrants');
+    lastFetch = Date.now();
+  }
+  return grantCache;
+}
+```
+
+---
+
+## Rate Limiting
+
+The API enforces **100 requests per minute** per IP address.
+
+**Strategy:**
+- Batch operations where possible (`batchUpdateRoleInOrg`, `bulkUploadMultipleWallets`, `processBulkTestTransactions`)
+- Space out polling intervals (5-15 minutes, not seconds)
+- Implement exponential backoff on `429` responses
+
+```typescript
+async function tokuAPIWithRetry(method: string, endpoint: string, body?: any, retries = 3) {
+  for (let attempt = 0; attempt < retries; attempt++) {
+    const res = await fetch(`${TOKU_BASE_URL}/${endpoint}`, {
+      method, headers, body: body ? JSON.stringify(body) : undefined
+    });
+
+    if (res.status === 429) {
+      const waitMs = Math.pow(2, attempt) * 1000; // 1s, 2s, 4s
+      await new Promise(r => setTimeout(r, waitMs));
+      continue;
+    }
+
+    if (res.status >= 500) {
+      const waitMs = Math.pow(2, attempt) * 2000;
+      await new Promise(r => setTimeout(r, waitMs));
+      continue;
+    }
+
+    return res.json();
+  }
+  throw new Error('Max retries exceeded');
+}
+```
+
+---
+
+## Token Refresh
+
+API tokens expire after **30 days**. After refresh, the old token has a **7-day grace period**.
+
+```typescript
+// Refresh before expiry
+const { personalToken } = await tokuAPI('POST', 'refreshUserApiToken', {
+  email: 'admin@company.com',
+  orgID: 'your-org-id',
+  roleInOrgID: 'your-role-in-org-id'
+});
+
+// Store the new token
+const newToken = personalToken.token;
+const expiresAt = personalToken.expiresAt;
+```
+
+<Tip>
+Set a calendar reminder or cron job to refresh 7 days before expiry. The old token continues working for 7 days after refresh, so there's no downtime during rotation.
+</Tip>
+
+---
+
+## Error Handling
+
+### Don't retry these (fix the request):
+- `400` Bad Request — invalid parameters
+- `401` Unauthorized — token expired or invalid
+- `403` Forbidden — wrong role for this endpoint
+- `404` Not Found — resource doesn't exist
+
+### Retry these (with backoff):
+- `429` Too Many Requests — rate limited
+- `500` Internal Server Error — transient failure
+
+### Common error patterns:
+
+```typescript
+try {
+  await tokuAPI('POST', 'terminateGrant', { grantID, terminationDate });
+} catch (err) {
+  if (err.message.includes('already terminated')) {
+    // Grant was already terminated — idempotent, safe to ignore
+  } else if (err.message.includes('not found')) {
+    // Grant doesn't exist — check your grantID
+  } else {
+    throw err; // Unexpected error
+  }
+}
+```
+
+---
+
+## Idempotency
+
+| Operation | Idempotent? | Notes |
+|-----------|-------------|-------|
+| `listGrants`, `getAllWallets`, etc. | Yes | GET requests are always safe to retry |
+| `terminateGrant` | Partially | Terminating an already-terminated grant returns an error but causes no harm |
+| `addSingleGrant` | No | Creates a new grant each time — use unique names to detect duplicates |
+| `createUserRoleInOrg` | No | Creating a user with an existing email may fail or create duplicates |
+| `approveWalletRequest` | Partially | Approving an already-approved wallet returns an error |
+
+---
+
+## Polling Strategy
+
+Without webhooks, poll for changes at appropriate intervals:
+
+| Data | Endpoint | Interval | Reason |
+|------|----------|----------|--------|
+| Grant status | `listGrants` | 5 min | Vesting events happen on schedule |
+| Wallet verification | `getPendingWalletRequests` | 2 min | Users may confirm quickly |
+| Wallet test txns | `getTestTxnApprovalPendingWallets` | 2 min | Time-sensitive approval |
+| Org configuration | `getOrgWalletInfo` | 30 min | Rarely changes |
+| Networks/tokens | `getNetworksNew` | 1 hour | Rarely changes |
+
+---
+
+## External Employee ID
+
+Always set `externalEmployeeID` when creating recipients. This is your primary key for correlating Toku data with your HRIS:
+
+```typescript
+// Create with external ID
+await tokuAPI('POST', 'createUserRoleInOrg', {
+  email: 'jane@company.com',
+  givenName: 'Jane',
+  familyName: 'Smith',
+  externalEmployeeID: 'EMP-001'  // Your system's ID
+});
+
+// Later, look up by external ID
+const grants = await tokuAPI('GET',
+  'getEmployeeGrants?externalEmployeeID=EMP-001'
+);
+
+// Terminate by external ID
+await tokuAPI('POST', 'terminateEmployeeGrants', {
+  externalEmployeeID: 'EMP-001',
+  terminationDate: '2026-06-30T00:00:00.000Z'
+});
+```
+
+---
+
+## Multi-Organization
+
+Each API token is scoped to **one organization**. If you manage multiple orgs, you need a separate token for each. Token scoping is enforced server-side — a token for Org A cannot access Org B's data.

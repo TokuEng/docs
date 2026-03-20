@@ -1,0 +1,444 @@
+---
+title: "Build a Token Grant Dashboard"
+sidebarTitle: "Build a Dashboard"
+description: "End-to-end guide: integrate with Toku to build your own token grant management dashboard"
+---
+
+## Overview
+
+This guide walks you through building a complete token grant management integration with the Toku API. By the end, you'll have everything needed to:
+
+- Onboard recipients and assign roles
+- Create and manage token grants with vesting schedules
+- Set up and verify recipient wallets
+- Configure token distributions
+- Handle terminations and reversals
+- Monitor vesting progress
+
+## Prerequisites
+
+- A Toku organization with `CLIENT_ORG_ADMIN` access
+- A [personal API token](/api/authentication)
+- Your organization's `orgID` (found in **Settings** → **Organization ID**)
+
+## Base Setup
+
+Every request needs these headers:
+
+```typescript
+const TOKU_BASE_URL = 'https://app.toku.com/api/tokuApi/v1';
+const API_TOKEN = 'your-api-token-here';
+
+const headers = {
+  'Authorization': `Bearer ${API_TOKEN}`,
+  'x-role-type': 'CLIENT_ORG_ADMIN',
+  'Content-Type': 'application/json'
+};
+
+async function tokuAPI(method: string, endpoint: string, body?: any) {
+  const res = await fetch(`${TOKU_BASE_URL}/${endpoint}`, {
+    method,
+    headers,
+    body: body ? JSON.stringify(body) : undefined
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(`${res.status}: ${error.error} - ${error.details}`);
+  }
+  return res.json();
+}
+```
+
+---
+
+## Step 1: Verify Your Connection
+
+```typescript
+const hello = await tokuAPI('GET', 'hello');
+console.log(hello.message); // "Hello World"
+```
+
+```bash
+curl https://app.toku.com/api/tokuApi/v1/hello \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "x-role-type: CLIENT_ORG_ADMIN"
+```
+
+---
+
+## Step 2: Get Your Organization Info
+
+```typescript
+const orgInfo = await tokuAPI('GET', 'getOrgWalletInfo');
+console.log(orgInfo);
+// {
+//   orgID: "aa0e8400-...",
+//   orgName: "Acme Corp",
+//   isMfaEnabled: true,
+//   automatedTestTransactionsEnabled: true,
+//   tokenId: "ETH"
+// }
+```
+
+---
+
+## Step 3: Configure Networks & Tokens
+
+Check what networks and tokens are available:
+
+```typescript
+// Get configured networks
+const { networks } = await tokuAPI('GET', 'getNetworksNew');
+// [{ networkID: "...", name: "Ethereum", tokenTypes: [...] }]
+
+// Get configured token types
+const { tokenTypes } = await tokuAPI('GET', 'getTokenTypesNew');
+// [{ tokenTypeID: "...", name: "USDC", currencyCode: "USDC" }]
+```
+
+If you need to set your token contract address:
+
+```typescript
+await tokuAPI('POST', 'updateOrgTokenAddress', {
+  orgID: 'your-org-id',
+  tokenAddress: '0x1234...your-token-contract'
+});
+```
+
+---
+
+## Step 4: Add Recipients
+
+Create users who will receive grants:
+
+```typescript
+// Add a single recipient
+const recipient = await tokuAPI('POST', 'createUserRoleInOrg', {
+  email: 'jane.smith@company.com',
+  givenName: 'Jane',
+  familyName: 'Smith',
+  externalEmployeeID: 'EMP-001',  // Your HRIS ID
+  country: 'US',
+  employmentType: 'FULL_TIME'
+});
+
+console.log(recipient.roleInOrgID);
+// "660e8400-..." — save this, you'll need it for grants and wallets
+```
+
+```bash
+curl -X POST https://app.toku.com/api/tokuApi/v1/createUserRoleInOrg \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "x-role-type: CLIENT_ORG_ADMIN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "jane.smith@company.com",
+    "givenName": "Jane",
+    "familyName": "Smith",
+    "externalEmployeeID": "EMP-001",
+    "country": "US"
+  }'
+```
+
+For bulk onboarding, use batch updates:
+
+```typescript
+const result = await tokuAPI('PUT', 'batchUpdateRoleInOrg', {
+  updates: [
+    { employeeID: 'EMP-001', givenName: 'Jane', familyName: 'Smith' },
+    { employeeID: 'EMP-002', givenName: 'Bob', familyName: 'Jones' }
+  ]
+});
+// { updated: 2, failed: 0, results: [...] }
+```
+
+---
+
+## Step 5: Get Grant Configurations
+
+Before creating grants, you need a grant configuration (template):
+
+```typescript
+const configs = await tokuAPI('GET', 'listGrantConfigurations');
+// [{ grantConfigurationID: "...", grantConfigurationName: "Standard RTU" }]
+
+const configID = configs[0].grantConfigurationID;
+```
+
+<Tip>
+Grant configurations define the grant type (RTU, RTA, TPA, TOKEN_BONUS) and signing requirements. Create them in the [TGA dashboard](/tga/client/grant-configurations) first.
+</Tip>
+
+---
+
+## Step 6: Create Grants
+
+### Single Grant
+
+```typescript
+const grant = await tokuAPI('POST', 'addSingleGrant', {
+  grantName: 'Q1 2026 Token Grant - Jane Smith',
+  grantConfigurationID: configID,
+  grantAmount: 50000,
+  recipientID: recipient.roleInOrgID,
+  vestingStartDate: '2026-01-01T00:00:00.000Z',
+  vestingFrequencyType: 'MONTHLY',
+  vestingPeriods: 48,
+  vestingCliffPeriods: 12,
+  vestingCliffPercentage: 25,
+  tags: ['engineering', '2026']
+});
+
+console.log(grant.grantID);
+```
+
+### New Hire Grant (creates user + grant in one call)
+
+```typescript
+const newHireGrant = await tokuAPI('POST', 'createGrantForNewHire', {
+  email: 'new.hire@company.com',
+  givenName: 'New',
+  familyName: 'Hire',
+  employmentType: 'FULL_TIME',
+  grantName: 'New Hire Grant',
+  grantDescription: 'Signing bonus',
+  grantConfigurationID: configID,
+  grantAmount: 10000,
+  vestingStartDate: '2026-04-01T00:00:00.000Z',
+  vestingFrequencyType: 'MONTHLY',
+  vestingPeriods: 48,
+  vestingCliffPeriods: 12,
+  vestingCliffPercentage: 25,
+  lockup: 0,
+  offPlatformDate: '2030-04-01T00:00:00.000Z',
+  tags: ['new-hire']
+});
+```
+
+---
+
+## Step 7: Monitor Grants
+
+### List all grants
+
+```typescript
+const grants = await tokuAPI('GET', 'listGrants');
+
+// Filter by status
+const activeGrants = grants.filter(g => g.grantStatus === 'ACCEPTED');
+const pendingGrants = grants.filter(g => g.grantStatus === 'PENDING');
+
+// Filter by employee
+const janeGrants = grants.filter(g => g.externalEmployeeID === 'EMP-001');
+```
+
+### Get grants for a specific employee
+
+```typescript
+const employeeGrants = await tokuAPI('GET',
+  'getEmployeeGrants?externalEmployeeID=EMP-001'
+);
+```
+
+<Warning>
+List endpoints return **all** results (no pagination). For large organizations, cache results locally and poll periodically rather than calling on every page load.
+</Warning>
+
+---
+
+## Step 8: Set Up Wallets
+
+### Add a wallet for a recipient
+
+```typescript
+const wallet = await tokuAPI('POST', 'addWallet', {
+  name: 'Primary ETH Wallet',
+  walletAddress: '0x1234567890abcdef1234567890abcdef12345678',
+  network: 'Ethereum',
+  orgNetworkID: networks[0].networkID,
+  tokenTypeID: tokenTypes[0].tokenTypeID
+});
+```
+
+### Verify the wallet (test transaction flow)
+
+```typescript
+// 1. Send a test transaction
+await tokuAPI('POST', 'sendTestTransaction', {
+  walletID: wallet.walletID
+});
+
+// 2. After recipient confirms receipt, approve the wallet
+const pendingRequests = await tokuAPI('GET', 'getTestTxnApprovalPendingWallets');
+for (const req of pendingRequests) {
+  await tokuAPI('POST', 'approveWalletRequest', {
+    walletRequestID: req.walletVerificationRequest?.walletRequestID
+  });
+}
+```
+
+### Bulk upload wallets
+
+```typescript
+await tokuAPI('POST', 'bulkUploadMultipleWallets', {
+  wallets: [
+    {
+      recipientID: 'role-in-org-uuid',
+      walletAddress: '0xabc...',
+      networkName: 'Ethereum',
+      walletType: 'Hot Wallet'
+    }
+  ]
+});
+```
+
+See [Wallet Verification Flow](/api/guides/wallet-verification-flow) for the complete state machine.
+
+---
+
+## Step 9: Configure Distributions
+
+Set how tokens are distributed across a recipient's wallets:
+
+```typescript
+await tokuAPI('POST', 'configureWalletRefsDistributionForGrant', {
+  grantID: grant.grantID,
+  roleInOrgID: recipient.roleInOrgID,
+  walletRefsconfig: [
+    { walletReferenceID: 'ref-uuid', distRatio: 1.0 }
+  ]
+});
+```
+
+Or set token-level distribution (applies to all grants):
+
+```typescript
+await tokuAPI('POST', 'setTokenWalletRefsDistribution', {
+  roleInOrgID: recipient.roleInOrgID,
+  tokenWalletRefsConfig: [
+    { walletID: wallet.walletID, distRatio: 0.7 },
+    { walletID: secondWallet.walletID, distRatio: 0.3 }
+  ]
+});
+```
+
+---
+
+## Step 10: Handle Terminations
+
+### Terminate a single grant
+
+```typescript
+await tokuAPI('POST', 'terminateGrant', {
+  grantID: 'grant-uuid',
+  terminationDate: '2026-06-30T00:00:00.000Z'
+});
+```
+
+### Terminate all grants for a departing employee
+
+```typescript
+const result = await tokuAPI('POST', 'terminateEmployeeGrants', {
+  externalEmployeeID: 'EMP-001',
+  terminationDate: '2026-06-30T00:00:00.000Z'
+});
+// { terminatedGrantIDs: [...], alreadyTerminatedGrantIDs: [...] }
+```
+
+### Revert a termination (mistake recovery)
+
+```typescript
+await tokuAPI('POST', 'revertEmployeeGrants', {
+  externalEmployeeID: 'EMP-001',
+  grantIDs: ['grant-uuid-1', 'grant-uuid-2']
+});
+// { revertedGrantIDs: [...], alreadyActiveGrantIDs: [...] }
+```
+
+---
+
+## Step 11: Polling for Status Changes
+
+Since webhooks are not yet available, poll for changes:
+
+```typescript
+// Poll grants every 5 minutes
+async function pollGrants() {
+  const grants = await tokuAPI('GET', 'listGrants');
+
+  for (const grant of grants) {
+    // Check for newly vested tokens
+    if (grant.percentageOfUnitsVested > lastKnownPercentage[grant.grantID]) {
+      console.log(`Grant ${grant.grantName}: ${grant.percentageOfUnitsVested}% vested`);
+    }
+
+    // Check for status changes
+    if (grant.grantStatus !== lastKnownStatus[grant.grantID]) {
+      console.log(`Grant ${grant.grantName}: status changed to ${grant.grantStatus}`);
+    }
+  }
+}
+
+setInterval(pollGrants, 5 * 60 * 1000);
+```
+
+---
+
+## Complete Example: Onboard & Grant
+
+```typescript
+async function onboardAndGrant(employee: {
+  email: string;
+  firstName: string;
+  lastName: string;
+  externalID: string;
+  tokenAmount: number;
+}) {
+  // 1. Create the recipient
+  const recipient = await tokuAPI('POST', 'createUserRoleInOrg', {
+    email: employee.email,
+    givenName: employee.firstName,
+    familyName: employee.lastName,
+    externalEmployeeID: employee.externalID,
+    country: 'US'
+  });
+
+  // 2. Get grant config
+  const configs = await tokuAPI('GET', 'listGrantConfigurations');
+  const config = configs[0];
+
+  // 3. Create the grant
+  const grant = await tokuAPI('POST', 'addSingleGrant', {
+    grantName: `${employee.firstName} ${employee.lastName} - Token Grant`,
+    grantConfigurationID: config.grantConfigurationID,
+    grantAmount: employee.tokenAmount,
+    recipientID: recipient.roleInOrgID,
+    vestingStartDate: new Date().toISOString(),
+    vestingFrequencyType: 'MONTHLY',
+    vestingPeriods: 48,
+    vestingCliffPeriods: 12,
+    vestingCliffPercentage: 25
+  });
+
+  return { recipientID: recipient.roleInOrgID, grantID: grant.grantID };
+}
+```
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Grant Lifecycle" icon="rotate" href="/api/guides/grant-lifecycle">
+    Understand grant status transitions and edge cases
+  </Card>
+  <Card title="Wallet Verification" icon="shield-check" href="/api/guides/wallet-verification-flow">
+    Complete wallet setup and verification flow
+  </Card>
+  <Card title="Best Practices" icon="lightbulb" href="/api/guides/best-practices">
+    Rate limiting, caching, and error handling
+  </Card>
+  <Card title="Permissions" icon="lock" href="/api/guides/rbac-permissions">
+    Role-based access control matrix
+  </Card>
+</CardGroup>
