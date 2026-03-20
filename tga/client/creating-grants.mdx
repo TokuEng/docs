@@ -12,37 +12,62 @@ Create token grants to award equity to your team members and investors. Each gra
 
 ## Creating a New Grant
 
-<Steps>
-  <Step title="Navigate to Grants">
-    From the dashboard, click **Grants** in the sidebar.
-  </Step>
-  <Step title="Click New Grant">
-    Select **New Grant** to open the grant creation form.
-  </Step>
-  <Step title="Select grant type">
-    Choose the type of grant:
-    - **RTU** — Restricted Token Units
-    - **Options** — With strike price
-    - **Warrants** — For investors
-    - **Token Bonus** — One-time award
-  </Step>
-  <Step title="Enter recipient details">
-    Add the recipient:
-    - Email address
-    - Full legal name
-    - Country of residence
-  </Step>
-  <Step title="Configure grant terms">
-    Specify the grant details:
-    - Number of tokens
-    - Grant date
-    - Vesting schedule
-    - Any conditions or notes
-  </Step>
-  <Step title="Review and create">
-    Review the summary and click **Create Grant**.
-  </Step>
-</Steps>
+<Tabs>
+  <Tab title="Dashboard">
+    <Steps>
+      <Step title="Navigate to Grants">
+        From the dashboard, click **Grants** in the sidebar.
+      </Step>
+      <Step title="Click New Grant">
+        Select **New Grant** to open the grant creation form.
+      </Step>
+      <Step title="Select grant type">
+        Choose the type of grant:
+        - **RTU** — Restricted Token Units
+        - **Options** — With strike price
+        - **Warrants** — For investors
+        - **Token Bonus** — One-time award
+      </Step>
+      <Step title="Enter recipient details">
+        Add the recipient:
+        - Email address
+        - Full legal name
+        - Country of residence
+      </Step>
+      <Step title="Configure grant terms">
+        Specify the grant details:
+        - Number of tokens
+        - Grant date
+        - Vesting schedule
+        - Any conditions or notes
+      </Step>
+      <Step title="Review and create">
+        Review the summary and click **Create Grant**.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="API">
+    Use the [Add Single Grant](/api/grants/add-single-grant) endpoint:
+
+    ```bash
+    curl -X POST "https://api.toku.com/api/grants/addSingleGrant" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "configurationID": 1,
+        "recipientEmail": "alex@example.com",
+        "recipientName": "Alex Rivera",
+        "tokenAmount": 50000,
+        "grantDate": "2025-02-01",
+        "vestingPeriodMonths": 48,
+        "cliffMonths": 12,
+        "vestingFrequency": "monthly"
+      }'
+    ```
+
+    For new hires, use [Create Grant for New Hire](/api/grants/create-grant-for-new-hire) to create the grant and employee record in one call.
+  </Tab>
+</Tabs>
 
 ---
 
@@ -99,6 +124,17 @@ After creating a grant, the recipient receives an email with:
 
 ## Grant Status
 
+```mermaid
+stateDiagram-v2
+    [*] --> Draft
+    Draft --> Pending : Send to recipient
+    Pending --> Active : Recipient accepts
+    Pending --> Cancelled : Recipient declines
+    Active --> Completed : Fully vested and claimed
+    Active --> Cancelled : Admin cancels
+    Draft --> Cancelled : Admin cancels
+```
+
 | Status | Description |
 |--------|-------------|
 | **Draft** | Grant created but not sent to recipient |
@@ -120,6 +156,10 @@ For multiple grants, use the bulk import feature:
 5. Review and confirm all grants
 
 ---
+
+<Tip>
+**TGA Client Guide** — Step 2 of 6. [Previous: Setting Up Your Account](/tga/client/setting-up-your-account) | [Next: Managing Vesting Schedules](/tga/client/managing-vesting-schedules)
+</Tip>
 
 ## Next Steps
 

@@ -37,23 +37,44 @@ Process payroll to pay employees their stablecoin compensation. Toku handles the
 
 ## Creating a Payroll Run
 
-<Steps>
-  <Step title="Navigate to Payroll">
-    Click **Payroll** in the sidebar
-  </Step>
-  <Step title="Click Run Payroll">
-    Select **Run Payroll** to start a new run
-  </Step>
-  <Step title="Select pay period">
-    Choose:
-    - Pay period start and end dates
-    - Pay date
-    - Payroll type (regular, bonus, off-cycle)
-  </Step>
-  <Step title="Review employees">
-    See all employees included in this payroll
-  </Step>
-</Steps>
+<Tabs>
+  <Tab title="Dashboard">
+    <Steps>
+      <Step title="Navigate to Payroll">
+        Click **Payroll** in the sidebar.
+      </Step>
+      <Step title="Click Run Payroll">
+        Select **Run Payroll** to start a new run.
+      </Step>
+      <Step title="Select pay period">
+        Choose:
+        - Pay period start and end dates
+        - Pay date
+        - Payroll type (regular, bonus, off-cycle)
+      </Step>
+      <Step title="Review employees">
+        See all employees included in this payroll.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="API">
+    Use the [Create On-Cycle Payroll](/api/payroll/create-on-cycle) or [Create Off-Cycle Payroll](/api/payroll/create-off-cycle) endpoint:
+
+    ```bash
+    curl -X POST "https://api.toku.com/api/payroll/createOnCyclePayroll" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "orgID": 100,
+        "startDate": "2025-02-01",
+        "endDate": "2025-02-28",
+        "payDate": "2025-02-28"
+      }'
+    ```
+
+    After creation, [finalize the payroll](/api/payroll/finalize) to approve it for processing.
+  </Tab>
+</Tabs>
 
 ---
 
@@ -129,6 +150,19 @@ Corrections, termination pay, or special payments.
 
 ## Payroll Status
 
+```mermaid
+stateDiagram-v2
+    [*] --> Draft
+    Draft --> PendingApproval : Submit
+    PendingApproval --> Approved : Approve
+    PendingApproval --> Draft : Reject
+    Approved --> Processing : Begin processing
+    Processing --> Completed : All payments succeed
+    Processing --> PartiallyCompleted : Some payments fail
+    Draft --> Cancelled : Cancel
+    PendingApproval --> Cancelled : Cancel
+```
+
 | Status | Description |
 |--------|-------------|
 | **Draft** | Payroll created, not yet submitted |
@@ -149,6 +183,10 @@ Once payroll completes:
 - Reports are updated
 
 ---
+
+<Tip>
+**Payroll Client Guide** — Step 4 of 5. [Previous: Payroll Integration Setup](/payroll/client/payroll-integration-setup) | [Next: Payroll Reporting](/payroll/client/reporting)
+</Tip>
 
 ## Next Steps
 

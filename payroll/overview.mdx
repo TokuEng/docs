@@ -34,6 +34,19 @@ Employees opt into stablecoin payments and receive funds in their crypto wallets
 
 ---
 
+## How It Works
+
+```mermaid
+flowchart LR
+    A[Enable Payroll] --> B[Employee Opts In]
+    B --> C[Run Payroll]
+    C --> D[Tax Withheld]
+    D --> E[Stablecoin Sent]
+    E --> F[Employee Receives USDC]
+```
+
+---
+
 ## Key Features
 
 <CardGroup cols={2}>
@@ -59,13 +72,35 @@ Employees opt into stablecoin payments and receive funds in their crypto wallets
 
 ---
 
-## How It Works
+## Example: Paying Sarah in USDC
 
-1. **Enable** — Set up stablecoin payroll for your organization
-2. **Configure** — Choose supported stablecoins and networks
-3. **Invite** — Employees opt in and set up their wallets
-4. **Run Payroll** — Process payroll with automatic stablecoin conversion
-5. **Track** — Monitor payments and generate reports
+Sarah is a software engineer at Acme Corp. She's elected to receive 40% of her net pay in USDC on Polygon.
+
+**1. Acme runs their bi-weekly payroll.** Toku calculates Sarah's gross pay of $7,500, withholds $2,100 in taxes, and determines her net pay of $5,400.
+
+**2. Toku splits the payout.** Based on Sarah's 40% election:
+- **$3,240** is deposited to her bank account via ACH
+- **$2,160** is converted to USDC
+
+**3. Stablecoin is sent on-chain.** Toku locks the exchange rate at processing time, converts $2,160 → 2,160.00 USDC, and sends it to Sarah's wallet on Polygon.
+
+```json
+{
+  "employee": "Sarah Chen",
+  "grossPay": 7500.00,
+  "taxWithholding": 2100.00,
+  "netPay": 5400.00,
+  "fiatAmount": 3240.00,
+  "stablecoinAmount": 2160.00,
+  "stablecoin": "USDC",
+  "network": "Polygon",
+  "walletAddress": "0x1a2B...9cDE",
+  "status": "Completed",
+  "txHash": "0xabc123...def456"
+}
+```
+
+**4. Sarah sees the deposit** in her wallet within minutes. Her payslip shows the full breakdown: gross pay, taxes, fiat deposit, and stablecoin transfer with the on-chain transaction hash.
 
 ---
 

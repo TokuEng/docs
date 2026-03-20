@@ -1,0 +1,89 @@
+# Toku Documentation
+
+> Toku is the compliance layer for paying people in tokens and stablecoins. It handles token grants, contractor payments, and stablecoin payroll with built-in tax withholding, custody integration, and reporting.
+
+## Getting Started
+- [Home](https://docs.toku.com/): Documentation landing page and product overview
+- [Overview](https://docs.toku.com/getting-started/overview): What Toku does and how to get started
+- [Onboarding Checklist](https://docs.toku.com/getting-started/onboarding-checklist): Step-by-step setup guide for new clients
+- [Key Concepts](https://docs.toku.com/getting-started/key-concepts): Core terminology and concepts used throughout Toku
+- [Support](https://docs.toku.com/getting-started/support): How to contact the Toku support team
+
+## Token Grant Administration (TGA)
+- [TGA Overview](https://docs.toku.com/tga/overview): Manage token grants, vesting schedules, and distributions
+- [Setting Up Your Account](https://docs.toku.com/tga/client/setting-up-your-account): Configure TGA for your organization
+- [Creating Grants](https://docs.toku.com/tga/client/creating-grants): Issue token grants to employees, contractors, and investors
+- [Managing Vesting Schedules](https://docs.toku.com/tga/client/managing-vesting-schedules): Configure cliff, linear, milestone, or custom vesting
+- [Token Distributions](https://docs.toku.com/tga/client/token-distributions): Process and track token distributions to recipients
+- [Reporting & Compliance](https://docs.toku.com/tga/client/reporting-and-compliance): Generate reports for accounting and compliance
+- [Cap Table Management](https://docs.toku.com/tga/client/cap-table-management): Track ownership and grants across your organization
+- [Employee Portal](https://docs.toku.com/tga/user/employee-portal): View token grants and vesting status as a recipient
+- [Viewing Your Grants](https://docs.toku.com/tga/user/viewing-your-grants): See grant details, vesting progress, and claim tokens
+- [Understanding Vesting](https://docs.toku.com/tga/user/understanding-vesting): How vesting schedules work for grant recipients
+- [Tax Documents](https://docs.toku.com/tga/user/tax-documents): Access tax forms related to token grants
+- [TGA FAQ](https://docs.toku.com/tga/faq): Frequently asked questions about token grant administration
+
+## Stablecoin Payroll
+- [Payroll Overview](https://docs.toku.com/payroll/overview): Pay employees in stablecoins with built-in compliance
+- [Enabling Stablecoin Payroll](https://docs.toku.com/payroll/client/enabling-stablecoin-payroll): Set up stablecoin payroll for your organization
+- [Supported Stablecoins](https://docs.toku.com/payroll/client/supported-stablecoins): List of supported stablecoins and blockchain networks
+- [Payroll Integration Setup](https://docs.toku.com/payroll/client/payroll-integration-setup): Connect Toku with your existing HRIS or payroll system
+- [Running Payroll](https://docs.toku.com/payroll/client/running-payroll): Process stablecoin payroll for your employees
+- [Payroll Reporting](https://docs.toku.com/payroll/client/reporting): View payroll reports and transaction history
+- [Choosing Your Payout Method](https://docs.toku.com/payroll/user/choosing-payout-method): Select how you receive your compensation (fiat, stablecoin, or mix)
+- [Setting Up Your Wallet](https://docs.toku.com/payroll/user/setting-up-wallet): Configure your crypto wallet for stablecoin payments
+- [Understanding Your Payslip](https://docs.toku.com/payroll/user/understanding-payslip): Read your payslip with stablecoin and fiat breakdowns
+- [Payroll FAQ](https://docs.toku.com/payroll/faq): Frequently asked questions about stablecoin payroll
+
+## Contractor Payments
+- [Contractor Overview](https://docs.toku.com/contractor/overview): Onboard and pay global contractors instantly
+- [Onboarding Contractors](https://docs.toku.com/contractor/client/onboarding-contractors): Add contractors and generate compliant contracts
+- [Managing Contractors](https://docs.toku.com/contractor/client/managing-contractors): Manage contractor profiles, contracts, and engagements
+- [Payments & Invoicing](https://docs.toku.com/contractor/client/payments-and-invoicing): Process contractor payments and manage invoices
+- [Compliance Basics](https://docs.toku.com/contractor/client/compliance-basics): Contractor classification and compliance requirements
+- [Getting Started (Contractor)](https://docs.toku.com/contractor/user/getting-started): Set up your contractor account to receive payments
+- [Submitting Invoices](https://docs.toku.com/contractor/user/submitting-invoices): Create and submit invoices for your work
+- [Receiving Payments](https://docs.toku.com/contractor/user/receiving-payments): Track and receive contractor payments
+- [Tax Information](https://docs.toku.com/contractor/user/tax-information): Manage tax forms and documentation as a contractor
+- [Contractor FAQ](https://docs.toku.com/contractor/faq): Frequently asked questions about contractor payments
+
+## Integrations
+- [ADP Integration](https://docs.toku.com/integrations/adp): Connect Toku with ADP payroll
+- [ADP Token Deduction](https://docs.toku.com/integrations/adp-token-deduction): Set up token deductions in ADP
+- [ADP Export Employees](https://docs.toku.com/integrations/adp-export-employees): Export employee data from ADP to Toku
+- [Workday Integration](https://docs.toku.com/integrations/workday): Connect Toku with Workday
+- [UKG Integration](https://docs.toku.com/integrations/ukg): Connect Toku with UKG
+
+## API Reference
+- [Introduction](https://docs.toku.com/api/overview): What the Toku API is, what you can build, and how to get started
+- [API Access](https://docs.toku.com/api/api-access): Get API keys, configure environments, and understand rate limits
+- [Authentication](https://docs.toku.com/api/authentication): Authenticate API requests with API keys and handle auth errors
+- [Idempotency](https://docs.toku.com/api/idempotency): Prevent duplicate operations with idempotency keys on retries
+- [Dashboard](https://docs.toku.com/api/dashboard): Manage payroll, grants, contractors, and API keys from the web UI
+- [Sandbox](https://docs.toku.com/api/sandbox): Test your integration with simulated data and sandbox API keys
+- [Getting Started](https://docs.toku.com/api/getting-started): Make your first API call end-to-end
+- [Get Payroll](https://docs.toku.com/api/payroll/get-payroll): Retrieve details for a specific payroll run
+- [Get Org Payrolls](https://docs.toku.com/api/payroll/get-org-payrolls): List all payrolls for an organization
+- [Create On-Cycle Payroll](https://docs.toku.com/api/payroll/create-on-cycle): Create a regular scheduled payroll
+- [Create Off-Cycle Payroll](https://docs.toku.com/api/payroll/create-off-cycle): Create an off-cycle or bonus payroll
+- [Update Exchange Rate](https://docs.toku.com/api/payroll/update-exchange-rate): Update the exchange rate for a payroll
+- [Finalize Payroll](https://docs.toku.com/api/payroll/finalize): Finalize and approve a payroll for processing
+- [Cancel Payroll](https://docs.toku.com/api/payroll/cancel): Cancel a draft or pending payroll
+- [Get Employee](https://docs.toku.com/api/employees/get-employee): Retrieve employee details
+- [Create Employee](https://docs.toku.com/api/employees/create-employee): Add a new employee record
+- [Can Run Payroll](https://docs.toku.com/api/employees/can-run-payroll): Check if payroll can be run for an employee
+- [Get Organization](https://docs.toku.com/api/organizations/get-org): Retrieve organization details
+- [Get Organizations](https://docs.toku.com/api/organizations/get-orgs): List all organizations
+- [Create Organization](https://docs.toku.com/api/organizations/create-org): Create a new organization
+- [Get All Currencies](https://docs.toku.com/api/currencies/get-all): List all supported currencies
+- [Get Currency by ID](https://docs.toku.com/api/currencies/get-by-id): Retrieve details for a specific currency
+- [List Grant Configurations](https://docs.toku.com/api/grants/list-configurations): List available grant configurations
+- [Add Single Grant](https://docs.toku.com/api/grants/add-single-grant): Create a new token grant
+- [Create Grant for New Hire](https://docs.toku.com/api/grants/create-grant-for-new-hire): Create a grant as part of new hire onboarding
+- [Add Wallet](https://docs.toku.com/api/wallets/add-wallet): Add a new wallet address for a recipient
+- [Get Current Wallets](https://docs.toku.com/api/wallets/get-current-wallets): List active wallet addresses
+- [Get Pending Wallets](https://docs.toku.com/api/wallets/get-pending-wallets): List wallets awaiting approval
+- [Approve Wallet](https://docs.toku.com/api/wallets/approve-wallet): Approve a pending wallet address
+- [Reject Wallet](https://docs.toku.com/api/wallets/reject-wallet): Reject a pending wallet address
+- [Error Codes](https://docs.toku.com/api/errors): API error codes and troubleshooting
+- [Rate Limits](https://docs.toku.com/api/rate-limits): API rate limiting policies

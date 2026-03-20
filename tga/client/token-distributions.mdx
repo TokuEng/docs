@@ -12,23 +12,32 @@ Token distributions are the process of sending vested tokens from your organizat
 
 ## Distribution Workflow
 
-<Steps>
-  <Step title="Recipient claims tokens">
-    Recipients request to claim their vested tokens in the TGA portal.
-  </Step>
-  <Step title="Admin reviews claims">
-    Review pending claims in the **Distributions** dashboard.
-  </Step>
-  <Step title="Approve distribution">
-    Approve individual claims or batch multiple claims together.
-  </Step>
-  <Step title="Process payment">
-    Tokens are sent via your custody provider to recipient wallets.
-  </Step>
-  <Step title="Confirm completion">
-    Track transaction status until tokens are delivered.
-  </Step>
-</Steps>
+<Tabs>
+  <Tab title="Dashboard">
+    <Steps>
+      <Step title="Recipient claims tokens">
+        Recipients request to claim their vested tokens in the TGA portal.
+      </Step>
+      <Step title="Admin reviews claims">
+        Review pending claims in the **Distributions** dashboard.
+      </Step>
+      <Step title="Approve distribution">
+        Approve individual claims or batch multiple claims together.
+      </Step>
+      <Step title="Process payment">
+        Tokens are sent via your custody provider to recipient wallets.
+      </Step>
+      <Step title="Confirm completion">
+        Track transaction status until tokens are delivered.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="API">
+    Distribution management via API is coming soon. Currently, distributions are managed through the TGA dashboard.
+
+    You can monitor distribution status programmatically by polling grant details through the [List Grant Configurations](/api/grants/list-configurations) endpoint.
+  </Tab>
+</Tabs>
 
 ---
 
@@ -54,6 +63,17 @@ Process multiple claims at once:
 ---
 
 ## Distribution Status
+
+```mermaid
+stateDiagram-v2
+    [*] --> Pending
+    Pending --> Approved : Admin approves
+    Pending --> Rejected : Admin rejects
+    Approved --> Processing : Sent to custody
+    Processing --> Completed : Tokens delivered
+    Processing --> Failed : Transaction fails
+    Failed --> Pending : Retry claim
+```
 
 | Status | Description |
 |--------|-------------|
@@ -120,6 +140,10 @@ If a distribution fails:
 4. Contact support if the issue persists
 
 ---
+
+<Tip>
+**TGA Client Guide** — Step 4 of 6. [Previous: Managing Vesting Schedules](/tga/client/managing-vesting-schedules) | [Next: Reporting & Compliance](/tga/client/reporting-and-compliance)
+</Tip>
 
 ## Next Steps
 

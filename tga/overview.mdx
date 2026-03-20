@@ -34,6 +34,19 @@ Grant recipients use TGA to view their grants, track vesting progress, and claim
 
 ---
 
+## How It Works
+
+```mermaid
+flowchart LR
+    A[Create Grant] --> B[Recipient Accepts]
+    B --> C[Tokens Vest]
+    C --> D[Recipient Claims]
+    D --> E[Admin Approves]
+    E --> F[Tokens Distributed]
+```
+
+---
+
 ## Key Features
 
 <CardGroup cols={2}>
@@ -56,6 +69,37 @@ Grant recipients use TGA to view their grants, track vesting progress, and claim
     Generate reports for accounting and compliance.
   </Card>
 </CardGroup>
+
+---
+
+## Example: Issuing an RTU Grant to Alex
+
+Alex joins Acme Labs as a founding engineer. The company awards him 50,000 RTUs with a standard 4-year vesting schedule and 1-year cliff.
+
+**1. Admin creates the grant.** In TGA, the admin selects RTU, enters Alex's details, and configures 4-year vesting with a 1-year cliff and monthly vesting thereafter.
+
+**2. Alex receives a notification** and logs into TGA to review the grant terms. He accepts the grant and sets up his wallet address.
+
+**3. After the 1-year cliff,** 12,500 tokens (25%) vest immediately. Alex navigates to his grants page and clicks "Claim" to request distribution.
+
+```json
+{
+  "grantID": "grant_8Kx2mP",
+  "recipient": "Alex Rivera",
+  "type": "RTU",
+  "totalTokens": 50000,
+  "vestedTokens": 12500,
+  "claimedTokens": 12500,
+  "vestingSchedule": {
+    "totalPeriod": "4 years",
+    "cliff": "1 year",
+    "frequency": "Monthly"
+  },
+  "status": "Active"
+}
+```
+
+**4. Admin approves the claim.** TGA sends the distribution request to the custody provider, withholds tokens for tax obligations, and transfers the net tokens to Alex's wallet. Alex can track the on-chain transaction in real time.
 
 ---
 

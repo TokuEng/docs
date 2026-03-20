@@ -6,22 +6,53 @@ mode: "custom"
 ---
 
 <div style={{ textAlign: 'center', padding: '4rem 1rem 2rem', maxWidth: '42rem', margin: '0 auto' }}>
-  <h1 className="text-gray-900 dark:text-white" style={{ fontSize: '2.5rem', fontWeight: 700, marginBottom: '1rem' }}>The EOR Built for Tokens, Stablecoins, and Global Teams</h1>
+  <h1 className="text-gray-900 dark:text-white" style={{ fontSize: '2.5rem', fontWeight: 700, marginBottom: '1rem' }}>What is Toku?</h1>
 
   <p className="text-gray-700 dark:text-gray-200" style={{ fontSize: '1.125rem', lineHeight: 1.75, marginBottom: '2rem' }}>
-    Hire globally and pay in fiat or stablecoins - fully compliant, no workarounds.
+    Toku is the compliance layer for paying people in tokens and stablecoins. Whether you're issuing token grants, paying contractors globally, or running stablecoin payroll — Toku handles tax withholding, custody, and reporting so you don't have to.
   </p>
 
-  <div style={{ fontSize: '0.875rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.25rem', fontWeight: 500 }}>
-    <a href="/getting-started/overview" style={{ textDecoration: 'none' }}>
-      Get Started
+  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', fontSize: '0.875rem', fontWeight: 500 }}>
+    <a href="/getting-started/overview" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+      Get Started <Icon icon="arrow-right" iconType="solid" size={12} />
     </a>
-    <Icon icon="arrow-right" iconType="solid" size={12} />
+    <a href="/api/overview" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+      API Reference <Icon icon="arrow-right" iconType="solid" size={12} />
+    </a>
   </div>
 </div>
 
 <div className="max-w-3xl px-4 mx-auto lg:px-8 pb-10">
   <div className="text-center text-sm mb-6">
+    <h2 className="text-gray-700 dark:text-gray-300" style={{ fontSize: '1rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Products</h2>
+  </div>
+
+  <CardGroup cols={3}>
+    <Card title="Token Grant Administration" icon="square-1" href="/tga/overview">
+      Issue, vest, and distribute token grants to employees and investors — with built-in tax withholding and cap table tracking.
+    </Card>
+    <Card title="Stablecoin Payroll" icon="square-2" href="/payroll/overview">
+      Pay employees in USDC or USDT alongside their regular salary, with automatic tax compliance and HRIS integration.
+    </Card>
+    <Card title="Contractor Payments" icon="square-3" href="/contractor/overview">
+      Onboard and pay global contractors in 150+ countries with compliant contracts and flexible payment methods.
+    </Card>
+  </CardGroup>
+
+  <div className="text-center text-sm mt-12 mb-6">
+    <h2 className="text-gray-700 dark:text-gray-300" style={{ fontSize: '1rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Who Uses Toku?</h2>
+  </div>
+
+  <CardGroup cols={2}>
+    <Card title="Clients (Employers & Admins)" icon="building" href="/getting-started/onboarding-checklist">
+      Set up token grant programs, enable stablecoin payroll, and onboard contractors — all from one dashboard.
+    </Card>
+    <Card title="Recipients (Employees & Contractors)" icon="user" href="/tga/user/employee-portal">
+      View your grants, choose your payout method, set up your wallet, and track payments.
+    </Card>
+  </CardGroup>
+
+  <div className="text-center text-sm mt-12 mb-6">
     <h2 className="text-gray-700 dark:text-gray-300" style={{ fontSize: '1rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Quickstarts</h2>
   </div>
 
@@ -36,60 +67,4 @@ mode: "custom"
       Let employees receive salary in USDC or other stablecoins.
     </Card>
   </CardGroup>
-
-  <div className="text-center text-sm mt-12 mb-6">
-    <h2 className="text-gray-700 dark:text-gray-300" style={{ fontSize: '1rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Explore Products</h2>
-  </div>
-
-  <CardGroup cols={3}>
-    <Card title="Token Grant Administration" icon="coins" href="/tga/overview">
-      Manage grants, vesting schedules, distributions, and cap tables.
-    </Card>
-    <Card title="Toku Contractor" icon="user-tie" href="/contractor/overview">
-      Onboard and pay global contractors in any currency.
-    </Card>
-    <Card title="Stablecoin Payroll" icon="wallet" href="/payroll/overview">
-      Pay your team in stablecoins with tax compliance.
-    </Card>
-  </CardGroup>
-
-  <div className="text-center text-sm mt-12 mb-6">
-    <h2 className="text-gray-700 dark:text-gray-300" style={{ fontSize: '1rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>For Clients</h2>
-  </div>
-
-  <CardGroup cols={2}>
-    <Card title="Onboarding Checklist" icon="list-check" href="/getting-started/onboarding-checklist">
-      New to Toku? Follow our step-by-step setup guide.
-    </Card>
-    <Card title="Key Concepts" icon="book" href="/getting-started/key-concepts">
-      Learn the terminology and core concepts.
-    </Card>
-  </CardGroup>
-
-  <div className="text-center text-sm mt-12 mb-6">
-    <h2 className="text-gray-700 dark:text-gray-300" style={{ fontSize: '1rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>For Employees & Contractors</h2>
-  </div>
-
-  <CardGroup cols={3}>
-    <Card title="Employee Portal" icon="user" href="/tga/user/employee-portal">
-      View your token grants and vesting status.
-    </Card>
-    <Card title="Contractor Getting Started" icon="briefcase" href="/contractor/user/getting-started">
-      Set up your account to receive payments.
-    </Card>
-    <Card title="Wallet Setup" icon="wallet" href="/payroll/user/setting-up-wallet">
-      Configure your wallet for stablecoin payments.
-    </Card>
-  </CardGroup>
-
-  <div className="text-center text-sm mt-12 mb-6">
-    <h2 className="text-gray-700 dark:text-gray-300" style={{ fontSize: '1rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Resources</h2>
-  </div>
-
-  <CardGroup cols={3}>
-    <Card title="Get Support" icon="headset" href="/getting-started/support">
-      Contact our team for help.
-    </Card>
-  </CardGroup>
 </div>
-

@@ -34,6 +34,19 @@ Contractors use Toku to submit invoices, track payments, and manage their profil
 
 ---
 
+## How It Works
+
+```mermaid
+flowchart LR
+    A[Onboard] --> B[Sign Contract]
+    B --> C[Submit Invoice]
+    C --> D[Approve]
+    D --> E[Payment Sent]
+    E --> F[Contractor Receives Funds]
+```
+
+---
+
 ## Key Features
 
 <CardGroup cols={2}>
@@ -56,6 +69,35 @@ Contractors use Toku to submit invoices, track payments, and manage their profil
     Track and reimburse contractor expenses.
   </Card>
 </CardGroup>
+
+---
+
+## Example: Paying a Contractor in Singapore
+
+Acme Corp hires Wei, a UX designer based in Singapore, for a 6-month engagement at $8,000/month.
+
+**1. Admin onboards Wei.** In Toku Contractor, the admin adds Wei's details, selects Singapore as the country, and generates a compliant contractor agreement. Wei signs electronically.
+
+**2. Wei submits a monthly invoice.** At the end of the month, Wei logs into the contractor portal and submits an invoice for $8,000 with a description of work completed.
+
+**3. Admin reviews and approves.** The finance team reviews the invoice in the Payments dashboard and clicks "Approve." Wei has elected to receive payment via bank transfer in SGD.
+
+```json
+{
+  "invoiceID": "inv_3Rw7nQ",
+  "contractor": "Wei Tan",
+  "country": "Singapore",
+  "amount": 8000.00,
+  "currency": "USD",
+  "paymentMethod": "Bank Transfer",
+  "localCurrency": "SGD",
+  "localAmount": 10720.00,
+  "status": "Completed",
+  "paidDate": "2025-02-03"
+}
+```
+
+**4. Wei receives payment** in SGD directly to her bank account. Toku handles the currency conversion and ensures all tax documentation is properly filed for cross-border compliance.
 
 ---
 
