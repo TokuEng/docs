@@ -380,7 +380,9 @@
           "employmentType": {
             "type": "string",
             "nullable": true,
-            "example": "FULL_TIME"
+            "enum": ["CONTRACTOR", "EMPLOYEE", "EX_EMPLOYEE", "ADVISOR", "SERVICE_PROVIDER", "OTHER"],
+            "description": "TGA employment type. Valid values: CONTRACTOR, EMPLOYEE, EX_EMPLOYEE, ADVISOR, SERVICE_PROVIDER, OTHER.",
+            "example": "EMPLOYEE"
           },
           "revokedAt": {
             "type": "string",
@@ -1128,7 +1130,9 @@
                     "type": "string"
                   },
                   "employmentType": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": ["CONTRACTOR", "EMPLOYEE", "EX_EMPLOYEE", "ADVISOR", "SERVICE_PROVIDER", "OTHER"],
+                    "description": "TGA employment type."
                   },
                   "grantName": {
                     "type": "string"
@@ -5480,7 +5484,9 @@
                     "type": "string"
                   },
                   "employmentType": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": ["CONTRACTOR", "EMPLOYEE", "EX_EMPLOYEE", "ADVISOR", "SERVICE_PROVIDER", "OTHER"],
+                    "description": "TGA employment type."
                   },
                   "sendEmailImmediately": {
                     "type": "boolean"
@@ -5606,7 +5612,9 @@
                     "type": "string"
                   },
                   "employmentType": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": ["CONTRACTOR", "EMPLOYEE", "EX_EMPLOYEE", "ADVISOR", "SERVICE_PROVIDER", "OTHER"],
+                    "description": "TGA employment type."
                   },
                   "taxMethod": {
                     "type": "string"
