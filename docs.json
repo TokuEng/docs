@@ -11,7 +11,10 @@
   },
   "navbar": {
     "links": [
-      { "label": "Support", "href": "https://www.toku.com/contact" }
+      {
+        "label": "Support",
+        "href": "https://www.toku.com/contact"
+      }
     ],
     "primary": {
       "type": "button",
@@ -19,7 +22,9 @@
       "href": "https://app.toku.com"
     }
   },
-  "openapi": ["openapi.json"],
+  "openapi": [
+    "openapi.json"
+  ],
   "api": {
     "baseUrl": "https://app.toku.com/api/tokuApi/v1",
     "playground": {
@@ -53,7 +58,9 @@
         "groups": [
           {
             "group": "Overview",
-            "pages": ["contractor/overview"]
+            "pages": [
+              "contractor/overview"
+            ]
           },
           {
             "group": "Client Guides",
@@ -75,7 +82,45 @@
           },
           {
             "group": "FAQ",
-            "pages": ["contractor/faq"]
+            "pages": [
+              "contractor/faq"
+            ]
+          },
+          {
+            "group": "API Overview",
+            "pages": [
+              "api/overview",
+              "api/authentication",
+              "api/quickstart",
+              "api/errors"
+            ]
+          },
+          {
+            "group": "API Guides",
+            "pages": [
+              "api/guides/build-a-dashboard",
+              "api/guides/grant-lifecycle",
+              "api/guides/wallet-verification-flow",
+              "api/guides/rbac-permissions",
+              "api/guides/best-practices",
+              "api/guides/distribution-workflow",
+              "api/guides/custody-setup"
+            ]
+          },
+          {
+            "group": "Authentication",
+            "pages": [
+              "api/endpoints/authentication/create-api-token",
+              "api/endpoints/authentication/refresh-api-token",
+              "api/endpoints/authentication/generate-auth-nonce"
+            ]
+          },
+          {
+            "group": "Invoices",
+            "pages": [
+              "api/endpoints/invoices/submit-bulk-payments",
+              "api/endpoints/invoices/mark-payment-settled"
+            ]
           }
         ]
       },
@@ -85,7 +130,9 @@
         "groups": [
           {
             "group": "Overview",
-            "pages": ["payroll/overview"]
+            "pages": [
+              "payroll/overview"
+            ]
           },
           {
             "group": "Client Guides",
@@ -117,7 +164,38 @@
           },
           {
             "group": "FAQ",
-            "pages": ["payroll/faq"]
+            "pages": [
+              "payroll/faq"
+            ]
+          },
+          {
+            "group": "API Overview",
+            "pages": [
+              "api/overview",
+              "api/authentication",
+              "api/quickstart",
+              "api/errors"
+            ]
+          },
+          {
+            "group": "API Guides",
+            "pages": [
+              "api/guides/build-a-dashboard",
+              "api/guides/grant-lifecycle",
+              "api/guides/wallet-verification-flow",
+              "api/guides/rbac-permissions",
+              "api/guides/best-practices",
+              "api/guides/distribution-workflow",
+              "api/guides/custody-setup"
+            ]
+          },
+          {
+            "group": "Authentication",
+            "pages": [
+              "api/endpoints/authentication/create-api-token",
+              "api/endpoints/authentication/refresh-api-token",
+              "api/endpoints/authentication/generate-auth-nonce"
+            ]
           }
         ]
       },
@@ -127,7 +205,9 @@
         "groups": [
           {
             "group": "Overview",
-            "pages": ["tga/overview"]
+            "pages": [
+              "tga/overview"
+            ]
           },
           {
             "group": "Getting Started",
@@ -195,16 +275,12 @@
           },
           {
             "group": "FAQ",
-            "pages": ["tga/faq"]
-          }
-        ]
-      },
-      {
-        "tab": "API Reference",
-        "url": "api",
-        "groups": [
+            "pages": [
+              "tga/faq"
+            ]
+          },
           {
-            "group": "Getting Started",
+            "group": "API Overview",
             "pages": [
               "api/overview",
               "api/authentication",
@@ -213,7 +289,7 @@
             ]
           },
           {
-            "group": "Guides",
+            "group": "API Guides",
             "pages": [
               "api/guides/build-a-dashboard",
               "api/guides/grant-lifecycle",
@@ -222,6 +298,14 @@
               "api/guides/best-practices",
               "api/guides/distribution-workflow",
               "api/guides/custody-setup"
+            ]
+          },
+          {
+            "group": "Authentication",
+            "pages": [
+              "api/endpoints/authentication/create-api-token",
+              "api/endpoints/authentication/refresh-api-token",
+              "api/endpoints/authentication/generate-auth-nonce"
             ]
           },
           {
@@ -318,13 +402,6 @@
             ]
           },
           {
-            "group": "Invoices",
-            "pages": [
-              "api/endpoints/invoices/submit-bulk-payments",
-              "api/endpoints/invoices/mark-payment-settled"
-            ]
-          },
-          {
             "group": "Organization",
             "pages": [
               "api/endpoints/organization/hello",
@@ -390,14 +467,6 @@
               "api/endpoints/distributions/bulk-distribution-processing",
               "api/endpoints/distributions/get-processing-count",
               "api/endpoints/distributions/can-submit-settlement"
-            ]
-          },
-          {
-            "group": "Authentication",
-            "pages": [
-              "api/endpoints/authentication/create-api-token",
-              "api/endpoints/authentication/refresh-api-token",
-              "api/endpoints/authentication/generate-auth-nonce"
             ]
           }
         ]
