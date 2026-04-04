@@ -1,0 +1,82 @@
+---
+title: "How to Set Up Grant Types"
+sidebarTitle: "Set Up Grant Types"
+description: "Step-by-step walkthrough for creating grant configurations in TGA"
+---
+
+Grant configurations (grant types) define the token and structure used when issuing grants — such as RSUs, token bonuses, or token purchase agreements. You need at least one configuration before creating grants.
+
+<Steps>
+  <Step title="Open Settings">
+    In the left sidebar, click **Settings** to expand the settings menu.
+
+    <Frame>
+      <img src="/images/tga/grant-types/grant-types-step-1.png" alt="Settings menu expanded in sidebar" />
+    </Frame>
+  </Step>
+
+  <Step title="Navigate to Grant Configurations">
+    Click **Grant Configurations** (or **Grant Types**) in the settings submenu. The page lists all existing configurations.
+
+    <Frame>
+      <img src="/images/tga/grant-types/grant-types-step-2.png" alt="Grant Configurations page with existing configs listed" />
+    </Frame>
+  </Step>
+
+  <Step title="Click New Configuration">
+    Click the **New Configuration** button in the top-right to open the configuration form.
+
+    <Frame>
+      <img src="/images/tga/grant-types/grant-types-step-3.png" alt="New Configuration button highlighted" />
+    </Frame>
+  </Step>
+
+  <Step title="Fill in configuration details">
+    Complete the form:
+
+    - **Name** — A descriptive label (e.g., `Q1 2026 RSU Plan`)
+    - **Grant Type** — Choose from:
+      - `RTU` — Restricted Token Unit
+      - `RTA` — Restricted Token Award
+      - `TPA` — Token Purchase Agreement
+      - `TOKEN_BONUS` — One-time token bonus
+    - **Token Plan** — The token associated with this configuration
+    - **Default Vesting Template** — Optional: pre-select a vesting schedule for grants using this config
+
+    <Frame>
+      <img src="/images/tga/grant-types/grant-types-step-4.png" alt="Grant configuration form with fields filled in" />
+    </Frame>
+  </Step>
+
+  <Step title="Save the configuration">
+    Click **Save**. The new configuration is immediately available when creating grants.
+  </Step>
+</Steps>
+
+---
+
+## Grant Types Explained
+
+| Type | Description |
+|------|-------------|
+| `RTU` | Restricted Token Unit — standard token equity grant with vesting |
+| `RTA` | Restricted Token Award — token award with custom conditions |
+| `TPA` | Token Purchase Agreement — recipient purchases tokens at a set price |
+| `TOKEN_BONUS` | One-time token distribution, typically no vesting |
+
+---
+
+<CardGroup cols={2}>
+  <Card title="Create a Grant" icon="plus" href="/tga/client/how-to-create-grant">
+    Issue a grant using this configuration
+  </Card>
+  <Card title="Vesting Schedules" icon="calendar" href="/tga/client/managing-vesting-schedules">
+    Set up vesting templates
+  </Card>
+  <Card title="Grant Configurations (reference)" icon="book" href="/tga/client/grant-configurations">
+    Full reference for grant configuration fields
+  </Card>
+  <Card title="Bulk Upload Grants" icon="upload" href="/tga/client/bulk-upload-grants">
+    Import grants in bulk via CSV
+  </Card>
+</CardGroup>

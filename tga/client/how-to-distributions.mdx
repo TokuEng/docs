@@ -1,0 +1,81 @@
+---
+title: "How to Process Distributions"
+sidebarTitle: "Process Distributions"
+description: "Step-by-step walkthrough for reviewing and running token distributions in TGA"
+---
+
+Distributions are the on-chain transfers that occur when vesting events settle. This guide covers reviewing upcoming events, running a distribution batch, and confirming settlement.
+
+<Steps>
+  <Step title="Navigate to Upcoming Events">
+    In the left sidebar, click **Token Grants**, then click **Upcoming Events**. This shows all pending vesting events scheduled for processing.
+
+    <Frame>
+      <img src="/images/tga/distributions/distributions-step-1.png" alt="Upcoming Grant Events list showing pending vesting events" />
+    </Frame>
+  </Step>
+
+  <Step title="Filter and review events">
+    Use the filter dropdown to narrow by event type (e.g., **Vesting**). Review the list to confirm recipients, token amounts, and dates are correct before processing.
+
+    <Frame>
+      <img src="/images/tga/distributions/distributions-step-2.png" alt="Events list filtered to Vesting type" />
+    </Frame>
+  </Step>
+
+  <Step title="Open the Schedule Manager">
+    Click **Schedule Manager** to view the distribution schedule and trigger a batch run for events that are ready to process.
+
+    <Frame>
+      <img src="/images/tga/distributions/distributions-step-3.png" alt="Schedule Manager showing batch distribution controls" />
+    </Frame>
+  </Step>
+
+  <Step title="View Distribution History">
+    After processing, click **Distribution History** in the sidebar to see completed distributions, including transaction hashes and settlement status.
+
+    <Frame>
+      <img src="/images/tga/distributions/distributions-step-4.png" alt="Distribution History showing completed distributions" />
+    </Frame>
+  </Step>
+
+  <Step title="Confirm settlements">
+    Navigate to **Settlements** to verify that each distribution has settled correctly. A settled distribution shows a confirmed on-chain transaction linked to the recipient's wallet.
+
+    <Frame>
+      <img src="/images/tga/distributions/distributions-step-5.png" alt="Settlements page showing confirmed on-chain transactions" />
+    </Frame>
+  </Step>
+</Steps>
+
+<Tip>
+Export distribution history as a CSV from the Distribution History page for reconciliation and reporting purposes.
+</Tip>
+
+---
+
+## Distribution Status Reference
+
+| Status | Meaning |
+|--------|---------|
+| `PENDING` | Scheduled, not yet processed |
+| `PROCESSING` | Batch run in progress |
+| `COMPLETED` | On-chain transfer confirmed |
+| `FAILED` | Transfer failed — check custody connection and retry |
+
+---
+
+<CardGroup cols={2}>
+  <Card title="Token Distributions (reference)" icon="book" href="/tga/client/token-distributions">
+    Full reference for the distributions workflow
+  </Card>
+  <Card title="Settlements" icon="check" href="/tga/client/settlements">
+    Understand the settlement lifecycle
+  </Card>
+  <Card title="Connect Custody" icon="link" href="/tga/client/how-to-custody">
+    Set up custody before running distributions
+  </Card>
+  <Card title="Reporting & Compliance" icon="chart-bar" href="/tga/client/reporting-and-compliance">
+    Export reports for tax and compliance
+  </Card>
+</CardGroup>

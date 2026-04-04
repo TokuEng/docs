@@ -1,0 +1,73 @@
+---
+title: "How to Connect Custody"
+sidebarTitle: "Connect Custody"
+description: "Step-by-step walkthrough for setting up a custody integration in TGA"
+---
+
+Custody integrations connect TGA to an external wallet or custody provider so tokens can be held, vested, and distributed on-chain. Complete this setup before processing distributions.
+
+<Steps>
+  <Step title="Open Settings">
+    In the left sidebar, click **Settings** to expand the settings menu.
+
+    <Frame>
+      <img src="/images/tga/custody/custody-step-1.png" alt="Settings menu expanded in sidebar" />
+    </Frame>
+  </Step>
+
+  <Step title="Navigate to Custody">
+    Click **Custody** (or **Integrations**) in the settings submenu. The page shows available custody providers and any active connections.
+
+    <Frame>
+      <img src="/images/tga/custody/custody-step-2.png" alt="Custody providers page showing available integrations" />
+    </Frame>
+  </Step>
+
+  <Step title="Review available providers">
+    TGA supports multiple custody providers. Select the one that matches your organization's custody setup.
+
+    <Frame>
+      <img src="/images/tga/custody/custody-step-3.png" alt="List of supported custody providers" />
+    </Frame>
+
+    Supported providers include:
+    - **Anchorage Digital**
+    - **BitGo**
+    - **Coinbase Prime**
+    - **Fireblocks**
+    - **Self-custody** (direct wallet address)
+  </Step>
+
+  <Step title="Configure the connection">
+    Click **Connect** next to your provider. Enter the required credentials — typically an API key, wallet address, or OAuth authorization depending on the provider.
+
+    <Frame>
+      <img src="/images/tga/custody/custody-step-4.png" alt="Custody configuration form for a provider" />
+    </Frame>
+  </Step>
+
+  <Step title="Verify the connection">
+    After saving, TGA verifies connectivity with the custody provider. A green status indicator confirms the connection is active and ready for distributions.
+  </Step>
+</Steps>
+
+<Warning>
+Keep your custody API keys secure. Rotate them immediately if they are ever exposed. Update the credentials in TGA Settings → Custody after rotating.
+</Warning>
+
+---
+
+<CardGroup cols={2}>
+  <Card title="Custody Overview (reference)" icon="book" href="/tga/client/custody-overview">
+    Full reference for custody configuration
+  </Card>
+  <Card title="Processing Distributions" icon="send" href="/tga/client/how-to-distributions">
+    Run distributions after custody is connected
+  </Card>
+  <Card title="Wallet Setup" icon="wallet" href="/tga/client/wallet-setup">
+    Configure organization wallets
+  </Card>
+  <Card title="Settlements" icon="check" href="/tga/client/settlements">
+    Understand the settlement process
+  </Card>
+</CardGroup>

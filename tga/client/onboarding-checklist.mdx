@@ -10,20 +10,20 @@ When you first log in as a Client Admin, the TGA dashboard shows a setup checkli
 
 ---
 
-## Step 1: Add Employees
+## Step 1: Add Employees to People Directory
 
 Upload your employees who will receive token grants. You can add them one at a time or upload a CSV.
 
 <Steps>
   <Step title="Open the Add Employees modal">
-    Click **Upload** next to "Add Employees" in the checklist.
+    Click **Upload** next to "Add employees to people directory" in the checklist. The **Add Employees** modal opens.
   </Step>
   <Step title="Choose your method">
-    - **Manual entry**: Add employees one by one with name and email
-    - **CSV upload**: Upload a spreadsheet with columns for first name, last name, email, and optional fields like department, country, and external employee ID
+    - **Manual Entry** tab: Add employees one by one — enter First name, Last name, and Email address. Click **Add Another** to add more rows.
+    - **CSV Upload** tab: Upload a spreadsheet with columns for first name, last name, email, and optional fields like department, country, and external employee ID.
   </Step>
-  <Step title="Review and submit">
-    Verify the employee list, fix any validation errors (highlighted in red), then click **Submit**.
+  <Step title="Submit">
+    Click **Add Employees** to save. The step is marked complete and the button changes to **Manage**.
   </Step>
 </Steps>
 
@@ -33,19 +33,24 @@ Upload your employees who will receive token grants. You can add them one at a t
 
 ---
 
-## Step 2: Create Grant Configuration
+## Step 2: Create a Grant Configuration
 
 Define what type of token grants your organization issues.
 
 <Steps>
+  <Step title="Open the Create Grant Type modal">
+    Click **Create** next to "Create a grant configuration" in the checklist. The **Create Grant Type** modal opens.
+  </Step>
   <Step title="Select a grant type">
-    Choose from: **RTU** (Restricted Token Units), **RTA** (Restricted Token Awards), **TPA** (Token Purchase Agreements), or **TOKEN_BONUS**.
+    Choose from:
+    - **RTU** — Restricted Token Unit: Tokens subject to vesting and restrictions
+    - **RTA** — Restricted Token Award: Token awards with conditional restrictions
+    - **Token Bonus** — Performance-based token rewards
+    - **TPA** — Token Purchase Agreement: Agreements for token purchases
+    - **Other** — Enter a custom grant type name
   </Step>
-  <Step title="Name your configuration">
-    A default name is generated from the type. You can customize it.
-  </Step>
-  <Step title="Save">
-    Click **Create** to save the configuration. You can create additional configurations later.
+  <Step title="Confirm">
+    Click **Create Grant Type** to save. The step is marked complete and the button changes to **Manage**. You can create additional grant types later from **Grants → Grant Configurations**.
   </Step>
 </Steps>
 
@@ -57,46 +62,57 @@ Define what type of token grants your organization issues.
 
 ## Step 3: Configure Vesting Schedules
 
-Set up how tokens vest over time using pre-built templates or custom schedules.
+Set up how tokens vest over time using pre-built templates or a custom schedule.
 
 **Pre-built templates:**
 
-| Template | Cliff | Vesting | Total Duration |
-|----------|-------|---------|----------------|
-| 4-Year, 1-Year Cliff | 25% at 12 months | 2.08% monthly | 48 months |
-| 3-Year, No Cliff | None | 2.78% monthly | 36 months |
-| 2-Year Quarterly | None | 12.5% quarterly | 24 months |
-| 1-Year Monthly | None | 8.33% monthly | 12 months |
-| Custom | You define | You define | You define |
+| Template | Description |
+|----------|-------------|
+| **4-Year, 1-Year Cliff** | Standard startup vesting — 25% at 12 months, then monthly over 3 years |
+| **3-Year, No Cliff** | Equal monthly vesting — ~2.78% per month for 36 months |
+| **2-Year Quarterly** | 8 equal quarterly tranches — 12.5% every 3 months |
+| **1-Year Monthly** | 12 equal monthly tranches — ~8.33% per month |
+| **Custom Schedule** | Full control over frequency, tranches, and lockup periods |
 
 <Steps>
-  <Step title="Pick a template or create custom">
-    Select a pre-built template or click **Custom** to open the full vesting builder.
+  <Step title="Open the Configure Vesting Schedule modal">
+    Click **Create** next to "Configure vesting schedules" in the checklist. The **Configure Vesting Schedule** modal opens showing all available templates.
   </Step>
-  <Step title="Review the schedule">
-    The system generates vesting tranches based on your template. Review the percentage allocations and timing.
-  </Step>
-  <Step title="Save">
-    Click **Create** to save the vesting schedule template.
+  <Step title="Select a template">
+    Click on a pre-built template card to immediately create it, or click **Custom Schedule** to open the full vesting builder and define your own tranches.
   </Step>
 </Steps>
 
+Selecting a template immediately saves the schedule. The step is marked complete and the button changes to **Manage**.
+
 ---
 
-## Step 4: Create Grants
+## Step 4: Create Grants for Employees
 
-Assign token grants to your employees.
+Assign token grants to your employees. This step unlocks after completing steps 1–3.
 
 <Steps>
   <Step title="Open the Create Grants modal">
-    Click **Upload** next to "Create Grants" in the checklist.
+    Click **Upload** next to "Create grants for employees" in the checklist. The **Create Grants** modal opens.
   </Step>
   <Step title="Add grants">
-    - **Manual**: Enter email, grant name, and amount for each employee
-    - **CSV**: Upload a spreadsheet with grant details including grant type, amount, vesting start date, and optional fields
+    - **Manual Entry** tab: Fill in per-employee grant fields:
+      - **Employee Email** — select from your people directory
+      - **Grant Name** — defaults to current quarter (e.g. "Q1 2026 Grant")
+      - **Grant Amount** — number of tokens
+      - **Grant Type** — e.g. RTU Grant
+      - **Asset Type** — TOKEN or FIAT
+      - **Vesting Start Date** — defaults to today
+      - **Grant Date** — defaults to today
+      - **Grant Currency** — defaults to USD
+      - **Vesting Template** — select from your configured schedules
+      - **Section 83(b) Eligible** — Yes or No
+    - **CSV Upload** tab: Upload a spreadsheet with the above fields for bulk grant creation.
+    
+    Click **Add Another Grant** to add multiple grants in one submission.
   </Step>
   <Step title="Submit">
-    Review the grant list and click **Submit** to create all grants.
+    Click **Create Grants** to save all grants.
   </Step>
 </Steps>
 
@@ -108,17 +124,23 @@ Assign token grants to your employees.
 
 ## Step 5: Set Up Wallet Settings
 
-Configure which blockchain networks and token contracts your organization uses.
+Configure which blockchain networks and token contract your organization uses for settlements.
 
 <Steps>
+  <Step title="Open Wallet Settings">
+    Click **Set Up** next to "Set up wallet settings" in the checklist. The **Wallet Settings** modal opens with two sections: **Networks** and **Token Contract Address**.
+  </Step>
   <Step title="Select networks">
-    Choose from popular networks: **Ethereum**, **Base**, **Solana**, **Polygon**, **Arbitrum**, **Optimism**, **Avalanche**, or add a custom network.
+    Click one or more network pills to add them. Supported networks:
+    **Ethereum**, **Base**, **Solana**, **Polygon**, **Arbitrum**, **Optimism**, **Avalanche**, or **Custom**.
+    
+    Added networks appear as a list below the pills. Click the trash icon to remove a network.
   </Step>
-  <Step title="Set your token address">
-    Enter your token's contract address. This is used for distributions and wallet verification.
+  <Step title="Set your token contract address">
+    Enter your token's contract address in the **Token Contract Address** field and click **Save**. This is used for distributions and wallet verification.
   </Step>
-  <Step title="Save">
-    Click **Save** to apply the configuration.
+  <Step title="Close">
+    Click **Close** to exit the modal. The step is marked complete and the button changes to **Manage**.
   </Step>
 </Steps>
 
@@ -132,37 +154,42 @@ Configure which blockchain networks and token contracts your organization uses.
 
 Connect your custody provider for secure token distribution.
 
-**Supported providers:**
-
-<CardGroup cols={3}>
-  <Card title="Anchorage" icon="shield-halved">
-    Institutional-grade digital asset custody
-  </Card>
-  <Card title="Fireblocks" icon="fire">
-    Enterprise crypto infrastructure
-  </Card>
-  <Card title="Safe" icon="vault">
-    Multisig wallet management
-  </Card>
-</CardGroup>
-
 <Steps>
-  <Step title="Choose a provider">
-    Select Anchorage, Fireblocks, or Safe from the options.
+  <Step title="Open the Connect Custody Integration modal">
+    Click **Connect** next to "Connect custody integration" in the checklist. The **Connect Custody Integration** modal opens.
   </Step>
-  <Step title="Enter credentials">
-    Follow the inline setup dialog for your chosen provider. You'll need API keys and configuration details from your custody account.
+  <Step title="Select a custody provider">
+    Choose one of the four options:
+
+    <CardGroup cols={2}>
+      <Card title="Anchorage Digital" icon="shield-halved">
+        Institutional-grade custody for digital assets with Anchorage Digital.
+      </Card>
+      <Card title="Fireblocks" icon="fire">
+        Secure digital asset infrastructure for custody, transfer, and settlement.
+      </Card>
+      <Card title="Safe (Gnosis)" icon="vault">
+        Multi-signature smart contract wallet for secure on-chain custody.
+      </Card>
+      <Card title="Off Platform" icon="building">
+        Manage custody independently outside of the Toku platform.
+      </Card>
+    </CardGroup>
   </Step>
-  <Step title="Test and save">
-    The system verifies the connection before saving.
+  <Step title="Enter credentials (Anchorage, Fireblocks, or Safe)">
+    Follow the inline setup dialog for your chosen provider. You'll need API keys and configuration details from your custody account. The system verifies the connection before saving.
   </Step>
 </Steps>
+
+<Note>
+**Off Platform** allows you to acknowledge that custody is managed outside of Toku without providing integration credentials. This is suitable for organizations handling settlements independently.
+</Note>
 
 ---
 
 ## After Setup
 
-Once all 6 steps are complete, the checklist disappears and you have full access to:
+Once all 6 steps are complete (100%), the checklist can be dismissed and you have full access to:
 
 <CardGroup cols={2}>
   <Card title="Grant Management" icon="award" href="/tga/client/creating-grants">
