@@ -1,0 +1,165 @@
+---
+title: "Payslips"
+sidebarTitle: "Payslips"
+description: "Payslip generation, file upload, and retrieval"
+---
+
+## Overview
+
+Toku supports two payslip workflows: **automatic generation** after a payroll run completes, and **manual upload** of PDF payslips. Both produce `hrisPayslip` records that employees can download via presigned URLs.
+
+## Payslip Generation
+
+When a payroll run finishes, Toku automatically generates payslips and fires a `payslip.generated` webhook event. Subscribe to this event to know when payslips are ready. For webhook setup, see [Webhooks](/integration-guide/guides/webhooks).
+
+```json
+{
+  "event": "payslip.generated",
+  "data": {
+    "hrisPayslipID": "payslip-uuid",
+    "roleInOrgID": "role-uuid",
+    "payslipDate": "2025-03"
+  }
+}
+```
+
+## File Upload Flow
+
+To upload an external PDF payslip, follow this three-step process. The PDF must be under **20 MB** (`fileSizeInBytes` ≤ 20971520).
+
+<Steps>
+  <Step title="Request a presigned upload URL">
+    Call `POST /createHrisPayslipFileUpload` with the file metadata. The response contains a `fileID` and a presigned `uploadUrl` for S3.
+
+    ```bash
+    curl -X POST https://app.toku.com/api/tokuApi/v1/createHrisPayslipFileUpload \
+      -H "Authorization: Bearer YOUR_API_TOKEN" \
+      -H "x-role-type: CLIENT_ORG_ADMIN" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "roleInOrgID": "role-uuid",
+        "fileName": "payslip-march-2025.pdf",
+        "fileMimeType": "application/pdf",
+        "fileSizeInBytes": 102400
+      }'
+    ```
+
+    Response:
+    ```json
+    {
+      "fileID": "file-uuid",
+      "fileName": "payslip-march-2025.pdf",
+      "fileMimeType": "application/pdf",
+      "fileSizeInBytes": 102400,
+      "uploadUrl": "https://storage.example.com/...?X-Amz-Signature=..."
+    }
+    ```
+
+    Save both `fileID` and `uploadUrl` — you need them in the next steps.
+  </Step>
+
+  <Step title="Upload the PDF directly to S3">
+    `PUT` the raw PDF binary to the presigned `uploadUrl`. **No Toku authorization header is needed** — the presigned URL includes all required credentials.
+
+    ```bash
+    curl -X PUT "UPLOAD_URL_FROM_STEP_1" \
+      -H "Content-Type: application/pdf" \
+      --data-binary @payslip-march-2025.pdf
+    ```
+
+    A `200 OK` response confirms the upload succeeded. If S3 returns an error, the presigned URL may have expired — request a new one from Step 1.
+  </Step>
+
+  <Step title="Register the payslip with Toku">
+    Call `POST /createHrisPayslip` with the `fileID` from Step 1 and the payslip financial details.
+
+    ```bash
+    curl -X POST https://app.toku.com/api/tokuApi/v1/createHrisPayslip \
+      -H "Authorization: Bearer YOUR_API_TOKEN" \
+      -H "x-role-type: CLIENT_ORG_ADMIN" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "roleInOrgID": "role-uuid",
+        "fileID": "file-uuid",
+        "currencyID": "SGD",
+        "payslipDate": "2025-03",
+        "grossAmount": 5000.00,
+        "netAmount": 4200.00
+      }'
+    ```
+
+    Response:
+    ```json
+    {
+      "hrisPayslipID": "payslip-uuid"
+    }
+    ```
+
+    The returned `hrisPayslipID` is the stable identifier for this payslip record.
+  </Step>
+</Steps>
+
+## Retrieving Payslips
+
+### Organization-level listing
+
+Use `POST /getHrisPayslipsForOrg` to list all payslips across an organization with optional filters:
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `search` | string? | Search by employee name or file name |
+| `periodKey` | string? | Filter by period in `YYYY-MM` format |
+| `department` | string? | Filter by department |
+| `limit` | integer? | Results per page (1–200, default 10) |
+| `offset` | integer? | Pagination offset |
+
+The response includes `totalCount`, a `payslips[]` array, and a `dashboardSummary`.
+
+### Employee-level listing
+
+Use `POST /getHrisPayslipsForEmployee` with a `roleInOrgID` to retrieve all payslips for a specific employee.
+
+## Downloading Payslips
+
+Call `POST /getHrisPayslipDownloadUrl` with an `hrisPayslipID` to get a short-lived presigned download URL:
+
+```bash
+curl -X POST https://app.toku.com/api/tokuApi/v1/getHrisPayslipDownloadUrl \
+  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -H "x-role-type: CLIENT_ORG_ADMIN" \
+  -H "Content-Type: application/json" \
+  -d '{ "hrisPayslipID": "payslip-uuid" }'
+```
+
+Response:
+```json
+{
+  "hrisPayslipID": "payslip-uuid",
+  "fileID": "file-uuid",
+  "fileName": "payslip-march-2025.pdf",
+  "mimeType": "application/pdf",
+  "downloadUrl": "https://storage.example.com/...?X-Amz-Signature=..."
+}
+```
+
+Redirect the employee's browser to `downloadUrl` or proxy it from your backend. The URL is short-lived — do not cache it.
+
+## Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Create Payslip File Upload" icon="upload" href="/integration-guide/endpoints/payslips/create-hris-payslip-file-upload">
+    Get a presigned S3 URL for PDF upload
+  </Card>
+  <Card title="Create Payslip" icon="file-lines" href="/integration-guide/endpoints/payslips/create-hris-payslip">
+    Register an uploaded file as a payslip record
+  </Card>
+  <Card title="Get Payslips for Org" icon="building" href="/integration-guide/endpoints/payslips/get-hris-payslips-for-org">
+    List all payslips with search and filters
+  </Card>
+  <Card title="Get Payslips for Employee" icon="user" href="/integration-guide/endpoints/payslips/get-hris-payslips-for-employee">
+    List payslips for a specific employee
+  </Card>
+  <Card title="Get Payslip Download URL" icon="download" href="/integration-guide/endpoints/payslips/get-hris-payslip-download-url">
+    Get a presigned URL to download a payslip PDF
+  </Card>
+</CardGroup>

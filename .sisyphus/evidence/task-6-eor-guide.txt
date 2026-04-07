@@ -1,0 +1,17 @@
+Task 6 — EOR Guide Evidence
+===========================
+Date: 2026-04-07
+
+File written: /Users/ayush/docs/integration-guide/guides/eor.mdx
+Line count: 146 (limit: 200) ✓
+
+Sections covered:
+- Overview: EOR concept, Toku as legal employer
+- Role Mapping: CLIENT_ORG_ADMIN, PAYROLL_ADMIN, employee
+- Employee Onboarding Flow (Steps component): createHrisPerson → getOnboardingProgress → employee completes steps → ACTIVE
+- curl example for createHrisPerson with EOR-specific fields (employmentType, employmentServiceType, baseSalary, baseSalaryCurrency)
+- Listing and Looking Up People: getHrisPeople, getHrisPerson
+- Profile Management: updateHrisPerson (basic fields) vs updateHrisEmployeeProfile (triggers change request)
+- Onboarding Overview: getOnboardingOverview
+- Co-Branded Experience note
+- Next Steps CardGroup with 4 links to endpoint pages

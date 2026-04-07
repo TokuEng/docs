@@ -197,11 +197,88 @@
             "group": "FAQ",
             "pages": ["tga/faq"]
           }
-        ]
-      },
-      {
-        "tab": "API Reference",
-        "url": "api",
+         ]
+       },
+       {
+         "tab": "Integration Guide",
+         "url": "integration-guide",
+         "groups": [
+           {
+             "group": "Overview",
+             "pages": ["integration-guide/overview"]
+           },
+            {
+              "group": "Authentication",
+              "pages": [
+                "integration-guide/guides/authentication",
+                "integration-guide/endpoints/auth/create-api-token",
+                "integration-guide/endpoints/auth/refresh-api-token",
+                "integration-guide/endpoints/auth/generate-auth-nonce"
+              ]
+            },
+           {
+              "group": "Payroll",
+              "pages": [
+                "integration-guide/guides/payroll",
+                "integration-guide/endpoints/payroll/get-all-payroll",
+                "integration-guide/endpoints/payroll/create-payroll",
+                "integration-guide/endpoints/payroll/get-payroll",
+                "integration-guide/endpoints/payroll/update-payroll-state",
+                "integration-guide/endpoints/payroll/validate-calculate-payroll"
+              ]
+            },
+            {
+              "group": "EOR",
+              "pages": [
+                "integration-guide/guides/eor",
+                "integration-guide/endpoints/eor/get-hris-people",
+                "integration-guide/endpoints/eor/create-hris-person",
+                "integration-guide/endpoints/eor/get-hris-person",
+                "integration-guide/endpoints/eor/update-hris-person",
+                "integration-guide/endpoints/eor/get-onboarding-overview",
+                "integration-guide/endpoints/eor/get-onboarding-progress",
+                "integration-guide/endpoints/eor/update-hris-employee-profile"
+              ]
+            },
+            {
+              "group": "Payslips & Documents",
+              "pages": [
+                "integration-guide/guides/payslips",
+                "integration-guide/endpoints/payslips/create-hris-payslip-file-upload",
+                "integration-guide/endpoints/payslips/create-hris-payslip",
+                "integration-guide/endpoints/payslips/get-hris-payslips-for-org",
+                "integration-guide/endpoints/payslips/get-hris-payslips-for-employee",
+                "integration-guide/endpoints/payslips/get-hris-payslip-download-url"
+              ]
+            },
+            {
+              "group": "Webhooks",
+              "pages": [
+                "integration-guide/guides/webhooks",
+                "integration-guide/endpoints/webhooks/list-webhook-endpoints",
+                "integration-guide/endpoints/webhooks/create-webhook-endpoint",
+                "integration-guide/endpoints/webhooks/delete-webhook-endpoint",
+                "integration-guide/endpoints/webhooks/list-webhook-deliveries"
+              ]
+            },
+           {
+             "group": "Stablecoin Funding",
+             "pages": [
+               "integration-guide/guides/stablecoin-funding",
+               "integration-guide/endpoints/stablecoin/get-all-token-payrolls",
+               "integration-guide/endpoints/stablecoin/create-token-payroll",
+               "integration-guide/endpoints/stablecoin/get-token-payroll-by-id",
+               "integration-guide/endpoints/stablecoin/update-token-payroll-state",
+               "integration-guide/endpoints/stablecoin/compute-pending-settlements",
+               "integration-guide/endpoints/stablecoin/approve-token-payroll-settlements",
+               "integration-guide/endpoints/stablecoin/get-token-payroll-breakdown"
+             ]
+           }
+         ]
+       },
+       {
+         "tab": "API Reference",
+         "url": "api",
         "groups": [
           {
             "group": "Getting Started",

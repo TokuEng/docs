@@ -1,0 +1,20 @@
+Task 5 — Payroll Guide Evidence
+================================
+Date: 2026-04-07
+
+File: /Users/ayush/docs/integration-guide/guides/payroll.mdx
+Line count: 183 (≤ 200 ✓)
+
+Contents verified:
+- Payroll run lifecycle (DRAFT → CALCULATING → APPROVED → FUNDING → COMPLETED/FAILED)
+- <Steps> component for lifecycle steps 1–5
+- Mermaid state machine diagram
+- curl example for createPayroll with realistic field values
+- Off-cycle runs section (REGULAR, BONUS, CORRECTION, TERMINATION types)
+- Multi-currency section (payrollFiatCurrency + tokenTypeID)
+- Employee validation section (validateAndCalculatePayroll)
+- Stablecoin funding cross-reference
+- Next Steps CardGroup linking to endpoint pages
+
+wc -l output:
+     183 /Users/ayush/docs/integration-guide/guides/payroll.mdx

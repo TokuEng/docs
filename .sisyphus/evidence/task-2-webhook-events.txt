@@ -1,0 +1,17 @@
+WebhookEventType values from /Users/ayush/TGA/src/server/services/webhooks/event-types.ts:
+- grant.created
+- grant.terminated
+- grant.termination_reverted
+- distribution.schedule_approved
+- distribution.settlement_completed
+- employee.onboarded
+- employee.offboarded
+- payroll_run.created
+- payroll_run.approved
+- payroll_run.completed
+- payslip.generated
+- payment.initiated
+- payment.completed
+- contractor.invoice_submitted
+- time_off.requested
+- time_off.status_changed

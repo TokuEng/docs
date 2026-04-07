@@ -1,0 +1,50 @@
+Registry checked: /Users/ayush/TGA/src/server/injectors/external-api-injectors.ts
+
+Included operation keys by domain:
+Auth
+- createUserApiToken
+- refreshUserApiToken
+
+Payroll
+- getAllPayroll
+- createPayroll
+- getPayroll
+- updatePayrollState
+- validateAndCalculatePayroll
+
+EOR/HRIS
+- getHrisPeople
+- getOnboardingOverview
+- createHrisPerson
+- getHrisPerson
+- updateHrisPerson
+- getOnboardingProgress
+- updateHrisEmployeeProfile
+
+Payslips
+- createHrisPayslipFileUpload
+- createHrisPayslip
+- getHrisPayslipsForOrg
+- getHrisPayslipsForEmployee
+- getHrisPayslipDownloadUrl
+
+Webhooks
+- listWebhookEndpoints
+- listWebhookDeliveries
+- createWebhookEndpoint
+- deleteWebhookEndpoint
+
+Stablecoin Funding
+- getAllTokenPayrolls
+- createTokenPayroll
+- getTokenPayrollByID
+- updateTokenPayrollState
+- computePendingSettlements
+- approveTokenPayrollSettlements
+- getTokenPayrollBreakdown
+
+Out-of-scope registry entries noted separately:
+- Reporting: generateHrisReport, getPayrollReporting
+- Contractors: inviteContractor, listContractorsUnified, listContractorInvoices, reviewInvoice
+- Employee Self-Service / Leave-Time Off: createTimeOff, getEmployeeTimeOffs, getEmployeeLeaveBalance, updateTimeOffStatus, getEmployeeTimeOffPolicy, getOrgTimeOffs
+- Employee Management reference: listOrgEmployees, getOrgPayrollOverview

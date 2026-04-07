@@ -1,0 +1,29 @@
+TASK 4: Authentication Domain Guide - COMPLETED
+
+FILE: /Users/ayush/docs/integration-guide/guides/authentication.mdx
+STATUS: Created
+LINE COUNT: 121 (requirement: ≤ 200)
+
+CONTENT COVERAGE:
+✓ Overview section explaining partner auth flow
+✓ Token Exchange Flow with <Steps> component
+  - Step 1: Obtain initial credentials
+  - Step 2: Create API token (POST /createUserApiToken with curl example)
+  - Step 3: Use token in requests
+  - Step 4: Refresh before expiry (POST /refreshUserApiToken with curl example)
+✓ Required Headers table (Authorization, x-role-type, Content-Type)
+✓ Token Scoping section with role types (CLIENT_ORG_ADMIN, PAYROLL_ADMIN, FINANCE_ADMIN, INVESTOR)
+✓ Rate Limits section (100 req/min per IP, linked to /api/errors)
+✓ Partner onboarding placeholder: "Contact Toku to provision your organization and obtain initial credentials"
+✓ Links to existing /api/authentication for base concepts (no duplication)
+✓ Next Steps with CardGroup linking to endpoint pages
+
+CURL EXAMPLES INCLUDED:
+- createUserApiToken with email, orgID, roleInOrgID parameters
+- refreshUserApiToken with token refresh
+- Both show response JSON structure with token, personalTokenID, expiresAt
+
+LINKS:
+- [API Authentication](/api/authentication) - base concepts
+- [Error Handling](/api/errors) - rate limit errors
+- Endpoint pages in Next Steps section

@@ -1,0 +1,26 @@
+Task 6 — EOR Endpoint Stubs Evidence
+=====================================
+Date: 2026-04-07
+
+Directory: /Users/ayush/docs/integration-guide/endpoints/eor/
+
+Files created (7):
+1. get-hris-people.mdx          — openapi: "GET /getHrisPeople"
+2. create-hris-person.mdx       — openapi: "POST /createHrisPerson"
+3. get-hris-person.mdx          — openapi: "POST /getHrisPerson"
+4. update-hris-person.mdx       — openapi: "POST /updateHrisPerson"
+5. get-onboarding-overview.mdx  — openapi: "GET /getOnboardingOverview"
+6. get-onboarding-progress.mdx  — openapi: "POST /getOnboardingProgress"
+7. update-hris-employee-profile.mdx — openapi: "PUT /updateHrisEmployeeProfile"
+
+docs.json EOR group updated at line 230:
+  pages: [
+    "integration-guide/guides/eor",
+    "integration-guide/endpoints/eor/get-hris-people",
+    "integration-guide/endpoints/eor/create-hris-person",
+    "integration-guide/endpoints/eor/get-hris-person",
+    "integration-guide/endpoints/eor/update-hris-person",
+    "integration-guide/endpoints/eor/get-onboarding-overview",
+    "integration-guide/endpoints/eor/get-onboarding-progress",
+    "integration-guide/endpoints/eor/update-hris-employee-profile"
+  ]

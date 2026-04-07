@@ -1,0 +1,121 @@
+---
+title: "Authentication"
+sidebarTitle: "Auth"
+description: "Partner authentication flow and API token lifecycle"
+---
+
+## Overview
+
+Partner authentication in Toku uses scoped API tokens. Your backend obtains a token by calling the `createUserApiToken` endpoint with your organization credentials, then includes that token in all subsequent API requests.
+
+<Note>
+Before you begin, you'll need organization credentials from Toku. Contact Toku to provision your organization and obtain initial credentials.
+</Note>
+
+## Token Exchange Flow
+
+For detailed information on token concepts and security best practices, see [API Authentication](/api/authentication).
+
+<Steps>
+  <Step title="Obtain initial credentials">
+    Toku provisions your organization with initial credentials during onboarding. Store these securely.
+  </Step>
+  <Step title="Create an API token">
+    Call `POST /createUserApiToken` with your organization credentials:
+
+    ```bash
+    curl -X POST https://app.toku.com/api/tokuApi/v1/createUserApiToken \
+      -H "Authorization: Bearer INITIAL_CREDENTIAL" \
+      -H "x-role-type: CLIENT_ORG_ADMIN" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "email": "your-email@company.com",
+        "orgID": "org-uuid",
+        "roleInOrgID": "CLIENT_ORG_ADMIN"
+      }'
+    ```
+
+    Response:
+    ```json
+    {
+      "personalToken": {
+        "token": "toku_live_...",
+        "personalTokenID": "token-uuid",
+        "expiresAt": "2026-05-07T03:05:00Z"
+      }
+    }
+    ```
+
+    **Store the token securely** — it cannot be retrieved again.
+  </Step>
+  <Step title="Use the token in requests">
+    Include the token in every API request:
+
+    ```bash
+    curl https://app.toku.com/api/tokuApi/v1/listGrants \
+      -H "Authorization: Bearer toku_live_..." \
+      -H "x-role-type: CLIENT_ORG_ADMIN"
+    ```
+  </Step>
+  <Step title="Refresh before expiry">
+    Tokens expire after 30 days. Refresh before expiry using `POST /refreshUserApiToken`:
+
+    ```bash
+    curl -X POST https://app.toku.com/api/tokuApi/v1/refreshUserApiToken \
+      -H "Authorization: Bearer toku_live_..." \
+      -H "x-role-type: CLIENT_ORG_ADMIN" \
+      -H "Content-Type: application/json"
+    ```
+
+    Response:
+    ```json
+    {
+      "personalToken": {
+        "token": "toku_live_...",
+        "personalTokenID": "token-uuid",
+        "expiresAt": "2026-06-06T03:05:00Z"
+      }
+    }
+    ```
+  </Step>
+</Steps>
+
+## Required Headers
+
+Every request must include these headers:
+
+| Header | Required | Description |
+|--------|----------|-------------|
+| `Authorization` | Yes | `Bearer YOUR_API_TOKEN` |
+| `x-role-type` | Yes | Role context for the request (see below) |
+| `Content-Type` | For POST/PUT/DELETE | Must be `application/json` |
+
+## Token Scoping
+
+Each API token is scoped to a single organization and inherits the permissions of the user who created it. If the user's role is revoked, the token stops working.
+
+### Role Types
+
+The `x-role-type` header determines request permissions:
+
+| Role | Description |
+|------|-------------|
+| `CLIENT_ORG_ADMIN` | Full administrative access to the organization |
+| `PAYROLL_ADMIN` | Access to payroll and settlement operations |
+| `FINANCE_ADMIN` | Access to financial reporting and payment operations |
+| `INVESTOR` | Read access to investment and warrant data |
+
+## Rate Limits
+
+API requests are rate-limited to **100 requests per minute per IP**. For details on rate limit errors and other error responses, see [Error Handling](/api/errors).
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Create API Token" icon="key" href="/integration-guide/endpoints/auth/create-api-token">
+    Endpoint reference for token creation
+  </Card>
+  <Card title="Refresh API Token" icon="rotate" href="/integration-guide/endpoints/auth/refresh-api-token">
+    Endpoint reference for token refresh
+  </Card>
+</CardGroup>

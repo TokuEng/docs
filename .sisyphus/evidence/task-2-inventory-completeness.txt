@@ -1,0 +1,9 @@
+Domains found: Auth, Payroll, EOR/HRIS, Payslips, Webhooks, Stablecoin Funding
+Total operations documented: 30
+Operations per domain:
+  Auth: 2
+  Payroll: 5
+  EOR/HRIS: 7
+  Payslips: 5
+  Webhooks: 4
+  Stablecoin: 7

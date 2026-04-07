@@ -1,0 +1,42 @@
+=== overview.mdx ===
+---
+title: "Integration Guide"
+sidebarTitle: "Overview"
+description: "Embed Toku's payroll, EOR, and stablecoin payment platform into your product"
+---
+=== authentication.mdx ===
+---
+title: "Authentication"
+sidebarTitle: "Auth"
+description: "Partner authentication flow and API token lifecycle"
+---
+=== eor.mdx ===
+---
+title: "Employer of Record"
+sidebarTitle: "EOR"
+description: "EOR employee onboarding and contract management"
+---
+=== payroll.mdx ===
+---
+title: "Payroll"
+sidebarTitle: "Payroll"
+description: "Payroll run lifecycle from creation to disbursement"
+---
+=== payslips.mdx ===
+---
+title: "Payslips & Documents"
+sidebarTitle: "Payslips"
+description: "Payslip generation, upload, and retrieval"
+---
+=== stablecoin-funding.mdx ===
+---
+title: "Stablecoin Funding"
+sidebarTitle: "Stablecoin"
+description: "Token payroll creation and stablecoin settlement flow"
+---
+=== webhooks.mdx ===
+---
+title: "Webhooks"
+sidebarTitle: "Webhooks"
+description: "Event-driven notifications for payroll and EOR events"
+---

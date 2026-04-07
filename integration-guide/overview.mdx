@@ -1,0 +1,79 @@
+---
+title: "Integration Guide"
+sidebarTitle: "Overview"
+description: "Embed Toku's payroll, EOR, and stablecoin payment platform into your product"
+---
+
+Toku's partner API lets your platform embed payroll, EOR, and stablecoin payment capabilities without building compliance infrastructure. Use this guide to connect your system to Toku's six core domains.
+
+## Domain Guides
+
+<CardGroup cols={2}>
+  <Card title="Authentication" icon="key" href="/integration-guide/guides/authentication">
+    Obtain scoped API tokens and manage the token lifecycle
+  </Card>
+  <Card title="Payroll" icon="money-bill" href="/integration-guide/guides/payroll">
+    Create payroll runs, validate, approve, and track disbursement
+  </Card>
+  <Card title="Employer of Record" icon="building" href="/integration-guide/guides/eor">
+    Onboard EOR employees, manage profiles and onboarding progress
+  </Card>
+  <Card title="Payslips" icon="file-invoice" href="/integration-guide/guides/payslips">
+    Generate, upload, and retrieve payslips with presigned download URLs
+  </Card>
+  <Card title="Webhooks" icon="webhook" href="/integration-guide/guides/webhooks">
+    Subscribe to real-time events with HMAC-signed HTTPS delivery
+  </Card>
+  <Card title="Stablecoin Funding" icon="coins" href="/integration-guide/guides/stablecoin-funding">
+    Pre-fund payroll with on-chain stablecoin transfers
+  </Card>
+</CardGroup>
+
+## Integration Options
+
+Toku supports three integration patterns depending on how deeply you want to embed its capabilities:
+
+- **Embedded iframe**: Render Toku's hosted UI inside your product via iframe. Minimal engineering effort — drop in a frame and let Toku handle the UI.
+- **SSO redirect**: Redirect authenticated users to Toku's portal using SSO. Users experience Toku's full interface under your authentication context.
+- **Headless API**: Call Toku APIs directly and build your own UI. Full control over the user experience.
+
+<Note>KAST uses the headless API integration pattern — their platform calls Toku APIs directly and renders payroll and EOR UI using their own design system.</Note>
+
+## Getting Started
+
+<Steps>
+  <Step title="Contact Toku">
+    Request partner access to provision your organization and receive API credentials.
+  </Step>
+  <Step title="Create an API token">
+    Call `POST /createUserAPIToken` with your organization credentials to get a scoped bearer token.
+  </Step>
+  <Step title="Configure webhooks">
+    Register your HTTPS endpoint to receive real-time events for payroll, EOR, and payslip updates.
+  </Step>
+  <Step title="Run a test payroll">
+    Create a draft payroll run with test employees to verify your integration end-to-end.
+  </Step>
+  <Step title="Go live">
+    Switch to production credentials and begin processing real payroll runs.
+  </Step>
+</Steps>
+
+## Quick Reference
+
+| Domain | What it covers | Guide |
+|--------|----------------|-------|
+| Authentication | API token creation and refresh | [Auth Guide](/integration-guide/guides/authentication) |
+| Payroll | Payroll run lifecycle: create → approve → disburse | [Payroll Guide](/integration-guide/guides/payroll) |
+| Employer of Record | Employee onboarding, contracts, profile management | [EOR Guide](/integration-guide/guides/eor) |
+| Payslips | Payslip generation, upload, and download | [Payslips Guide](/integration-guide/guides/payslips) |
+| Webhooks | Event delivery, signing, retry logic | [Webhooks Guide](/integration-guide/guides/webhooks) |
+| Stablecoin Funding | On-chain funding and settlement for payroll | [Stablecoin Guide](/integration-guide/guides/stablecoin-funding) |
+
+## Rate Limits
+
+All API endpoints are rate-limited to 100 requests per minute per IP address. Requests that exceed this limit receive a `429 Too Many Requests` response. See [API Errors](/api/errors) for error response formats.
+
+## Sandbox & Testing
+
+<Info>Sandbox credentials are available on request. Contact Toku to provision a sandbox organization for integration testing before going live.</Info>

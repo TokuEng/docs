@@ -1,0 +1,38 @@
+Task 5 — Payroll Endpoint Stubs Evidence
+=========================================
+Date: 2026-04-07
+
+Files created in /Users/ayush/docs/integration-guide/endpoints/payroll/:
+
+1. get-all-payroll.mdx
+   title: "Get All Payrolls"
+   openapi: "GET /getAllPayroll"
+
+2. create-payroll.mdx
+   title: "Create Payroll"
+   openapi: "POST /createPayroll"
+
+3. get-payroll.mdx
+   title: "Get Payroll"
+   openapi: "POST /getPayroll"
+
+4. update-payroll-state.mdx
+   title: "Update Payroll State"
+   openapi: "POST /updatePayrollState"
+
+5. validate-calculate-payroll.mdx
+   title: "Validate and Calculate Payroll"
+   openapi: "POST /validateAndCalculatePayroll"
+
+docs.json Payroll group updated at line 219:
+{
+  "group": "Payroll",
+  "pages": [
+    "integration-guide/guides/payroll",
+    "integration-guide/endpoints/payroll/get-all-payroll",
+    "integration-guide/endpoints/payroll/create-payroll",
+    "integration-guide/endpoints/payroll/get-payroll",
+    "integration-guide/endpoints/payroll/update-payroll-state",
+    "integration-guide/endpoints/payroll/validate-calculate-payroll"
+  ]
+}

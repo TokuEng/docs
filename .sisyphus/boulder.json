@@ -1,0 +1,82 @@
+{
+  "active_plan": "/Users/ayush/docs/.sisyphus/plans/api-integration-guide.md",
+  "started_at": "2026-04-06T21:33:18.876Z",
+  "session_ids": [
+    "ses_29b4923c2ffeq52nDkCw17Bc1K",
+    "ses_29b144aa3ffezv7sVZ00QbjlR4",
+    "ses_29b01c85cffeVSvHo7QLH27sey",
+    "ses_29b018e82ffeHTYgcPdAgF0TdK",
+    "ses_29b013c24ffeC0ksHnl4IEGSyx",
+    "ses_29b00a6f8fferpDwFk7O79MxA4",
+    "ses_29af20193ffelLNuY41C8TaJkA",
+    "ses_29af1b156ffeSR3CkdurDs7fbW"
+  ],
+  "session_origins": {
+    "ses_29b4923c2ffeq52nDkCw17Bc1K": "direct",
+    "ses_29b144aa3ffezv7sVZ00QbjlR4": "direct",
+    "ses_29b01c85cffeVSvHo7QLH27sey": "appended",
+    "ses_29b018e82ffeHTYgcPdAgF0TdK": "appended",
+    "ses_29b013c24ffeC0ksHnl4IEGSyx": "appended",
+    "ses_29b00a6f8fferpDwFk7O79MxA4": "appended",
+    "ses_29af20193ffelLNuY41C8TaJkA": "appended",
+    "ses_29af1b156ffeSR3CkdurDs7fbW": "appended"
+  },
+  "plan_name": "api-integration-guide",
+  "agent": "atlas",
+  "task_sessions": {
+    "todo:1": {
+      "task_key": "todo:1",
+      "task_label": "1",
+      "task_title": "Directory Scaffold + docs.json Tab Skeleton",
+      "session_id": "ses_29b477a61ffeeWNoFKci5vNS9T",
+      "agent": "Sisyphus-Junior",
+      "category": "quick",
+      "updated_at": "2026-04-06T21:35:49.199Z"
+    },
+    "todo:3": {
+      "task_key": "todo:3",
+      "task_label": "3",
+      "task_title": "Add OpenAPI Schemas + Endpoint Paths for All 6 Domains",
+      "session_id": "ses_29b3565e5ffeCSJSxpq8DYu05R",
+      "agent": "Sisyphus-Junior",
+      "category": "quick",
+      "updated_at": "2026-04-06T21:55:12.027Z"
+    },
+    "todo:4": {
+      "task_key": "todo:4",
+      "task_label": "4",
+      "task_title": "Auth Domain — Prose Guide + Endpoint MDX Stubs",
+      "session_id": "ses_29b332b09ffeRMsYAPfQFMJOHy",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-04-06T21:59:37.966Z"
+    },
+    "todo:10": {
+      "task_key": "todo:10",
+      "task_label": "10",
+      "task_title": "Integration Guide Overview Page Finalization",
+      "session_id": "ses_29b111c46ffeeo5NPoy4Nhf9Vr",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-04-06T22:35:59.431Z"
+    },
+    "todo:12": {
+      "task_key": "todo:12",
+      "task_label": "12",
+      "task_title": "OpenAPI Validation + Mintlify Build Verification",
+      "session_id": "ses_29b0ec9b7ffeR2aS99RyyvTiss",
+      "agent": "Sisyphus-Junior",
+      "category": "quick",
+      "updated_at": "2026-04-06T22:43:41.726Z"
+    },
+    "final-wave:f1": {
+      "task_key": "final-wave:f1",
+      "task_label": "F1",
+      "task_title": "**Plan Compliance Audit** — `oracle`",
+      "session_id": "ses_29af1b156ffeSR3CkdurDs7fbW",
+      "agent": "Sisyphus-Junior",
+      "category": "deep",
+      "updated_at": "2026-04-06T23:13:03.310Z"
+    }
+  }
+}

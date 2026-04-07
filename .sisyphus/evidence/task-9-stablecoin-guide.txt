@@ -1,0 +1,25 @@
+task-9 stablecoin guide evidence
+=================================
+Date: 2026-04-07
+
+File: /Users/ayush/docs/integration-guide/guides/stablecoin-funding.mdx
+Line count: 179 (≤200 ✓)
+
+Sections covered:
+- Overview (concept + key characteristics)
+- End-to-End Funding Flow (<Steps> component, 5 steps)
+  - Step 1: createTokenPayroll (with curl example)
+  - Step 2: computePendingSettlements
+  - Step 3: On-chain transfer
+  - Step 4: approveTokenPayrollSettlements
+  - Step 5: Toku disbursement → COMPLETED
+- Listing and Lookup (getAllTokenPayrolls, getTokenPayrollByID)
+- State Management (updateTokenPayrollState + state table)
+- Per-Employee Breakdown (getTokenPayrollBreakdown)
+- Multi-Currency Notes (exchange rate locking)
+- Next Steps (CardGroup with 4 cards)
+
+Constraints respected:
+- No Fireblocks/Anchorage custody details
+- No wallet addresses or chain-specific config
+- Under 200 lines

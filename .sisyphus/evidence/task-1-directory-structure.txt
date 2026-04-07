@@ -1,0 +1,7 @@
+/Users/ayush/docs/integration-guide/guides/authentication.mdx
+/Users/ayush/docs/integration-guide/guides/eor.mdx
+/Users/ayush/docs/integration-guide/guides/payroll.mdx
+/Users/ayush/docs/integration-guide/guides/payslips.mdx
+/Users/ayush/docs/integration-guide/guides/stablecoin-funding.mdx
+/Users/ayush/docs/integration-guide/guides/webhooks.mdx
+/Users/ayush/docs/integration-guide/overview.mdx

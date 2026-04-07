@@ -1,0 +1,22 @@
+Task 7: Payslips Domain Guide
+Date: 2026-04-07
+
+File written: /Users/ayush/docs/integration-guide/guides/payslips.mdx
+Line count: 165 (≤200 limit ✓)
+
+Guide covers:
+1. Overview - two workflows (auto-generation + manual upload)
+2. Payslip Generation - payslip.generated webhook event with example payload
+3. File Upload Flow - three-step process with <Steps> component and curl examples:
+   - Step 1: POST /createHrisPayslipFileUpload → get fileID + uploadUrl
+   - Step 2: PUT to presigned S3 URL (no Toku auth needed)
+   - Step 3: POST /createHrisPayslip with fileID → returns hrisPayslipID
+4. Retrieving Payslips:
+   - Org-level: getHrisPayslipsForOrg with search/periodKey/department/limit/offset filters
+   - Employee-level: getHrisPayslipsForEmployee with roleInOrgID
+5. Downloading - getHrisPayslipDownloadUrl returns short-lived presigned URL
+6. Endpoints CardGroup linking all 5 endpoint pages
+
+Size constraint: Max 20MB (20971520 bytes) per PDF documented ✓
+S3 bucket names: Not included ✓
+Fields: Only fields from inventory used ✓

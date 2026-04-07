@@ -1,0 +1,56 @@
+Inventory source line:
+| `createPayroll` | POST | `src/server/operations/payroll/createPayroll.ts` | `payrollName?: string`, `payrollStartDate: Date`, `payrollEndDate: Date`, `payrollPayDate?: Date`, `payrollFiatCurrency: string`, `tokenTypeID: string`, `payrollEntity: string` (typed only) | `payroll: Payroll \| null` (created object uses `name`, `entity`, `payPeriodStart`, `payPeriodEnd`, `payDate`, `fiatCurrency`, `tokenTypeID`, `currentStep`, `state`, `orgID`, creator/modifier links) | `Authorization: Bearer <token>`; role-backed request context (`AuthorisedOperation`) |
+
+OpenAPI CreatePayrollInput schema:
+{
+  "type": "object",
+  "required": [
+    "payrollStartDate",
+    "payrollEndDate",
+    "payrollFiatCurrency",
+    "tokenTypeID",
+    "payrollEntity"
+  ],
+  "properties": {
+    "payrollName": {
+      "type": "string",
+      "description": "Optional payroll name",
+      "nullable": true
+    },
+    "payrollStartDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Payroll period start date"
+    },
+    "payrollEndDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Payroll period end date"
+    },
+    "payrollPayDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Scheduled payroll pay date",
+      "nullable": true
+    },
+    "payrollFiatCurrency": {
+      "type": "string",
+      "description": "Fiat currency code for the payroll"
+    },
+    "tokenTypeID": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Token type identifier"
+    },
+    "payrollEntity": {
+      "type": "string",
+      "description": "Payroll entity identifier"
+    }
+  }
+}
+
+Manual spot-check:
+Expected fields: ['payrollEndDate', 'payrollEntity', 'payrollFiatCurrency', 'payrollName', 'payrollPayDate', 'payrollStartDate', 'tokenTypeID']
+Actual fields: ['payrollEndDate', 'payrollEntity', 'payrollFiatCurrency', 'payrollName', 'payrollPayDate', 'payrollStartDate', 'tokenTypeID']
+Required fields: ['payrollStartDate', 'payrollEndDate', 'payrollFiatCurrency', 'tokenTypeID', 'payrollEntity']
+Field sets match: True

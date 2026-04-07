@@ -37,16 +37,36 @@
       "description": "Configure organization settings"
     },
     {
-      "name": "Authentication",
-      "description": "Create and manage API tokens"
-    },
-    {
       "name": "Distributions",
       "description": "Approve vestings, add tax details, update FMV, finalize, submit settlements, and track status"
     },
     {
       "name": "Custody",
       "description": "Connect custody providers (Fireblocks, Anchorage, Safe), manage custody wallets, and allocate to grants"
+    },
+    {
+      "name": "Authentication",
+      "description": "Partner API token management"
+    },
+    {
+      "name": "Payroll",
+      "description": "Payroll run creation, management, and state transitions"
+    },
+    {
+      "name": "EOR",
+      "description": "Employer of Record employee onboarding and management"
+    },
+    {
+      "name": "Payslips",
+      "description": "Payslip generation, upload, and retrieval"
+    },
+    {
+      "name": "Webhooks",
+      "description": "Webhook endpoint management and event delivery"
+    },
+    {
+      "name": "Stablecoin Funding",
+      "description": "Token payroll creation and stablecoin settlement"
     }
   ],
   "components": {
@@ -519,6 +539,3062 @@
           "orgID": {
             "type": "string",
             "format": "uuid"
+          }
+        }
+      },
+        "TgaPayrollState": {
+          "type": "string",
+          "description": "Payroll lifecycle state.",
+          "enum": [
+            "DRAFT",
+            "CALCULATING",
+            "APPROVED",
+            "FUNDING",
+            "COMPLETED",
+            "FAILED"
+          ]
+        },
+        "WebhookEventType": {
+          "type": "string",
+          "description": "Webhook event type emitted by the partner-facing API.",
+          "enum": [
+            "grant.created",
+            "grant.terminated",
+            "grant.termination_reverted",
+            "distribution.schedule_approved",
+            "distribution.settlement_completed",
+            "employee.onboarded",
+            "employee.offboarded",
+            "payroll_run.created",
+            "payroll_run.approved",
+            "payroll_run.completed",
+            "payslip.generated",
+            "payment.initiated",
+            "payment.completed",
+            "contractor.invoice_submitted",
+            "time_off.requested",
+            "time_off.status_changed"
+          ]
+        },
+        "CreateUserApiTokenInput": {
+          "type": "object",
+          "required": [
+            "email",
+            "orgID",
+            "roleInOrgID",
+            "fromHRIS"
+          ],
+          "properties": {
+            "email": {
+              "type": "string",
+              "format": "email",
+              "description": "User email for the API token"
+            },
+            "orgID": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Organization identifier"
+            },
+            "roleInOrgID": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Role-in-org identifier"
+            },
+            "fromHRIS": {
+              "type": "boolean",
+              "description": "Whether the token is requested from the HRIS integration flow"
+            }
+          }
+        },
+        "CreateUserApiTokenResponse": {
+          "type": "object",
+          "required": [
+            "personalToken"
+          ],
+          "properties": {
+            "personalToken": {
+              "$ref": "#/components/schemas/PersonalToken"
+            }
+          }
+        },
+        "RefreshUserApiTokenInput": {
+          "type": "object",
+          "required": [
+            "email",
+            "orgID",
+            "roleInOrgID"
+          ],
+          "properties": {
+            "email": {
+              "type": "string",
+              "format": "email",
+              "description": "User email for the API token"
+            },
+            "orgID": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Organization identifier"
+            },
+            "roleInOrgID": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Role-in-org identifier"
+            }
+          }
+        },
+        "RefreshUserApiTokenResponse": {
+          "type": "object",
+          "required": [
+            "personalToken"
+          ],
+          "properties": {
+            "personalToken": {
+              "$ref": "#/components/schemas/PersonalToken"
+            }
+          }
+        },
+        "GetAllPayrollInput": {
+          "type": "object",
+          "description": "No request body is required for listing payroll runs.",
+          "properties": {}
+        },
+        "GetAllPayrollResponse": {
+          "type": "object",
+          "required": [
+            "payrolls"
+          ],
+          "properties": {
+            "payrolls": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Payroll identifier"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Payroll display name"
+                  },
+                  "entity": {
+                    "type": "string",
+                    "description": "Payroll entity name or identifier"
+                  },
+                  "payPeriodStart": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Payroll period start date"
+                  },
+                  "payPeriodEnd": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Payroll period end date"
+                  },
+                  "payDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Scheduled payroll pay date"
+                  },
+                  "currentStep": {
+                    "type": "string",
+                    "description": "Current workflow step"
+                  },
+                  "state": {
+                    "$ref": "#/components/schemas/TgaPayrollState"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "Payroll type"
+                  },
+                  "externalPayrollID": {
+                    "type": "string",
+                    "description": "External payroll identifier",
+                    "nullable": true
+                  },
+                  "fiatCurrency": {
+                    "type": "string",
+                    "description": "Fiat settlement currency"
+                  },
+                  "stableCoinCurrency": {
+                    "type": "string",
+                    "description": "Stablecoin currency code",
+                    "nullable": true
+                  },
+                  "tokenTypeID": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Token type identifier",
+                    "nullable": true
+                  },
+                  "exchangeRate": {
+                    "type": "number",
+                    "description": "FX rate used for payroll calculations",
+                    "nullable": true
+                  },
+                  "isStablecoinPayrollComplete": {
+                    "type": "boolean",
+                    "description": "Whether stablecoin settlement is complete"
+                  },
+                  "isFiatPayrollComplete": {
+                    "type": "boolean",
+                    "description": "Whether fiat settlement is complete"
+                  },
+                  "isSyncedFromHRIS": {
+                    "type": "boolean",
+                    "description": "Whether payroll originated from HRIS sync"
+                  },
+                  "selectedEmployeeIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": "Selected employee identifier"
+                    }
+                  },
+                  "importedData": {
+                    "type": "object",
+                    "description": "Imported employee data payload",
+                    "properties": {},
+                    "additionalProperties": true
+                  },
+                  "processedData": {
+                    "type": "object",
+                    "description": "Processed employee payroll data payload",
+                    "properties": {},
+                    "additionalProperties": true
+                  },
+                  "settlementData": {
+                    "type": "object",
+                    "description": "Settlement calculation payload",
+                    "properties": {},
+                    "additionalProperties": true
+                  },
+                  "isCsvUploaded": {
+                    "type": "boolean",
+                    "description": "Whether payroll data came from CSV upload"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Creation timestamp"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Last update timestamp"
+                  },
+                  "createdByID": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Creator role-in-org identifier"
+                  },
+                  "lastModifiedByID": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Last modifier role-in-org identifier"
+                  },
+                  "orgID": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Organization identifier"
+                  }
+                }
+              },
+              "description": "Payroll runs for the authenticated organization"
+            }
+          }
+        },
+        "CreatePayrollInput": {
+          "type": "object",
+          "required": [
+            "payrollStartDate",
+            "payrollEndDate",
+            "payrollFiatCurrency",
+            "tokenTypeID",
+            "payrollEntity"
+          ],
+          "properties": {
+            "payrollName": {
+              "type": "string",
+              "description": "Optional payroll name",
+              "nullable": true
+            },
+            "payrollStartDate": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Payroll period start date"
+            },
+            "payrollEndDate": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Payroll period end date"
+            },
+            "payrollPayDate": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Scheduled payroll pay date",
+              "nullable": true
+            },
+            "payrollFiatCurrency": {
+              "type": "string",
+              "description": "Fiat currency code for the payroll"
+            },
+            "tokenTypeID": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Token type identifier"
+            },
+            "payrollEntity": {
+              "type": "string",
+              "description": "Payroll entity identifier"
+            }
+          }
+        },
+        "CreatePayrollResponse": {
+          "type": "object",
+          "required": [
+            "payroll"
+          ],
+          "properties": {
+            "payroll": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Payroll identifier"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Payroll display name"
+                },
+                "entity": {
+                  "type": "string",
+                  "description": "Payroll entity name or identifier"
+                },
+                "payPeriodStart": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Payroll period start date"
+                },
+                "payPeriodEnd": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Payroll period end date"
+                },
+                "payDate": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Scheduled payroll pay date"
+                },
+                "currentStep": {
+                  "type": "string",
+                  "description": "Current workflow step"
+                },
+                "state": {
+                  "$ref": "#/components/schemas/TgaPayrollState"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Payroll type"
+                },
+                "externalPayrollID": {
+                  "type": "string",
+                  "description": "External payroll identifier",
+                  "nullable": true
+                },
+                "fiatCurrency": {
+                  "type": "string",
+                  "description": "Fiat settlement currency"
+                },
+                "stableCoinCurrency": {
+                  "type": "string",
+                  "description": "Stablecoin currency code",
+                  "nullable": true
+                },
+                "tokenTypeID": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Token type identifier",
+                  "nullable": true
+                },
+                "exchangeRate": {
+                  "type": "number",
+                  "description": "FX rate used for payroll calculations",
+                  "nullable": true
+                },
+                "isStablecoinPayrollComplete": {
+                  "type": "boolean",
+                  "description": "Whether stablecoin settlement is complete"
+                },
+                "isFiatPayrollComplete": {
+                  "type": "boolean",
+                  "description": "Whether fiat settlement is complete"
+                },
+                "isSyncedFromHRIS": {
+                  "type": "boolean",
+                  "description": "Whether payroll originated from HRIS sync"
+                },
+                "selectedEmployeeIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "Selected employee identifier"
+                  }
+                },
+                "importedData": {
+                  "type": "object",
+                  "description": "Imported employee data payload",
+                  "properties": {},
+                  "additionalProperties": true
+                },
+                "processedData": {
+                  "type": "object",
+                  "description": "Processed employee payroll data payload",
+                  "properties": {},
+                  "additionalProperties": true
+                },
+                "settlementData": {
+                  "type": "object",
+                  "description": "Settlement calculation payload",
+                  "properties": {},
+                  "additionalProperties": true
+                },
+                "isCsvUploaded": {
+                  "type": "boolean",
+                  "description": "Whether payroll data came from CSV upload"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Creation timestamp"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Last update timestamp"
+                },
+                "createdByID": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Creator role-in-org identifier"
+                },
+                "lastModifiedByID": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Last modifier role-in-org identifier"
+                },
+                "orgID": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Organization identifier"
+                }
+              },
+              "nullable": true
+            }
+          }
+        },
+        "GetPayrollInput": {
+          "type": "object",
+          "required": [
+            "payrollId"
+          ],
+          "properties": {
+            "payrollId": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Payroll identifier"
+            }
+          }
+        },
+        "GetPayrollResponse": {
+          "type": "object",
+          "required": [
+            "payroll"
+          ],
+          "properties": {
+            "payroll": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Payroll identifier"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Payroll display name"
+                },
+                "entity": {
+                  "type": "string",
+                  "description": "Payroll entity name or identifier"
+                },
+                "payPeriodStart": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Payroll period start date"
+                },
+                "payPeriodEnd": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Payroll period end date"
+                },
+                "payDate": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Scheduled payroll pay date"
+                },
+                "currentStep": {
+                  "type": "string",
+                  "description": "Current workflow step"
+                },
+                "state": {
+                  "$ref": "#/components/schemas/TgaPayrollState"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Payroll type"
+                },
+                "externalPayrollID": {
+                  "type": "string",
+                  "description": "External payroll identifier",
+                  "nullable": true
+                },
+                "fiatCurrency": {
+                  "type": "string",
+                  "description": "Fiat settlement currency"
+                },
+                "stableCoinCurrency": {
+                  "type": "string",
+                  "description": "Stablecoin currency code",
+                  "nullable": true
+                },
+                "tokenTypeID": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Token type identifier",
+                  "nullable": true
+                },
+                "exchangeRate": {
+                  "type": "number",
+                  "description": "FX rate used for payroll calculations",
+                  "nullable": true
+                },
+                "isStablecoinPayrollComplete": {
+                  "type": "boolean",
+                  "description": "Whether stablecoin settlement is complete"
+                },
+                "isFiatPayrollComplete": {
+                  "type": "boolean",
+                  "description": "Whether fiat settlement is complete"
+                },
+                "isSyncedFromHRIS": {
+                  "type": "boolean",
+                  "description": "Whether payroll originated from HRIS sync"
+                },
+                "selectedEmployeeIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "Selected employee identifier"
+                  }
+                },
+                "importedData": {
+                  "type": "object",
+                  "description": "Imported employee data payload",
+                  "properties": {},
+                  "additionalProperties": true
+                },
+                "processedData": {
+                  "type": "object",
+                  "description": "Processed employee payroll data payload",
+                  "properties": {},
+                  "additionalProperties": true
+                },
+                "settlementData": {
+                  "type": "object",
+                  "description": "Settlement calculation payload",
+                  "properties": {},
+                  "additionalProperties": true
+                },
+                "isCsvUploaded": {
+                  "type": "boolean",
+                  "description": "Whether payroll data came from CSV upload"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Creation timestamp"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Last update timestamp"
+                },
+                "createdByID": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Creator role-in-org identifier"
+                },
+                "lastModifiedByID": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Last modifier role-in-org identifier"
+                },
+                "orgID": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Organization identifier"
+                }
+              },
+              "nullable": true
+            }
+          }
+        },
+        "UpdatePayrollStateInput": {
+          "type": "object",
+          "required": [
+            "payrollId",
+            "state"
+          ],
+          "properties": {
+            "payrollId": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Payroll identifier"
+            },
+            "state": {
+              "$ref": "#/components/schemas/TgaPayrollState"
+            }
+          }
+        },
+        "UpdatePayrollStateResponse": {
+          "type": "object",
+          "required": [
+            "payroll"
+          ],
+          "properties": {
+            "payroll": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Payroll identifier"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Payroll display name"
+                },
+                "entity": {
+                  "type": "string",
+                  "description": "Payroll entity name or identifier"
+                },
+                "payPeriodStart": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Payroll period start date"
+                },
+                "payPeriodEnd": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Payroll period end date"
+                },
+                "payDate": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Scheduled payroll pay date"
+                },
+                "currentStep": {
+                  "type": "string",
+                  "description": "Current workflow step"
+                },
+                "state": {
+                  "$ref": "#/components/schemas/TgaPayrollState"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Payroll type"
+                },
+                "externalPayrollID": {
+                  "type": "string",
+                  "description": "External payroll identifier",
+                  "nullable": true
+                },
+                "fiatCurrency": {
+                  "type": "string",
+                  "description": "Fiat settlement currency"
+                },
+                "stableCoinCurrency": {
+                  "type": "string",
+                  "description": "Stablecoin currency code",
+                  "nullable": true
+                },
+                "tokenTypeID": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Token type identifier",
+                  "nullable": true
+                },
+                "exchangeRate": {
+                  "type": "number",
+                  "description": "FX rate used for payroll calculations",
+                  "nullable": true
+                },
+                "isStablecoinPayrollComplete": {
+                  "type": "boolean",
+                  "description": "Whether stablecoin settlement is complete"
+                },
+                "isFiatPayrollComplete": {
+                  "type": "boolean",
+                  "description": "Whether fiat settlement is complete"
+                },
+                "isSyncedFromHRIS": {
+                  "type": "boolean",
+                  "description": "Whether payroll originated from HRIS sync"
+                },
+                "selectedEmployeeIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "Selected employee identifier"
+                  }
+                },
+                "importedData": {
+                  "type": "object",
+                  "description": "Imported employee data payload",
+                  "properties": {},
+                  "additionalProperties": true
+                },
+                "processedData": {
+                  "type": "object",
+                  "description": "Processed employee payroll data payload",
+                  "properties": {},
+                  "additionalProperties": true
+                },
+                "settlementData": {
+                  "type": "object",
+                  "description": "Settlement calculation payload",
+                  "properties": {},
+                  "additionalProperties": true
+                },
+                "isCsvUploaded": {
+                  "type": "boolean",
+                  "description": "Whether payroll data came from CSV upload"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Creation timestamp"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Last update timestamp"
+                },
+                "createdByID": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Creator role-in-org identifier"
+                },
+                "lastModifiedByID": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Last modifier role-in-org identifier"
+                },
+                "orgID": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Organization identifier"
+                }
+              }
+            }
+          }
+        },
+        "ValidateAndCalculatePayrollInput": {
+          "type": "object",
+          "required": [
+            "payrollId",
+            "employeeData"
+          ],
+          "properties": {
+            "payrollId": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Payroll identifier"
+            },
+            "employeeData": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "employeeId",
+                  "employeeName",
+                  "totalCompensation",
+                  "totalDeduction",
+                  "currency",
+                  "id"
+                ],
+                "properties": {
+                  "employeeId": {
+                    "type": "string",
+                    "description": "Employee identifier"
+                  },
+                  "employeeName": {
+                    "type": "string",
+                    "description": "Employee full name"
+                  },
+                  "totalCompensation": {
+                    "type": "number",
+                    "description": "Gross pay before deductions"
+                  },
+                  "totalDeduction": {
+                    "type": "number",
+                    "description": "Total deductions"
+                  },
+                  "currency": {
+                    "type": "string",
+                    "description": "Payroll currency code"
+                  },
+                  "stableCoinPercentage": {
+                    "type": "number",
+                    "description": "Percentage of pay allocated to stablecoin",
+                    "nullable": true
+                  },
+                  "minimumWage": {
+                    "type": "number",
+                    "description": "Applicable minimum wage for validation",
+                    "nullable": true
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Row identifier"
+                  }
+                }
+              },
+              "description": "Payroll input rows to validate"
+            },
+            "isCSVUploaded": {
+              "type": "boolean",
+              "description": "Whether the rows originated from a CSV upload",
+              "nullable": true
+            }
+          }
+        },
+        "ValidateAndCalculatePayrollResponse": {
+          "type": "object",
+          "properties": {
+            "validatedEmployeeData": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Row identifier"
+                  },
+                  "employeeId": {
+                    "type": "string",
+                    "description": "Employee identifier"
+                  },
+                  "employeeName": {
+                    "type": "string",
+                    "description": "Employee full name"
+                  },
+                  "totalCompensation": {
+                    "type": "number",
+                    "description": "Gross pay before deductions"
+                  },
+                  "totalDeduction": {
+                    "type": "number",
+                    "description": "Total deductions"
+                  },
+                  "currency": {
+                    "type": "string",
+                    "description": "Payroll currency code"
+                  },
+                  "stableCoinPercentage": {
+                    "type": "number",
+                    "description": "Percentage of pay allocated to stablecoin",
+                    "nullable": true
+                  },
+                  "netPayFiat": {
+                    "type": "number",
+                    "description": "Calculated net fiat pay",
+                    "nullable": true
+                  },
+                  "netPayStableCoin": {
+                    "type": "number",
+                    "description": "Calculated net stablecoin pay",
+                    "nullable": true
+                  },
+                  "hasTGAProfile": {
+                    "type": "boolean",
+                    "description": "Whether the employee has a Toku profile",
+                    "nullable": true
+                  },
+                  "hasValidWallet": {
+                    "type": "boolean",
+                    "description": "Whether the employee has a valid wallet configured",
+                    "nullable": true
+                  },
+                  "hasPayrollError": {
+                    "type": "boolean",
+                    "description": "Whether payroll validation found an error",
+                    "nullable": true
+                  },
+                  "hasMinimumWageError": {
+                    "type": "boolean",
+                    "description": "Whether minimum wage validation failed",
+                    "nullable": true
+                  }
+                }
+              },
+              "description": "Validated payroll rows",
+              "nullable": true
+            },
+            "error": {
+              "type": "string",
+              "description": "Validation error message",
+              "nullable": true
+            }
+          }
+        },
+        "GetHrisPeopleInput": {
+          "type": "object",
+          "description": "No request body is required for listing HRIS people.",
+          "properties": {}
+        },
+        "GetHrisPeopleResponse": {
+          "type": "object",
+          "required": [
+            "people"
+          ],
+          "properties": {
+            "people": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Person identifier"
+                  },
+                  "fullName": {
+                    "type": "string",
+                    "description": "Full name"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Primary email address"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "Worker type"
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "Employment status"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Job title",
+                    "nullable": true
+                  },
+                  "department": {
+                    "type": "string",
+                    "description": "Department name",
+                    "nullable": true
+                  },
+                  "location": {
+                    "type": "string",
+                    "description": "Primary work location",
+                    "nullable": true
+                  },
+                  "startDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Employment start date",
+                    "nullable": true
+                  },
+                  "roleInOrg": {
+                    "type": "object",
+                    "description": "Role-in-organization details",
+                    "properties": {},
+                    "additionalProperties": true
+                  },
+                  "employeeInfo": {
+                    "type": "object",
+                    "description": "Employee-specific profile details",
+                    "properties": {},
+                    "additionalProperties": true
+                  },
+                  "contractorInfo": {
+                    "type": "object",
+                    "description": "Contractor-specific profile details",
+                    "properties": {},
+                    "additionalProperties": true
+                  },
+                  "employeeRecord": {
+                    "type": "object",
+                    "description": "Underlying employee record",
+                    "properties": {},
+                    "additionalProperties": true
+                  },
+                  "contractorRecord": {
+                    "type": "object",
+                    "description": "Underlying contractor record",
+                    "properties": {},
+                    "additionalProperties": true
+                  }
+                }
+              },
+              "description": "People in the authenticated organization"
+            }
+          }
+        },
+        "GetOnboardingOverviewInput": {
+          "type": "object",
+          "description": "No request body is required for onboarding overview.",
+          "properties": {}
+        },
+        "GetOnboardingOverviewResponse": {
+          "type": "object",
+          "required": [
+            "rows"
+          ],
+          "properties": {
+            "rows": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "roleInOrgId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Role-in-org identifier"
+                  },
+                  "countryCode": {
+                    "type": "string",
+                    "description": "Country code for onboarding flow",
+                    "nullable": true
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "Onboarding status"
+                  },
+                  "currentStepId": {
+                    "type": "string",
+                    "description": "Current onboarding step identifier",
+                    "nullable": true
+                  },
+                  "currentStepLabel": {
+                    "type": "string",
+                    "description": "Current onboarding step label",
+                    "nullable": true
+                  },
+                  "completedStepCount": {
+                    "type": "integer",
+                    "description": "Number of completed steps"
+                  },
+                  "totalStepCount": {
+                    "type": "integer",
+                    "description": "Total number of onboarding steps"
+                  },
+                  "onboardingStartedAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "When onboarding started",
+                    "nullable": true
+                  },
+                  "lastActivityAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Last onboarding activity timestamp",
+                    "nullable": true
+                  }
+                }
+              },
+              "description": "Onboarding overview rows"
+            }
+          }
+        },
+        "CreateHrisPersonInput": {
+          "type": "object",
+          "required": [
+            "employmentType",
+            "givenName",
+            "familyName",
+            "email",
+            "country",
+            "title",
+            "agreementType"
+          ],
+          "properties": {
+            "employmentType": {
+              "type": "string",
+              "description": "Employment type discriminator",
+              "enum": [
+                "EMPLOYEE",
+                "CONTRACTOR"
+              ]
+            },
+            "givenName": {
+              "type": "string",
+              "description": "Given name"
+            },
+            "familyName": {
+              "type": "string",
+              "description": "Family name"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "description": "Work email address"
+            },
+            "country": {
+              "type": "string",
+              "description": "Country of employment"
+            },
+            "citizenship": {
+              "type": "string",
+              "description": "Citizenship country code",
+              "nullable": true
+            },
+            "startDate": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Start date",
+              "nullable": true
+            },
+            "title": {
+              "type": "string",
+              "description": "Job title"
+            },
+            "department": {
+              "type": "string",
+              "description": "Department name",
+              "nullable": true
+            },
+            "employmentServiceType": {
+              "type": "string",
+              "description": "EOR employment service type",
+              "nullable": true
+            },
+            "jobDescription": {
+              "type": "string",
+              "description": "Job description",
+              "nullable": true
+            },
+            "baseSalary": {
+              "type": "number",
+              "description": "Base salary amount",
+              "nullable": true
+            },
+            "baseSalaryCurrency": {
+              "type": "string",
+              "description": "Base salary currency code",
+              "nullable": true
+            },
+            "agreementType": {
+              "type": "string",
+              "description": "Agreement type"
+            },
+            "endDate": {
+              "type": "string",
+              "format": "date-time",
+              "description": "End date",
+              "nullable": true
+            },
+            "visaSupportNeeded": {
+              "type": "boolean",
+              "description": "Whether visa support is needed",
+              "nullable": true
+            },
+            "tokenGrantRequested": {
+              "type": "boolean",
+              "description": "Whether a token grant was requested",
+              "nullable": true
+            },
+            "signOnBonusAmount": {
+              "type": "number",
+              "description": "Sign-on bonus amount",
+              "nullable": true
+            },
+            "signOnBonusCurrency": {
+              "type": "string",
+              "description": "Sign-on bonus currency code",
+              "nullable": true
+            },
+            "contractorType": {
+              "type": "string",
+              "description": "Contractor classification",
+              "nullable": true
+            },
+            "rateType": {
+              "type": "string",
+              "description": "Contractor rate type",
+              "nullable": true
+            },
+            "rateAmount": {
+              "type": "number",
+              "description": "Contractor rate amount",
+              "nullable": true
+            },
+            "rateCurrency": {
+              "type": "string",
+              "description": "Contractor rate currency code",
+              "nullable": true
+            }
+          }
+        },
+        "CreateHrisPersonResponse": {
+          "type": "object",
+          "required": [
+            "roleInOrgID",
+            "email",
+            "fullName"
+          ],
+          "properties": {
+            "roleInOrgID": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Created role-in-org identifier"
+            },
+            "email": {
+              "type": "string",
+              "format": "email"
+            },
+            "fullName": {
+              "type": "string",
+              "description": "Created full name"
+            }
+          }
+        },
+        "GetHrisPersonInput": {
+          "type": "object",
+          "required": [
+            "roleInOrgID"
+          ],
+          "properties": {
+            "roleInOrgID": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Role-in-org identifier"
+            }
+          }
+        },
+        "GetHrisPersonResponse": {
+          "type": "object",
+          "required": [
+            "person"
+          ],
+          "properties": {
+            "person": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Person identifier"
+                },
+                "fullName": {
+                  "type": "string",
+                  "description": "Full name"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "Primary email address"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Worker type"
+                },
+                "status": {
+                  "type": "string",
+                  "description": "Employment status"
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Job title",
+                  "nullable": true
+                },
+                "department": {
+                  "type": "string",
+                  "description": "Department name",
+                  "nullable": true
+                },
+                "location": {
+                  "type": "string",
+                  "description": "Primary work location",
+                  "nullable": true
+                },
+                "startDate": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Employment start date",
+                  "nullable": true
+                },
+                "roleInOrg": {
+                  "type": "object",
+                  "description": "Role-in-organization details",
+                  "properties": {},
+                  "additionalProperties": true
+                },
+                "employeeInfo": {
+                  "type": "object",
+                  "description": "Employee-specific profile details",
+                  "properties": {},
+                  "additionalProperties": true
+                },
+                "contractorInfo": {
+                  "type": "object",
+                  "description": "Contractor-specific profile details",
+                  "properties": {},
+                  "additionalProperties": true
+                },
+                "employeeRecord": {
+                  "type": "object",
+                  "description": "Underlying employee record",
+                  "properties": {},
+                  "additionalProperties": true
+                },
+                "contractorRecord": {
+                  "type": "object",
+                  "description": "Underlying contractor record",
+                  "properties": {},
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "UpdateHrisPersonInput": {
+          "type": "object",
+          "required": [
+            "roleInOrgID"
+          ],
+          "properties": {
+            "roleInOrgID": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Role-in-org identifier"
+            },
+            "givenName": {
+              "type": "string",
+              "description": "Updated given name",
+              "nullable": true
+            },
+            "familyName": {
+              "type": "string",
+              "description": "Updated family name",
+              "nullable": true
+            },
+            "title": {
+              "type": "string",
+              "description": "Updated title",
+              "nullable": true
+            },
+            "department": {
+              "type": "string",
+              "description": "Updated department",
+              "nullable": true
+            },
+            "phoneNumber": {
+              "type": "string",
+              "description": "Updated phone number",
+              "nullable": true
+            },
+            "managerEmail": {
+              "type": "string",
+              "format": "email",
+              "description": "Updated manager email",
+              "nullable": true
+            }
+          }
+        },
+        "UpdateHrisPersonResponse": {
+          "type": "object",
+          "required": [
+            "person"
+          ],
+          "properties": {
+            "person": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Person identifier"
+                },
+                "fullName": {
+                  "type": "string",
+                  "description": "Full name"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "Primary email address"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Worker type"
+                },
+                "status": {
+                  "type": "string",
+                  "description": "Employment status"
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Job title",
+                  "nullable": true
+                },
+                "department": {
+                  "type": "string",
+                  "description": "Department name",
+                  "nullable": true
+                },
+                "location": {
+                  "type": "string",
+                  "description": "Primary work location",
+                  "nullable": true
+                },
+                "startDate": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Employment start date",
+                  "nullable": true
+                },
+                "roleInOrg": {
+                  "type": "object",
+                  "description": "Role-in-organization details",
+                  "properties": {},
+                  "additionalProperties": true
+                },
+                "employeeInfo": {
+                  "type": "object",
+                  "description": "Employee-specific profile details",
+                  "properties": {},
+                  "additionalProperties": true
+                },
+                "contractorInfo": {
+                  "type": "object",
+                  "description": "Contractor-specific profile details",
+                  "properties": {},
+                  "additionalProperties": true
+                },
+                "employeeRecord": {
+                  "type": "object",
+                  "description": "Underlying employee record",
+                  "properties": {},
+                  "additionalProperties": true
+                },
+                "contractorRecord": {
+                  "type": "object",
+                  "description": "Underlying contractor record",
+                  "properties": {},
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "GetOnboardingProgressInput": {
+          "type": "object",
+          "properties": {
+            "roleInOrgId": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Optional role-in-org identifier to inspect",
+              "nullable": true
+            }
+          }
+        },
+        "GetOnboardingProgressResponse": {
+          "type": "object",
+          "required": [
+            "roleInOrgId",
+            "status",
+            "steps",
+            "completedStepCount",
+            "totalStepCount"
+          ],
+          "properties": {
+            "roleInOrgId": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Role-in-org identifier"
+            },
+            "countryCode": {
+              "type": "string",
+              "description": "Country code for onboarding flow",
+              "nullable": true
+            },
+            "status": {
+              "type": "string",
+              "description": "Onboarding status"
+            },
+            "currentStepId": {
+              "type": "string",
+              "description": "Current onboarding step identifier",
+              "nullable": true
+            },
+            "steps": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "stepId": {
+                    "type": "string",
+                    "description": "Onboarding step identifier"
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "Current step status"
+                  },
+                  "stepData": {
+                    "type": "object",
+                    "description": "Captured step data",
+                    "properties": {},
+                    "additionalProperties": true
+                  },
+                  "completedAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "When the step was completed",
+                    "nullable": true
+                  },
+                  "lastAccessedAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "When the step was last accessed",
+                    "nullable": true
+                  }
+                }
+              },
+              "description": "Detailed onboarding steps"
+            },
+            "completedStepCount": {
+              "type": "integer",
+              "description": "Number of completed steps"
+            },
+            "totalStepCount": {
+              "type": "integer",
+              "description": "Total number of onboarding steps"
+            },
+            "onboardingStartedAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "When onboarding started",
+              "nullable": true
+            }
+          }
+        },
+        "UpdateHrisEmployeeProfileInput": {
+          "type": "object",
+          "required": [
+            "roleInOrgID"
+          ],
+          "properties": {
+            "roleInOrgID": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Role-in-org identifier"
+            },
+            "title": {
+              "type": "string",
+              "description": "Updated title",
+              "nullable": true
+            },
+            "department": {
+              "type": "string",
+              "description": "Updated department",
+              "nullable": true
+            },
+            "managerName": {
+              "type": "string",
+              "description": "Updated manager name",
+              "nullable": true
+            },
+            "managerEmail": {
+              "type": "string",
+              "format": "email",
+              "description": "Updated manager email",
+              "nullable": true
+            },
+            "phoneNumber": {
+              "type": "string",
+              "description": "Updated phone number",
+              "nullable": true
+            }
+          }
+        },
+        "UpdateHrisEmployeeProfileResponse": {
+          "type": "object",
+          "required": [
+            "success",
+            "updatedFields"
+          ],
+          "properties": {
+            "success": {
+              "type": "boolean",
+              "description": "Whether the profile update request succeeded"
+            },
+            "updatedFields": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "description": "Updated field name"
+              }
+            },
+            "changeRequestId": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Optional change request identifier",
+              "nullable": true
+            }
+          }
+        },
+        "CreateHrisPayslipFileUploadInput": {
+          "type": "object",
+          "required": [
+            "roleInOrgID",
+            "fileName",
+            "fileMimeType",
+            "fileSizeInBytes"
+          ],
+          "properties": {
+            "roleInOrgID": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Role-in-org identifier"
+            },
+            "fileName": {
+              "type": "string",
+              "description": "File name to upload"
+            },
+            "fileMimeType": {
+              "type": "string",
+              "enum": [
+                "application/pdf"
+              ],
+              "description": "Payslip MIME type"
+            },
+            "fileSizeInBytes": {
+              "type": "integer",
+              "description": "File size in bytes",
+              "minimum": 1,
+              "maximum": 20971520
+            }
+          }
+        },
+        "CreateHrisPayslipFileUploadResponse": {
+          "type": "object",
+          "required": [
+            "fileID",
+            "fileName",
+            "fileMimeType",
+            "fileSizeInBytes",
+            "uploadUrl"
+          ],
+          "properties": {
+            "fileID": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Uploaded file identifier"
+            },
+            "fileName": {
+              "type": "string",
+              "description": "File name"
+            },
+            "fileMimeType": {
+              "type": "string",
+              "description": "File MIME type"
+            },
+            "fileSizeInBytes": {
+              "type": "integer",
+              "description": "File size in bytes"
+            },
+            "uploadUrl": {
+              "type": "string",
+              "description": "Pre-signed upload URL"
+            }
+          }
+        },
+        "CreateHrisPayslipInput": {
+          "type": "object",
+          "required": [
+            "roleInOrgID",
+            "fileID",
+            "currencyID",
+            "payslipDate",
+            "grossAmount",
+            "netAmount"
+          ],
+          "properties": {
+            "roleInOrgID": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Role-in-org identifier"
+            },
+            "fileID": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Uploaded payslip file identifier"
+            },
+            "currencyID": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Currency identifier"
+            },
+            "payslipDate": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Payslip date"
+            },
+            "grossAmount": {
+              "type": "number",
+              "description": "Gross amount"
+            },
+            "netAmount": {
+              "type": "number",
+              "description": "Net amount"
+            }
+          }
+        },
+        "CreateHrisPayslipResponse": {
+          "type": "object",
+          "required": [
+            "hrisPayslipID"
+          ],
+          "properties": {
+            "hrisPayslipID": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Created payslip identifier"
+            }
+          }
+        },
+        "GetHrisPayslipsForOrgInput": {
+          "type": "object",
+          "properties": {
+            "search": {
+              "type": "string",
+              "description": "Search term for employee or payslip metadata",
+              "nullable": true
+            },
+            "periodKey": {
+              "type": "string",
+              "description": "Accounting period key in YYYY-MM format",
+              "nullable": true
+            },
+            "department": {
+              "type": "string",
+              "description": "Department filter",
+              "nullable": true
+            },
+            "limit": {
+              "type": "integer",
+              "description": "Maximum number of payslips to return",
+              "minimum": 1,
+              "maximum": 200,
+              "nullable": true
+            },
+            "offset": {
+              "type": "integer",
+              "description": "Offset for pagination",
+              "minimum": 0,
+              "nullable": true
+            }
+          }
+        },
+        "GetHrisPayslipsForOrgResponse": {
+          "type": "object",
+          "required": [
+            "totalCount",
+            "payslips",
+            "dashboardSummary"
+          ],
+          "properties": {
+            "totalCount": {
+              "type": "integer",
+              "description": "Total payslip count matching the filters"
+            },
+            "payslips": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "hrisPayslipID": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Payslip identifier"
+                  },
+                  "roleInOrgID": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Role-in-org identifier"
+                  },
+                  "payslipDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Payslip date"
+                  },
+                  "payPeriodLabel": {
+                    "type": "string",
+                    "description": "Pay period label",
+                    "nullable": true
+                  },
+                  "grossAmount": {
+                    "type": "number",
+                    "description": "Gross amount"
+                  },
+                  "deductionsAmount": {
+                    "type": "number",
+                    "description": "Deductions amount",
+                    "nullable": true
+                  },
+                  "netAmount": {
+                    "type": "number",
+                    "description": "Net amount"
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "Payslip processing status"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Creation timestamp"
+                  },
+                  "employee": {
+                    "type": "object",
+                    "description": "Employee summary",
+                    "properties": {},
+                    "additionalProperties": true
+                  },
+                  "currency": {
+                    "type": "object",
+                    "description": "Currency summary",
+                    "properties": {},
+                    "additionalProperties": true
+                  },
+                  "file": {
+                    "type": "object",
+                    "description": "Payslip file summary",
+                    "properties": {},
+                    "additionalProperties": true
+                  }
+                }
+              },
+              "description": "Payslips for the organization view"
+            },
+            "dashboardSummary": {
+              "type": "object",
+              "properties": {
+                "monthLabel": {
+                  "type": "string",
+                  "description": "Dashboard month label"
+                },
+                "totalsByCurrency": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "Currency totals summary",
+                    "properties": {},
+                    "additionalProperties": true
+                  }
+                },
+                "employeesPaidCount": {
+                  "type": "integer",
+                  "description": "Number of employees paid"
+                },
+                "pendingCount": {
+                  "type": "integer",
+                  "description": "Number of pending payslips"
+                }
+              }
+            }
+          }
+        },
+        "GetHrisPayslipsForEmployeeInput": {
+          "type": "object",
+          "required": [
+            "roleInOrgID"
+          ],
+          "properties": {
+            "roleInOrgID": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Role-in-org identifier"
+            }
+          }
+        },
+        "GetHrisPayslipsForEmployeeResponse": {
+          "type": "object",
+          "required": [
+            "payslips"
+          ],
+          "properties": {
+            "payslips": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "hrisPayslipID": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Payslip identifier"
+                  },
+                  "roleInOrgID": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Role-in-org identifier"
+                  },
+                  "payslipDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Payslip date"
+                  },
+                  "grossAmount": {
+                    "type": "number",
+                    "description": "Gross amount"
+                  },
+                  "netAmount": {
+                    "type": "number",
+                    "description": "Net amount"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Creation timestamp"
+                  },
+                  "currency": {
+                    "type": "object",
+                    "description": "Currency summary",
+                    "properties": {},
+                    "additionalProperties": true
+                  },
+                  "file": {
+                    "type": "object",
+                    "description": "Payslip file summary",
+                    "properties": {},
+                    "additionalProperties": true
+                  },
+                  "createdBy": {
+                    "type": "object",
+                    "description": "Creator summary",
+                    "properties": {},
+                    "additionalProperties": true
+                  }
+                }
+              },
+              "description": "Payslips for the employee"
+            }
+          }
+        },
+        "GetHrisPayslipDownloadUrlInput": {
+          "type": "object",
+          "required": [
+            "hrisPayslipID"
+          ],
+          "properties": {
+            "hrisPayslipID": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Payslip identifier"
+            }
+          }
+        },
+        "GetHrisPayslipDownloadUrlResponse": {
+          "type": "object",
+          "required": [
+            "hrisPayslipID",
+            "fileID",
+            "fileName",
+            "mimeType",
+            "downloadUrl"
+          ],
+          "properties": {
+            "hrisPayslipID": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Payslip identifier"
+            },
+            "fileID": {
+              "type": "string",
+              "format": "uuid",
+              "description": "File identifier"
+            },
+            "fileName": {
+              "type": "string",
+              "description": "File name"
+            },
+            "mimeType": {
+              "type": "string",
+              "description": "File MIME type"
+            },
+            "downloadUrl": {
+              "type": "string",
+              "description": "Pre-signed download URL"
+            }
+          }
+        },
+        "ListWebhookEndpointsInput": {
+          "type": "object",
+          "description": "No request body is required for listing webhook endpoints.",
+          "properties": {}
+        },
+        "ListWebhookEndpointsResponse": {
+          "type": "object",
+          "required": [
+            "endpoints"
+          ],
+          "properties": {
+            "endpoints": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Webhook endpoint identifier"
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "Webhook target URL"
+                  },
+                  "events": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/WebhookEventType"
+                    },
+                    "description": "Subscribed webhook events"
+                  },
+                  "isActive": {
+                    "type": "boolean",
+                    "description": "Whether the endpoint is active"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Creation timestamp"
+                  }
+                }
+              },
+              "description": "Webhook endpoints"
+            }
+          }
+        },
+        "ListWebhookDeliveriesInput": {
+          "type": "object",
+          "required": [
+            "endpointId"
+          ],
+          "properties": {
+            "endpointId": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Webhook endpoint identifier"
+            }
+          }
+        },
+        "ListWebhookDeliveriesResponse": {
+          "type": "object",
+          "required": [
+            "deliveries"
+          ],
+          "properties": {
+            "deliveries": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Webhook delivery identifier"
+                  },
+                  "eventType": {
+                    "$ref": "#/components/schemas/WebhookEventType"
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "Delivery status"
+                  },
+                  "httpStatus": {
+                    "type": "integer",
+                    "description": "HTTP response status from the destination",
+                    "nullable": true
+                  },
+                  "attempts": {
+                    "type": "integer",
+                    "description": "Number of delivery attempts"
+                  },
+                  "lastAttemptAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Last delivery attempt timestamp",
+                    "nullable": true
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Delivery creation timestamp"
+                  }
+                }
+              },
+              "description": "Webhook deliveries for the endpoint"
+            }
+          }
+        },
+        "CreateWebhookEndpointInput": {
+          "type": "object",
+          "required": [
+            "url",
+            "events"
+          ],
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "Destination webhook URL"
+            },
+            "events": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/WebhookEventType"
+              },
+              "description": "Subscribed webhook events"
+            }
+          }
+        },
+        "CreateWebhookEndpointResponse": {
+          "type": "object",
+          "required": [
+            "endpoint"
+          ],
+          "properties": {
+            "endpoint": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Webhook endpoint identifier"
+                },
+                "url": {
+                  "type": "string",
+                  "description": "Webhook target URL"
+                },
+                "events": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WebhookEventType"
+                  },
+                  "description": "Subscribed webhook events"
+                },
+                "isActive": {
+                  "type": "boolean",
+                  "description": "Whether the endpoint is active"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Endpoint creation timestamp"
+                },
+                "signingSecret": {
+                  "type": "string",
+                  "description": "Signing secret returned only at creation time",
+                  "nullable": true
+                }
+              }
+            }
+          }
+        },
+        "DeleteWebhookEndpointInput": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Webhook endpoint identifier"
+            }
+          }
+        },
+        "DeleteWebhookEndpointResponse": {
+          "type": "object",
+          "required": [
+            "success"
+          ],
+          "properties": {
+            "success": {
+              "type": "boolean",
+              "description": "Whether the webhook endpoint was deleted"
+            }
+          }
+        },
+        "GetAllTokenPayrollsInput": {
+          "type": "object",
+          "properties": {
+            "payrollEntityId": {
+              "type": "string",
+              "description": "Optional payroll entity filter",
+              "nullable": true
+            }
+          }
+        },
+        "GetAllTokenPayrollsResponse": {
+          "type": "object",
+          "required": [
+            "payrolls"
+          ],
+          "properties": {
+            "payrolls": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Token payroll identifier"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Token payroll name"
+                  },
+                  "subName": {
+                    "type": "string",
+                    "description": "Secondary display name",
+                    "nullable": true
+                  },
+                  "entity": {
+                    "type": "string",
+                    "description": "Payroll entity name or identifier"
+                  },
+                  "payPeriodStart": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Payroll period start date"
+                  },
+                  "payPeriodEnd": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Payroll period end date"
+                  },
+                  "payDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Payroll pay date"
+                  },
+                  "currentStep": {
+                    "type": "string",
+                    "description": "Current workflow step"
+                  },
+                  "state": {
+                    "$ref": "#/components/schemas/TgaPayrollState"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "Payroll type"
+                  },
+                  "isStablecoinOnlySettlement": {
+                    "type": "boolean",
+                    "description": "Whether only stablecoin settlement is used",
+                    "nullable": true
+                  },
+                  "externalPayrollID": {
+                    "type": "string",
+                    "description": "External payroll identifier",
+                    "nullable": true
+                  },
+                  "fiatCurrency": {
+                    "type": "string",
+                    "description": "Fiat currency code"
+                  },
+                  "tokenTypeID": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Token type identifier",
+                    "nullable": true
+                  },
+                  "exchangeRate": {
+                    "type": "number",
+                    "description": "Exchange rate used for settlement",
+                    "nullable": true
+                  },
+                  "isStablecoinPayrollComplete": {
+                    "type": "boolean",
+                    "description": "Whether stablecoin settlement is complete"
+                  },
+                  "isFiatPayrollComplete": {
+                    "type": "boolean",
+                    "description": "Whether fiat settlement is complete"
+                  },
+                  "isSyncedFromHRIS": {
+                    "type": "boolean",
+                    "description": "Whether payroll originated from HRIS sync"
+                  },
+                  "selectedEmployeeIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": "Selected employee identifier"
+                    }
+                  },
+                  "importedData": {
+                    "type": "object",
+                    "description": "Imported payroll data payload",
+                    "properties": {},
+                    "additionalProperties": true
+                  },
+                  "processedData": {
+                    "type": "object",
+                    "description": "Processed payroll data payload",
+                    "properties": {},
+                    "additionalProperties": true
+                  },
+                  "settlementData": {
+                    "type": "object",
+                    "description": "Settlement payload",
+                    "properties": {},
+                    "additionalProperties": true
+                  },
+                  "isCsvUploaded": {
+                    "type": "boolean",
+                    "description": "Whether CSV data has been uploaded"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Creation timestamp"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Last update timestamp"
+                  },
+                  "isPlaceholder": {
+                    "type": "boolean",
+                    "description": "Whether this record is a placeholder",
+                    "nullable": true
+                  },
+                  "createdByID": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Creator role-in-org identifier"
+                  },
+                  "lastModifiedByID": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Last modifier role-in-org identifier"
+                  },
+                  "orgID": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Organization identifier"
+                  },
+                  "payrollSyncedSource": {
+                    "type": "string",
+                    "description": "Source system used for sync",
+                    "nullable": true
+                  },
+                  "payrollGroup": {
+                    "type": "string",
+                    "description": "Payroll group name",
+                    "nullable": true
+                  },
+                  "integrationEntityName": {
+                    "type": "string",
+                    "description": "Integration entity name",
+                    "nullable": true
+                  },
+                  "payrollIntegrationEntityId": {
+                    "type": "string",
+                    "description": "Integration payroll entity identifier",
+                    "nullable": true
+                  },
+                  "fireblocksConfig": {
+                    "type": "object",
+                    "description": "Resolved Fireblocks configuration",
+                    "properties": {},
+                    "additionalProperties": true
+                  },
+                  "contributorsInTokenPayroll": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "description": "Contributor payroll details",
+                      "properties": {},
+                      "additionalProperties": true
+                    }
+                  },
+                  "payrollEntity": {
+                    "type": "object",
+                    "description": "Payroll entity details",
+                    "properties": {},
+                    "additionalProperties": true
+                  }
+                }
+              },
+              "description": "Token payroll runs"
+            }
+          }
+        },
+        "CreateTokenPayrollInput": {
+          "type": "object",
+          "required": [
+            "payPeriodStart",
+            "payPeriodEnd",
+            "payDate",
+            "fiatCurrency",
+            "payrollEntityId"
+          ],
+          "properties": {
+            "payPeriodStart": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Payroll period start date"
+            },
+            "payPeriodEnd": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Payroll period end date"
+            },
+            "payDate": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Payroll pay date"
+            },
+            "fiatCurrency": {
+              "type": "string",
+              "description": "Fiat currency code"
+            },
+            "payrollEntityId": {
+              "type": "string",
+              "description": "Payroll entity identifier"
+            },
+            "externalPayrollID": {
+              "type": "string",
+              "description": "External payroll identifier",
+              "nullable": true
+            },
+            "type": {
+              "type": "string",
+              "description": "Payroll type",
+              "nullable": true
+            },
+            "state": {
+              "$ref": "#/components/schemas/TgaPayrollState",
+              "nullable": true
+            }
+          }
+        },
+        "CreateTokenPayrollResponse": {
+          "type": "object",
+          "required": [
+            "tokenPayroll"
+          ],
+          "properties": {
+            "tokenPayroll": {
+              "type": "object",
+              "properties": {
+                "tokenPayrollID": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Token payroll identifier"
+                },
+                "orgID": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Organization identifier"
+                },
+                "payPeriodStart": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Payroll period start date"
+                },
+                "payPeriodEnd": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Payroll period end date"
+                },
+                "payDate": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Payroll pay date"
+                },
+                "externalPayrollID": {
+                  "type": "string",
+                  "description": "External payroll identifier",
+                  "nullable": true
+                },
+                "fiatCurrency": {
+                  "type": "string",
+                  "description": "Fiat currency code"
+                },
+                "payrollEntityId": {
+                  "type": "string",
+                  "description": "Payroll entity identifier"
+                },
+                "state": {
+                  "$ref": "#/components/schemas/TgaPayrollState"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Payroll type"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Creation timestamp"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Last update timestamp"
+                },
+                "payrollEntity": {
+                  "type": "object",
+                  "description": "Payroll entity details",
+                  "properties": {},
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "GetTokenPayrollByIDInput": {
+          "type": "object",
+          "required": [
+            "tokenPayrollID"
+          ],
+          "properties": {
+            "tokenPayrollID": {
+              "type": "string",
+              "description": "Token payroll identifier"
+            },
+            "payrollTypes": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "description": "Payroll type filter"
+              },
+              "description": "Optional payroll types to expand",
+              "nullable": true
+            }
+          }
+        },
+        "GetTokenPayrollByIDResponse": {
+          "type": "object",
+          "required": [
+            "tokenPayroll"
+          ],
+          "properties": {
+            "tokenPayroll": {
+              "type": "object",
+              "properties": {
+                "tokenPayrollID": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Token payroll identifier"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Token payroll name"
+                },
+                "payPeriodStart": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Payroll period start date"
+                },
+                "payPeriodEnd": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Payroll period end date"
+                },
+                "payDate": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Payroll pay date"
+                },
+                "fiatCurrency": {
+                  "type": "string",
+                  "description": "Fiat currency code"
+                },
+                "state": {
+                  "$ref": "#/components/schemas/TgaPayrollState"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Payroll type"
+                },
+                "isStablecoinOnlySettlement": {
+                  "type": "boolean",
+                  "description": "Whether only stablecoin settlement is used",
+                  "nullable": true
+                },
+                "payrollSyncedSource": {
+                  "type": "string",
+                  "description": "Source system used for sync",
+                  "nullable": true
+                },
+                "token": {
+                  "type": "object",
+                  "description": "Token metadata",
+                  "properties": {},
+                  "additionalProperties": true
+                },
+                "contributorsInPayroll": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "Contributors included in the payroll",
+                    "properties": {},
+                    "additionalProperties": true
+                  }
+                },
+                "settlementMethod": {
+                  "type": "string",
+                  "description": "Settlement method",
+                  "nullable": true
+                },
+                "fundingEmailSent": {
+                  "type": "boolean",
+                  "description": "Whether funding email has been sent",
+                  "nullable": true
+                },
+                "adpDeductionsVerified": {
+                  "type": "boolean",
+                  "description": "Whether ADP deductions are verified",
+                  "nullable": true
+                },
+                "payrollIntegrationEntityId": {
+                  "type": "string",
+                  "description": "Integration payroll entity identifier",
+                  "nullable": true
+                },
+                "resolvedFireblocksConfig": {
+                  "type": "object",
+                  "properties": {
+                    "configSource": {
+                      "type": "string",
+                      "description": "Source of the Fireblocks configuration"
+                    },
+                    "vaultAccountId": {
+                      "type": "string",
+                      "description": "Fireblocks vault account identifier"
+                    },
+                    "entityName": {
+                      "type": "string",
+                      "description": "Fireblocks entity name"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "UpdateTokenPayrollStateInput": {
+          "type": "object",
+          "required": [
+            "tokenPayrollId",
+            "state"
+          ],
+          "properties": {
+            "tokenPayrollId": {
+              "type": "string",
+              "description": "Token payroll identifier"
+            },
+            "state": {
+              "$ref": "#/components/schemas/TgaPayrollState"
+            }
+          }
+        },
+        "UpdateTokenPayrollStateResponse": {
+          "type": "object",
+          "required": [
+            "tokenPayroll"
+          ],
+          "properties": {
+            "tokenPayroll": {
+              "type": "object",
+              "properties": {
+                "tokenPayrollID": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Token payroll identifier"
+                },
+                "orgID": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Organization identifier"
+                },
+                "payPeriodStart": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Payroll period start date"
+                },
+                "payPeriodEnd": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Payroll period end date"
+                },
+                "payDate": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Payroll pay date"
+                },
+                "externalPayrollID": {
+                  "type": "string",
+                  "description": "External payroll identifier",
+                  "nullable": true
+                },
+                "fiatCurrency": {
+                  "type": "string",
+                  "description": "Fiat currency code"
+                },
+                "payrollEntityId": {
+                  "type": "string",
+                  "description": "Payroll entity identifier"
+                },
+                "state": {
+                  "$ref": "#/components/schemas/TgaPayrollState"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Payroll type"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Creation timestamp"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Last update timestamp"
+                }
+              }
+            }
+          }
+        },
+        "ComputePendingSettlementsInput": {
+          "type": "object",
+          "required": [
+            "payrollID"
+          ],
+          "properties": {
+            "payrollID": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Token payroll identifier"
+            }
+          }
+        },
+        "ComputePendingSettlementsResponse": {
+          "type": "object",
+          "required": [
+            "success",
+            "message",
+            "pendingSettlements",
+            "totalSettlements",
+            "totalFiatAmount"
+          ],
+          "properties": {
+            "success": {
+              "type": "boolean",
+              "description": "Whether pending settlements were computed successfully"
+            },
+            "message": {
+              "type": "string",
+              "description": "Computation summary message"
+            },
+            "pendingSettlements": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "roleInOrgID": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Role-in-org identifier"
+                  },
+                  "contributorInTokenPayrollID": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Contributor payroll identifier"
+                  },
+                  "settlementOrderForContributorTokenPayrollID": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Existing settlement order identifier",
+                    "nullable": true
+                  },
+                  "walletAddress": {
+                    "type": "string",
+                    "description": "Destination wallet address"
+                  },
+                  "tokenID": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Token identifier"
+                  },
+                  "tokenAmount": {
+                    "type": "number",
+                    "description": "Token amount to settle"
+                  },
+                  "fiatAmount": {
+                    "type": "number",
+                    "description": "Equivalent fiat amount"
+                  },
+                  "fiatCurrency": {
+                    "type": "string",
+                    "description": "Fiat currency code"
+                  },
+                  "exchangeRate": {
+                    "type": "number",
+                    "description": "Exchange rate used for settlement"
+                  },
+                  "exchangeRateDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Exchange rate timestamp",
+                    "nullable": true
+                  },
+                  "inprogress": {
+                    "type": "boolean",
+                    "description": "Whether the settlement is already in progress"
+                  },
+                  "approvedAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Approval timestamp",
+                    "nullable": true
+                  }
+                }
+              },
+              "description": "Computed settlement records"
+            },
+            "totalSettlements": {
+              "type": "integer",
+              "description": "Number of settlement records"
+            },
+            "totalFiatAmount": {
+              "type": "number",
+              "description": "Total fiat amount across settlements"
+            }
+          }
+        },
+        "ApproveTokenPayrollSettlementsInput": {
+          "type": "object",
+          "required": [
+            "tokenPayrollID",
+            "walletReferenceIDs"
+          ],
+          "properties": {
+            "tokenPayrollID": {
+              "type": "string",
+              "description": "Token payroll identifier"
+            },
+            "walletReferenceIDs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "description": "Wallet reference identifier"
+              },
+              "description": "Wallet references to approve"
+            },
+            "pendingSettlements": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "roleInOrgID": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Role-in-org identifier"
+                  },
+                  "contributorInTokenPayrollID": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Contributor payroll identifier"
+                  },
+                  "settlementOrderForContributorTokenPayrollID": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Existing settlement order identifier",
+                    "nullable": true
+                  },
+                  "walletAddress": {
+                    "type": "string",
+                    "description": "Destination wallet address"
+                  },
+                  "tokenID": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Token identifier"
+                  },
+                  "tokenAmount": {
+                    "type": "number",
+                    "description": "Token amount to settle"
+                  },
+                  "fiatAmount": {
+                    "type": "number",
+                    "description": "Equivalent fiat amount"
+                  },
+                  "fiatCurrency": {
+                    "type": "string",
+                    "description": "Fiat currency code"
+                  },
+                  "exchangeRate": {
+                    "type": "number",
+                    "description": "Exchange rate used for settlement"
+                  },
+                  "exchangeRateDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Exchange rate timestamp",
+                    "nullable": true
+                  },
+                  "inprogress": {
+                    "type": "boolean",
+                    "description": "Whether the settlement is already in progress"
+                  },
+                  "approvedAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Approval timestamp",
+                    "nullable": true
+                  }
+                }
+              },
+              "description": "Optional settlement records to approve",
+              "nullable": true
+            }
+          }
+        },
+        "ApproveTokenPayrollSettlementsResponse": {
+          "type": "object",
+          "required": [
+            "success",
+            "message",
+            "approvedCount"
+          ],
+          "properties": {
+            "success": {
+              "type": "boolean",
+              "description": "Whether approval succeeded"
+            },
+            "message": {
+              "type": "string",
+              "description": "Approval summary message"
+            },
+            "approvedCount": {
+              "type": "integer",
+              "description": "Number of approved settlements"
+            }
+          }
+        },
+        "GetTokenPayrollBreakdownInput": {
+          "type": "object",
+          "required": [
+            "roleInOrgID",
+            "netPay"
+          ],
+          "properties": {
+            "roleInOrgID": {
+              "type": "string",
+              "description": "Role-in-org identifier"
+            },
+            "netPay": {
+              "type": "number",
+              "description": "Net pay in fiat terms"
+            }
+          }
+        },
+        "GetTokenPayrollBreakdownResponse": {
+          "type": "object",
+          "required": [
+            "tokenDistributions",
+            "tokenAmounts",
+            "totalTokenPercentage",
+            "netFiatPay"
+          ],
+          "properties": {
+            "tokenDistributions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "Token distribution row",
+                "properties": {},
+                "additionalProperties": true
+              }
+            },
+            "tokenAmounts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "Token amount row",
+                "properties": {},
+                "additionalProperties": true
+              }
+            },
+            "totalTokenPercentage": {
+              "type": "number",
+              "description": "Total percentage of pay allocated to token"
+            },
+            "netFiatPay": {
+              "type": "number",
+              "description": "Remaining net fiat pay"
+            }
+          }
+        }
+    },
+    "responses": {
+      "Unauthorized": {
+        "description": "Authentication failed — token missing, invalid, or expired",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Caller does not have the required role",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "RateLimited": {
+        "description": "Rate limit exceeded (100 req/min per IP)",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "InternalError": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
           }
         }
       }
@@ -14059,6 +17135,1843 @@
           }
         }
       }
-    }
+    },
+      "/getAllPayroll": {
+        "get": {
+          "operationId": "getAllPayroll",
+          "summary": "List payroll runs",
+          "description": "Returns all payroll runs for the authenticated organization.",
+          "tags": [
+            "Payroll"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/GetAllPayrollResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          }
+        }
+      },
+      "/createPayroll": {
+        "post": {
+          "operationId": "createPayroll",
+          "summary": "Create payroll run",
+          "description": "Creates a payroll run with the requested pay period, currency, token type, and payroll entity.",
+          "tags": [
+            "Payroll"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreatePayrollResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePayrollInput"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/getPayroll": {
+        "post": {
+          "operationId": "getPayroll",
+          "summary": "Get payroll run",
+          "description": "Returns a single payroll run by identifier.",
+          "tags": [
+            "Payroll"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/GetPayrollResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPayrollInput"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/updatePayrollState": {
+        "post": {
+          "operationId": "updatePayrollState",
+          "summary": "Update payroll state",
+          "description": "Transitions a payroll run to a new lifecycle state.",
+          "tags": [
+            "Payroll"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UpdatePayrollStateResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatePayrollStateInput"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/validateAndCalculatePayroll": {
+        "post": {
+          "operationId": "validateAndCalculatePayroll",
+          "summary": "Validate and calculate payroll",
+          "description": "Validates employee payroll rows and returns calculated payroll breakdown data.",
+          "tags": [
+            "Payroll"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ValidateAndCalculatePayrollResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidateAndCalculatePayrollInput"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/getHrisPeople": {
+        "get": {
+          "operationId": "getHrisPeople",
+          "summary": "List HRIS people",
+          "description": "Returns employee and contractor people records for the authenticated organization.",
+          "tags": [
+            "EOR"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/GetHrisPeopleResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          }
+        }
+      },
+      "/getOnboardingOverview": {
+        "get": {
+          "operationId": "getOnboardingOverview",
+          "summary": "Get onboarding overview",
+          "description": "Returns onboarding progress overview rows for workers in the authenticated organization.",
+          "tags": [
+            "EOR"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/GetOnboardingOverviewResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          }
+        }
+      },
+      "/createHrisPerson": {
+        "post": {
+          "operationId": "createHrisPerson",
+          "summary": "Create HRIS person",
+          "description": "Creates an employee or contractor record using the requested employment type payload.",
+          "tags": [
+            "EOR"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateHrisPersonResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateHrisPersonInput"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/getHrisPerson": {
+        "post": {
+          "operationId": "getHrisPerson",
+          "summary": "Get HRIS person",
+          "description": "Returns a single HRIS person by role-in-org identifier.",
+          "tags": [
+            "EOR"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/GetHrisPersonResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetHrisPersonInput"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/updateHrisPerson": {
+        "post": {
+          "operationId": "updateHrisPerson",
+          "summary": "Update HRIS person",
+          "description": "Updates editable HRIS person profile fields.",
+          "tags": [
+            "EOR"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UpdateHrisPersonResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateHrisPersonInput"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/getOnboardingProgress": {
+        "post": {
+          "operationId": "getOnboardingProgress",
+          "summary": "Get onboarding progress",
+          "description": "Returns detailed onboarding progress, including individual onboarding steps.",
+          "tags": [
+            "EOR"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/GetOnboardingProgressResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOnboardingProgressInput"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/updateHrisEmployeeProfile": {
+        "put": {
+          "operationId": "updateHrisEmployeeProfile",
+          "summary": "Update HRIS employee profile",
+          "description": "Submits profile updates for an HRIS employee.",
+          "tags": [
+            "EOR"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UpdateHrisEmployeeProfileResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateHrisEmployeeProfileInput"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/createHrisPayslipFileUpload": {
+        "post": {
+          "operationId": "createHrisPayslipFileUpload",
+          "summary": "Create payslip file upload",
+          "description": "Generates a pre-signed URL for uploading a payslip PDF.",
+          "tags": [
+            "Payslips"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateHrisPayslipFileUploadResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateHrisPayslipFileUploadInput"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/createHrisPayslip": {
+        "post": {
+          "operationId": "createHrisPayslip",
+          "summary": "Create payslip record",
+          "description": "Creates a payslip record referencing an uploaded payslip file.",
+          "tags": [
+            "Payslips"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateHrisPayslipResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateHrisPayslipInput"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/getHrisPayslipsForOrg": {
+        "post": {
+          "operationId": "getHrisPayslipsForOrg",
+          "summary": "List organization payslips",
+          "description": "Returns payslips for the organization with dashboard summary information.",
+          "tags": [
+            "Payslips"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/GetHrisPayslipsForOrgResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetHrisPayslipsForOrgInput"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/getHrisPayslipsForEmployee": {
+        "post": {
+          "operationId": "getHrisPayslipsForEmployee",
+          "summary": "List employee payslips",
+          "description": "Returns payslips for a single employee.",
+          "tags": [
+            "Payslips"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/GetHrisPayslipsForEmployeeResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetHrisPayslipsForEmployeeInput"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/getHrisPayslipDownloadUrl": {
+        "post": {
+          "operationId": "getHrisPayslipDownloadUrl",
+          "summary": "Get payslip download URL",
+          "description": "Returns a pre-signed download URL for an uploaded payslip file.",
+          "tags": [
+            "Payslips"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/GetHrisPayslipDownloadUrlResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetHrisPayslipDownloadUrlInput"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/listWebhookEndpoints": {
+        "get": {
+          "operationId": "listWebhookEndpoints",
+          "summary": "List webhook endpoints",
+          "description": "Returns webhook endpoints configured for the authenticated organization.",
+          "tags": [
+            "Webhooks"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ListWebhookEndpointsResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          }
+        }
+      },
+      "/listWebhookDeliveries": {
+        "get": {
+          "operationId": "listWebhookDeliveries",
+          "summary": "List webhook deliveries",
+          "description": "Returns delivery attempts for a specific webhook endpoint.",
+          "tags": [
+            "Webhooks"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            },
+            {
+              "name": "endpointId",
+              "in": "query",
+              "required": true,
+              "description": "Webhook endpoint identifier.",
+              "schema": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Webhook endpoint identifier"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ListWebhookDeliveriesResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          }
+        }
+      },
+      "/createWebhookEndpoint": {
+        "post": {
+          "operationId": "createWebhookEndpoint",
+          "summary": "Create webhook endpoint",
+          "description": "Creates a webhook endpoint and returns its signing secret.",
+          "tags": [
+            "Webhooks"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateWebhookEndpointResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateWebhookEndpointInput"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/deleteWebhookEndpoint": {
+        "delete": {
+          "operationId": "deleteWebhookEndpoint",
+          "summary": "Delete webhook endpoint",
+          "description": "Deletes a webhook endpoint by identifier.",
+          "tags": [
+            "Webhooks"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            },
+            {
+              "name": "id",
+              "in": "query",
+              "required": true,
+              "description": "Webhook endpoint identifier.",
+              "schema": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Webhook endpoint identifier"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/DeleteWebhookEndpointResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          }
+        }
+      },
+      "/getAllTokenPayrolls": {
+        "get": {
+          "operationId": "getAllTokenPayrolls",
+          "summary": "List token payrolls",
+          "description": "Returns token payroll runs, optionally filtered by payroll entity.",
+          "tags": [
+            "Stablecoin Funding"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            },
+            {
+              "name": "payrollEntityId",
+              "in": "query",
+              "required": false,
+              "description": "Optional payroll entity filter.",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/GetAllTokenPayrollsResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          }
+        }
+      },
+      "/createTokenPayroll": {
+        "post": {
+          "operationId": "createTokenPayroll",
+          "summary": "Create token payroll",
+          "description": "Creates a token payroll run for stablecoin settlement.",
+          "tags": [
+            "Stablecoin Funding"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateTokenPayrollResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateTokenPayrollInput"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/getTokenPayrollByID": {
+        "post": {
+          "operationId": "getTokenPayrollByID",
+          "summary": "Get token payroll",
+          "description": "Returns a token payroll by identifier.",
+          "tags": [
+            "Stablecoin Funding"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/GetTokenPayrollByIDResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetTokenPayrollByIDInput"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/updateTokenPayrollState": {
+        "post": {
+          "operationId": "updateTokenPayrollState",
+          "summary": "Update token payroll state",
+          "description": "Transitions a token payroll to a new lifecycle state.",
+          "tags": [
+            "Stablecoin Funding"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UpdateTokenPayrollStateResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateTokenPayrollStateInput"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/computePendingSettlements": {
+        "post": {
+          "operationId": "computePendingSettlements",
+          "summary": "Compute pending settlements",
+          "description": "Computes pending settlement records for a token payroll.",
+          "tags": [
+            "Stablecoin Funding"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ComputePendingSettlementsResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComputePendingSettlementsInput"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/approveTokenPayrollSettlements": {
+        "post": {
+          "operationId": "approveTokenPayrollSettlements",
+          "summary": "Approve token payroll settlements",
+          "description": "Approves wallet references and pending settlements for a token payroll.",
+          "tags": [
+            "Stablecoin Funding"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ApproveTokenPayrollSettlementsResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApproveTokenPayrollSettlementsInput"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/getTokenPayrollBreakdown": {
+        "post": {
+          "operationId": "getTokenPayrollBreakdown",
+          "summary": "Get token payroll breakdown",
+          "description": "Returns token distribution breakdown data for a worker net pay amount.",
+          "tags": [
+            "Stablecoin Funding"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "x-role-type",
+              "in": "header",
+              "required": true,
+              "description": "Role context for the request. Use CLIENT_ORG_ADMIN for most integrations.",
+              "example": "CLIENT_ORG_ADMIN",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CLIENT_ORG_ADMIN",
+                  "PAYROLL_ADMIN",
+                  "FINANCE_ADMIN",
+                  "TOKU_ADMIN"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/GetTokenPayrollBreakdownResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "429": {
+              "$ref": "#/components/responses/RateLimited"
+            },
+            "500": {
+              "$ref": "#/components/responses/InternalError"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetTokenPayrollBreakdownInput"
+                }
+              }
+            }
+          }
+        }
+      }
   }
 }

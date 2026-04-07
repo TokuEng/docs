@@ -1,0 +1,146 @@
+---
+title: "Employer of Record"
+sidebarTitle: "EOR"
+description: "Manage EOR employees through Toku — onboarding, profile updates, and status tracking"
+---
+
+## Overview
+
+Employer of Record (EOR) lets your platform offer employment services in jurisdictions where you lack a legal entity. Toku acts as the legal employer: handling compliance, payroll, and local labor law obligations while you manage the employment relationship through the API.
+
+<Note>
+EOR operations require your API token to be scoped to a user with the `PAYROLL_ADMIN` or `CLIENT_ORG_ADMIN` role. Pass the appropriate role in the `x-role-type` header on every request.
+</Note>
+
+## Role Mapping
+
+| Role | `x-role-type` value | Permitted operations |
+|------|---------------------|----------------------|
+| Admin | `CLIENT_ORG_ADMIN` | All EOR operations including create, update, and view |
+| Payroll manager | `PAYROLL_ADMIN` | View people, onboarding progress, and profile updates |
+| Employee | *(managed by Toku)* | Completes onboarding steps via the co-branded UI |
+
+## Employee Onboarding Flow
+
+When you add a new EOR employee, Toku creates a structured onboarding checklist. The employee completes the required steps (personal details, bank account, tax forms, etc.) through your platform's co-branded onboarding UI. Once all steps are done, Toku activates the employment relationship.
+
+<Steps>
+  <Step title="Create person record">
+    Call `POST /createHrisPerson` with `employmentType: EMPLOYEE` and `employmentServiceType: EOR`. Supply the employee's name, email, country, start date, title, and compensation.
+
+    ```bash
+    curl -X POST https://app.toku.com/api/tokuApi/v1/createHrisPerson \
+      -H "Authorization: Bearer toku_live_..." \
+      -H "x-role-type: CLIENT_ORG_ADMIN" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "employmentType": "EMPLOYEE",
+        "employmentServiceType": "EOR",
+        "givenName": "Ada",
+        "familyName": "Lovelace",
+        "email": "ada@example.com",
+        "country": "SG",
+        "startDate": "2026-05-01",
+        "title": "Software Engineer",
+        "baseSalary": 120000,
+        "baseSalaryCurrency": "SGD"
+      }'
+    ```
+
+    The response includes `roleInOrgID` — store this to reference the employee in all subsequent calls.
+
+    ```json
+    {
+      "roleInOrgID": "role-uuid",
+      "email": "ada@example.com",
+      "fullName": "Ada Lovelace"
+    }
+    ```
+  </Step>
+  <Step title="Monitor onboarding progress">
+    Poll `POST /getOnboardingProgress` with the employee's `roleInOrgId` to track each step. The response lists every required step with its completion status.
+
+    ```bash
+    curl -X POST https://app.toku.com/api/tokuApi/v1/getOnboardingProgress \
+      -H "Authorization: Bearer toku_live_..." \
+      -H "x-role-type: CLIENT_ORG_ADMIN" \
+      -H "Content-Type: application/json" \
+      -d '{ "roleInOrgId": "role-uuid" }'
+    ```
+  </Step>
+  <Step title="Employee completes onboarding steps">
+    Direct the employee to your platform's co-branded onboarding UI. Toku renders white-labelled onboarding forms within your product so employees stay in your experience. Steps typically include personal information, address, bank account, and tax declarations.
+  </Step>
+  <Step title="Employee activated">
+    When all required steps are complete, the employee's status transitions to `ACTIVE`. Query `POST /getHrisPerson` to confirm the current status before processing payroll.
+  </Step>
+</Steps>
+
+## Listing and Looking Up People
+
+### Get all people
+
+`GET /getHrisPeople` returns your organisation's full people directory — EOR employees, contractors, and any other person records. Use this for building org charts, dashboards, or payroll runs.
+
+Each record includes `id`, `fullName`, `email`, `type`, `status`, `title`, and `department`.
+
+### Get a single person
+
+`POST /getHrisPerson` takes a `roleInOrgID` and returns the full person object including employment details and current status.
+
+```bash
+curl -X POST https://app.toku.com/api/tokuApi/v1/getHrisPerson \
+  -H "Authorization: Bearer toku_live_..." \
+  -H "x-role-type: CLIENT_ORG_ADMIN" \
+  -H "Content-Type: application/json" \
+  -d '{ "roleInOrgID": "role-uuid" }'
+```
+
+## Profile Management
+
+### Basic field updates
+
+`POST /updateHrisPerson` applies lightweight updates such as name corrections, title changes, manager reassignments, or phone number updates. Changes take effect immediately and do not create a change request.
+
+Updatable fields: `givenName`, `familyName`, `title`, `department`, `phoneNumber`, `managerEmail`.
+
+### Profile-level updates
+
+`PUT /updateHrisEmployeeProfile` handles changes that may affect employment terms (e.g., compensation, role changes). These updates trigger a **change request** workflow inside Toku for compliance review. The response includes a `changeRequestId` that you can use to track approval status.
+
+```json
+{
+  "success": true,
+  "updatedFields": ["title", "department"],
+  "changeRequestId": "cr-uuid"
+}
+```
+
+## Onboarding Overview
+
+`GET /getOnboardingOverview` returns aggregate onboarding status across all employees — useful for building an admin dashboard that surfaces who is pending, in-progress, or fully onboarded.
+
+## Co-Branded Experience
+
+Toku's onboarding UI renders within your platform via an embedded flow. Employees see your branding throughout the onboarding process. No redirect to a Toku-hosted domain is required.
+
+<Note>
+Contact Toku to configure your brand assets (logo, colors, domain) for the co-branded onboarding experience.
+</Note>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Create HRIS Person" icon="user-plus" href="/integration-guide/endpoints/eor/create-hris-person">
+    Create an EOR employee or contractor record
+  </Card>
+  <Card title="Get Onboarding Progress" icon="list-check" href="/integration-guide/endpoints/eor/get-onboarding-progress">
+    Track step-by-step onboarding completion
+  </Card>
+  <Card title="Get HRIS People" icon="users" href="/integration-guide/endpoints/eor/get-hris-people">
+    List all people in your organisation
+  </Card>
+  <Card title="Update HRIS Employee Profile" icon="pen" href="/integration-guide/endpoints/eor/update-hris-employee-profile">
+    Submit profile changes for compliance review
+  </Card>
+</CardGroup>

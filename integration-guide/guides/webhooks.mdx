@@ -1,0 +1,136 @@
+---
+title: "Webhooks"
+sidebarTitle: "Webhooks"
+description: "Receive real-time event notifications from Toku via HTTPS POST to your registered endpoint"
+---
+
+## Overview
+
+Toku sends an HTTPS `POST` request to your registered endpoint whenever a subscribed event occurs. Your endpoint must respond with a `2xx` status within **10 seconds** to be considered a successful delivery.
+
+Webhooks are scoped to your integration. Each endpoint you register receives only the event types you explicitly subscribe to.
+
+---
+
+## Endpoint Management
+
+Register an endpoint with [`POST /createWebhookEndpoint`](/integration-guide/endpoints/webhooks/create-webhook-endpoint). Supply a valid `https://` URL and the array of event types you want to receive.
+
+```json
+{
+  "url": "https://your-service.example.com/webhooks/toku",
+  "events": ["payroll_run.created", "payroll_run.completed"]
+}
+```
+
+The response includes a `signingSecret`. **Save it immediately — it is shown only once.**
+
+Use [`GET /listWebhookEndpoints`](/integration-guide/endpoints/webhooks/list-webhook-endpoints) to view all registered endpoints, and [`DELETE /deleteWebhookEndpoint`](/integration-guide/endpoints/webhooks/delete-webhook-endpoint) to remove one by `id`.
+
+---
+
+## Signature Verification
+
+Every webhook delivery includes an `x-tga-signature` header containing an HMAC-SHA256 hex digest of the raw request body, signed with your endpoint's `signingSecret`.
+
+**Always verify the signature before processing the payload.**
+
+<CodeGroup>
+
+```javascript Node.js
+const crypto = require('crypto');
+
+function verifyWebhookSignature(payload, signature, signingSecret) {
+  const expectedSig = crypto
+    .createHmac('sha256', signingSecret)
+    .update(payload, 'utf8')
+    .digest('hex');
+  return crypto.timingSafeEqual(
+    Buffer.from(signature),
+    Buffer.from(expectedSig)
+  );
+}
+```
+
+```python Python
+import hmac
+import hashlib
+
+def verify_webhook_signature(payload: bytes, signature: str, signing_secret: str) -> bool:
+    expected = hmac.new(
+        signing_secret.encode('utf-8'),
+        payload,
+        hashlib.sha256
+    ).hexdigest()
+    return hmac.compare_digest(signature, expected)
+```
+
+</CodeGroup>
+
+<Warning>
+Pass the **raw request body bytes** to the verification function — do not parse JSON first. Any whitespace normalization will break the signature check.
+</Warning>
+
+---
+
+## Delivery Guarantees & Idempotency
+
+Webhooks are delivered **at least once**. The same event may be delivered more than once in rare cases (e.g., network failure after a successful delivery). Design your handler to be idempotent.
+
+Each event payload includes a unique `eventId`. Use it as an idempotency key to deduplicate processing:
+
+```json
+{
+  "eventId": "evt_01HZ9X...",
+  "eventType": "payroll_run.completed",
+  "occurredAt": "2025-04-07T10:23:45Z",
+  "data": { ... }
+}
+```
+
+---
+
+## Retry Logic
+
+If your endpoint returns a non-`2xx` status or times out, Toku retries the delivery up to **3 times** with exponential backoff:
+
+| Attempt | Delay before retry |
+|---|---|
+| 1st retry | 1 second |
+| 2nd retry | 2 seconds |
+| 3rd retry | 4 seconds |
+
+Each attempt has a **10-second timeout**. After 3 failed retries the delivery is marked `failed` and no further attempts are made.
+
+---
+
+## Delivery Log
+
+Use [`GET /listWebhookDeliveries`](/integration-guide/endpoints/webhooks/list-webhook-deliveries) with an `endpointId` to inspect delivery history for a specific endpoint — including status, response code, and timestamps for each attempt. This is the primary tool for debugging missed or failed deliveries.
+
+---
+
+## Event Type Reference
+
+<Note>
+Events marked **TGA** are emitted only for Token Grant Administration workflows. Events marked **Payroll / EOR** are emitted for payroll runs and employer-of-record workflows.
+</Note>
+
+| Event | Domain | When it fires |
+|---|---|---|
+| `grant.created` | TGA | A new token grant is created |
+| `grant.terminated` | TGA | A grant is terminated |
+| `grant.termination_reverted` | TGA | A grant termination is reversed |
+| `distribution.schedule_approved` | TGA | A distribution schedule is approved |
+| `distribution.settlement_completed` | TGA | A distribution settlement is completed |
+| `employee.onboarded` | Payroll / EOR | An employee completes onboarding |
+| `employee.offboarded` | Payroll / EOR | An employee is offboarded |
+| `payroll_run.created` | Payroll | A payroll run is created |
+| `payroll_run.approved` | Payroll | A payroll run is approved |
+| `payroll_run.completed` | Payroll | A payroll run finishes processing |
+| `payslip.generated` | Payroll | A payslip is generated for an employee |
+| `payment.initiated` | Payroll / EOR | A payment is initiated |
+| `payment.completed` | Payroll / EOR | A payment is confirmed complete |
+| `contractor.invoice_submitted` | Payroll | A contractor submits an invoice |
+| `time_off.requested` | Payroll / EOR | An employee requests time off |
+| `time_off.status_changed` | Payroll / EOR | A time-off request status changes |

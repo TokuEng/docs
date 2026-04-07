@@ -1,0 +1,40 @@
+TASK 4: Authentication Endpoint Stubs - COMPLETED
+
+FILE 1: /Users/ayush/docs/integration-guide/endpoints/auth/create-api-token.mdx
+STATUS: Created
+CONTENT: YAML frontmatter only
+- title: "Create API Token"
+- openapi: "POST /createUserApiToken"
+
+FILE 2: /Users/ayush/docs/integration-guide/endpoints/auth/refresh-api-token.mdx
+STATUS: Created
+CONTENT: YAML frontmatter only
+- title: "Refresh API Token"
+- openapi: "POST /refreshUserApiToken"
+
+DOCS.JSON UPDATE:
+FILE: /Users/ayush/docs/docs.json
+LOCATION: Integration Guide > Authentication group (lines 210-213)
+CHANGE: Updated pages array to include both endpoint stubs
+
+BEFORE:
+{
+  "group": "Authentication",
+  "pages": ["integration-guide/guides/authentication"]
+}
+
+AFTER:
+{
+  "group": "Authentication",
+  "pages": [
+    "integration-guide/guides/authentication",
+    "integration-guide/endpoints/auth/create-api-token",
+    "integration-guide/endpoints/auth/refresh-api-token"
+  ]
+}
+
+NAVIGATION STRUCTURE:
+Integration Guide > Authentication
+├── authentication (guide)
+├── create-api-token (endpoint stub)
+└── refresh-api-token (endpoint stub)

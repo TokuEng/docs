@@ -1,0 +1,18 @@
+task-9 stablecoin endpoint stubs evidence
+==========================================
+Date: 2026-04-07
+
+Directory: /Users/ayush/docs/integration-guide/endpoints/stablecoin/
+
+Files created:
+1. get-all-token-payrolls.mdx         → openapi: "GET /getAllTokenPayrolls"
+2. create-token-payroll.mdx           → openapi: "POST /createTokenPayroll"
+3. get-token-payroll-by-id.mdx        → openapi: "POST /getTokenPayrollByID"
+4. update-token-payroll-state.mdx     → openapi: "POST /updateTokenPayrollState"
+5. compute-pending-settlements.mdx    → openapi: "POST /computePendingSettlements"
+6. approve-token-payroll-settlements.mdx → openapi: "POST /approveTokenPayrollSettlements"
+7. get-token-payroll-breakdown.mdx    → openapi: "POST /getTokenPayrollBreakdown"
+
+docs.json Stablecoin Funding group updated:
+- Added guide page + 7 endpoint pages
+- Only "Stablecoin Funding" group modified (no other groups touched)

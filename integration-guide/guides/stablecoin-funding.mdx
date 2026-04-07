@@ -1,0 +1,179 @@
+---
+title: "Stablecoin Funding"
+sidebarTitle: "Stablecoin Funding"
+description: "Fund Toku payroll runs using stablecoins — Toku handles fiat disbursement to employees"
+---
+
+## Overview
+
+Stablecoin Funding lets partners pre-fund payroll runs by transferring stablecoins (USDC, USDT, and others) on-chain to Toku's custody. Toku then converts and disburses local-currency payments to employees. Your integration never handles fiat directly — you transfer tokens, Toku handles the rest.
+
+**Key characteristics:**
+- Contracts are denominated in local fiat (e.g., SGD, USD, EUR)
+- You fund in stablecoins; the exchange rate is locked at settlement time
+- Each payroll entity may have one or more custodial wallets; transfers are per-wallet
+- `computePendingSettlements` always shows the exact token amount required before you commit funds
+
+---
+
+## End-to-End Funding Flow
+
+<Steps>
+  <Step title="Create a token payroll run">
+    Call `POST /createTokenPayroll` to open a new run in draft state. Specify the pay period, tax currency, and the payroll entity.
+
+    ```bash
+    curl -X POST https://app.toku.com/api/tokuApi/v1/createTokenPayroll \
+      -H "Authorization: Bearer toku_live_..." \
+      -H "x-role-type: PAYROLL_ADMIN" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "payPeriodStart": "2026-04-01T00:00:00.000Z",
+        "payPeriodEnd": "2026-04-30T23:59:59.000Z",
+        "payDate": "2026-05-02T00:00:00.000Z",
+        "fiatCurrency": "SGD",
+        "payrollEntityId": "entity-uuid-abc",
+        "externalPayrollID": "apr-2026-sg-crypto"
+      }'
+    ```
+
+    The response includes a `tokenPayrollID` used in every subsequent call.
+  </Step>
+
+  <Step title="Compute pending settlements">
+    Call `POST /computePendingSettlements` with the `payrollID`. The response lists each custodial wallet that requires funding, along with the exact token amount, equivalent fiat amount, and the exchange rate that will be applied.
+
+    ```json
+    {
+      "payrollID": "token-payroll-uuid"
+    }
+    ```
+
+    Review the `pendingSettlements` array carefully. Each entry shows:
+    - `walletAddress` — on-chain destination for your transfer
+    - `tokenAmount` — exact amount to send (in token units)
+    - `fiatAmount` — fiat equivalent at current rate
+    - `exchangeRate` — rate locked at settlement approval
+
+    <Note>
+      Do not send funds until you have reviewed pending settlements. The rate shown here is the rate that will be applied when you call `approveTokenPayrollSettlements`.
+    </Note>
+  </Step>
+
+  <Step title="Transfer stablecoins on-chain">
+    Using the wallet addresses and token amounts from Step 2, transfer stablecoins from your wallet(s) to Toku's custody addresses. Use your own signing infrastructure for this on-chain step.
+
+    Ensure transfers are confirmed on-chain before proceeding to the next step.
+  </Step>
+
+  <Step title="Approve the settlements">
+    Call `POST /approveTokenPayrollSettlements` with the `tokenPayrollID` and the `walletReferenceIDs` for each wallet you funded. Toku verifies on-chain receipt and locks in the exchange rates.
+
+    ```json
+    {
+      "tokenPayrollID": "token-payroll-uuid",
+      "walletReferenceIDs": ["wallet-ref-001", "wallet-ref-002"]
+    }
+    ```
+
+    A successful response returns `"success": true` and the count of approved settlements.
+  </Step>
+
+  <Step title="Toku disburses to employees">
+    After approval, Toku converts the received tokens to local fiat and processes disbursements to each employee. The run transitions to `COMPLETED` when all payments have been sent.
+
+    Monitor state via `POST /getTokenPayrollByID` or webhook events for the `token_payroll.completed` event.
+  </Step>
+</Steps>
+
+---
+
+## Listing and Lookup
+
+### List all token payrolls
+
+`GET /getAllTokenPayrolls` returns every token payroll run for your organization. You can filter by entity:
+
+```
+GET /getAllTokenPayrolls?payrollEntityId=entity-uuid-abc
+```
+
+The response is an array of token payroll objects with their current state, pay period, and entity.
+
+### Fetch a single run
+
+`POST /getTokenPayrollByID` returns the full payroll object including contributor details, settlement method, and current state.
+
+```json
+{
+  "tokenPayrollID": "token-payroll-uuid"
+}
+```
+
+Pass an optional `payrollTypes` array to filter by run type (e.g., `["REGULAR", "BONUS"]`).
+
+---
+
+## State Management
+
+Use `POST /updateTokenPayrollState` to advance or halt a run's lifecycle.
+
+```json
+{
+  "tokenPayrollId": "token-payroll-uuid",
+  "state": "APPROVED"
+}
+```
+
+| State | Meaning |
+|-------|---------|
+| `DRAFT` | Run created; awaiting settlement computation |
+| `APPROVED` | Settlements approved; disbursement queued |
+| `FUNDING` | On-chain transfer in progress |
+| `COMPLETED` | All employees paid; run closed |
+| `FAILED` | Terminal error; create a new run to retry |
+
+<Warning>
+  State transitions are validated server-side. Attempting an invalid transition (e.g., `COMPLETED` → `DRAFT`) returns a `400` error.
+</Warning>
+
+---
+
+## Per-Employee Breakdown
+
+`POST /getTokenPayrollBreakdown` returns the token distribution for a specific role in the organization. Pass `roleInOrgID` and the calculated `netPay` to see how the net pay maps to token amounts per employee.
+
+The response includes:
+- `tokenDistributions` — list of token allocation rules applied
+- `tokenAmounts` — per-token amounts after applying distributions
+- `totalTokenPercentage` — percentage of net pay covered by tokens
+- `netFiatPay` — remainder paid in fiat after token allocation
+
+This is useful for reconciliation and for presenting pre-funding breakdowns to finance teams.
+
+---
+
+## Multi-Currency Notes
+
+Contracts are always denominated in a local fiat currency set via `fiatCurrency` at run creation. Employees receive payment in their contract currency regardless of which stablecoin you use to fund.
+
+Exchange rates are **locked at settlement approval time** — the rate shown in `computePendingSettlements` is indicative until `approveTokenPayrollSettlements` is called, at which point it is fixed for that run. Rate slippage between computation and approval is your responsibility to manage.
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Create Token Payroll" icon="plus" href="/integration-guide/endpoints/stablecoin/create-token-payroll">
+    Open a new stablecoin payroll run
+  </Card>
+  <Card title="Compute Pending Settlements" icon="calculator" href="/integration-guide/endpoints/stablecoin/compute-pending-settlements">
+    Get required token amounts before funding
+  </Card>
+  <Card title="Approve Settlements" icon="circle-check" href="/integration-guide/endpoints/stablecoin/approve-token-payroll-settlements">
+    Confirm on-chain transfers and lock rates
+  </Card>
+  <Card title="Get Payroll Breakdown" icon="chart-bar" href="/integration-guide/endpoints/stablecoin/get-token-payroll-breakdown">
+    Per-employee token distribution details
+  </Card>
+</CardGroup>

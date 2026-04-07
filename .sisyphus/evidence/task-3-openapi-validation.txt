@@ -1,0 +1,3 @@
+npm warn exec The following package was not found and will be installed: @apidevtools/swagger-cli@4.0.4
+npm warn deprecated @apidevtools/swagger-cli@4.0.4: This package has been abandoned. Please switch to using the actively maintained @redocly/cli
+openapi.json is valid

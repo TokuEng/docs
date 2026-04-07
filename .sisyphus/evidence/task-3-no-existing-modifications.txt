@@ -1,0 +1,9 @@
+Semantic comparison against HEAD:openapi.json
+Existing top-level paths preserved: True
+Existing component schemas preserved: True
+Added path count: 28
+Added paths: ['/approveTokenPayrollSettlements', '/computePendingSettlements', '/createHrisPayslip', '/createHrisPayslipFileUpload', '/createHrisPerson', '/createPayroll', '/createTokenPayroll', '/createWebhookEndpoint', '/deleteWebhookEndpoint', '/getAllPayroll', '/getAllTokenPayrolls', '/getHrisPayslipDownloadUrl', '/getHrisPayslipsForEmployee', '/getHrisPayslipsForOrg', '/getHrisPeople', '/getHrisPerson', '/getOnboardingOverview', '/getOnboardingProgress', '/getPayroll', '/getTokenPayrollBreakdown', '/getTokenPayrollByID', '/listWebhookDeliveries', '/listWebhookEndpoints', '/updateHrisEmployeeProfile', '/updateHrisPerson', '/updatePayrollState', '/updateTokenPayrollState', '/validateAndCalculatePayroll']
+Added schema count: 62
+Added schemas (first 20): ['ApproveTokenPayrollSettlementsInput', 'ApproveTokenPayrollSettlementsResponse', 'ComputePendingSettlementsInput', 'ComputePendingSettlementsResponse', 'CreateHrisPayslipFileUploadInput', 'CreateHrisPayslipFileUploadResponse', 'CreateHrisPayslipInput', 'CreateHrisPayslipResponse', 'CreateHrisPersonInput', 'CreateHrisPersonResponse', 'CreatePayrollInput', 'CreatePayrollResponse', 'CreateTokenPayrollInput', 'CreateTokenPayrollResponse', 'CreateUserApiTokenInput', 'CreateUserApiTokenResponse', 'CreateWebhookEndpointInput', 'CreateWebhookEndpointResponse', 'DeleteWebhookEndpointInput', 'DeleteWebhookEndpointResponse']
+Added component sections: ['responses']
+Existing tags prefix preserved: True

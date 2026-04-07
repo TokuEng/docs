@@ -1,0 +1,15 @@
+Task 7: Payslips Endpoint Stubs
+Date: 2026-04-07
+
+Directory: /Users/ayush/docs/integration-guide/endpoints/payslips/
+
+Files created:
+1. create-hris-payslip-file-upload.mdx — openapi: "POST /createHrisPayslipFileUpload"
+2. create-hris-payslip.mdx — openapi: "POST /createHrisPayslip"
+3. get-hris-payslips-for-org.mdx — openapi: "POST /getHrisPayslipsForOrg"
+4. get-hris-payslips-for-employee.mdx — openapi: "POST /getHrisPayslipsForEmployee"
+5. get-hris-payslip-download-url.mdx — openapi: "POST /getHrisPayslipDownloadUrl"
+
+docs.json update:
+- Group "Payslips & Documents" now includes guide + all 5 endpoint pages
+- Location: lines 242-252 in docs.json (Integration Guide tab)
