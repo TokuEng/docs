@@ -1,0 +1,80 @@
+---
+title: "How to Add Users & Recipients"
+sidebarTitle: "Add Users"
+description: "Step-by-step walkthrough for adding grant recipients to your organization"
+---
+
+Add recipients to your organization before creating grants. This guide walks through the process from the TGA dashboard.
+
+<Steps>
+  <Step title="Open People Directory">
+    In the left sidebar, click **People Directory**. You'll see a list of all users currently in your organization.
+
+    <Frame>
+      <img src="/images/tga/add-users/add-users-step-1.png" alt="People Directory showing the user list" />
+    </Frame>
+  </Step>
+
+  <Step title="Click Add User">
+    Click the **Add User** (or **Invite User**) button in the top-right of the page.
+
+    <Frame>
+      <img src="/images/tga/add-users/add-users-step-2.png" alt="Add User button highlighted in the People Directory" />
+    </Frame>
+  </Step>
+
+  <Step title="Fill in the user form">
+    Enter the recipient's details in the form:
+
+    - **Email** — Must be unique in your organization
+    - **First Name** and **Last Name**
+    - **Role** — Select `RECIPIENT` for grant recipients
+    - **Country** — Recipient's country of employment
+    - **Employment Type** — Full-time, part-time, contractor, etc.
+    - **External Employee ID** — Your HRIS identifier (optional, recommended for integrations)
+
+    <Frame>
+      <img src="/images/tga/add-users/add-users-step-3.png" alt="Add user form with fields filled in" />
+    </Frame>
+  </Step>
+
+  <Step title="Save and confirm">
+    Click **Save**. The recipient receives an activation email with a link to set their password and access the employee portal.
+
+    <Frame>
+      <img src="/images/tga/add-users/add-users-step-4.png" alt="Confirmation after user is added successfully" />
+    </Frame>
+  </Step>
+</Steps>
+
+<Tip>
+To add many users at once, use [Bulk Upload Grants](/tga/client/bulk-upload-grants) — the bulk upload flow also supports uploading recipients from a CSV template.
+</Tip>
+
+---
+
+## User Roles
+
+| Role | Description |
+|------|-------------|
+| `RECIPIENT` | Grant recipient — can view grants, manage wallet, see vesting schedule |
+| `CLIENT_ORG_ADMIN` | Full access to all admin features |
+| `PAYROLL_ADMIN` | Access to payroll and settlement |
+| `FINANCE_ADMIN` | Access to reports and payments |
+
+---
+
+<CardGroup cols={2}>
+  <Card title="Creating Grants" icon="plus" href="/tga/client/creating-grants">
+    Issue a token grant to this recipient
+  </Card>
+  <Card title="Bulk Upload" icon="upload" href="/tga/client/bulk-upload-grants">
+    Add multiple recipients at once via CSV
+  </Card>
+  <Card title="Terminations" icon="scissors" href="/tga/client/terminations">
+    Handle departures and grant termination
+  </Card>
+  <Card title="Adding Recipients (reference)" icon="book" href="/tga/client/adding-recipients">
+    Full reference for recipient management
+  </Card>
+</CardGroup>

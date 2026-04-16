@@ -1,0 +1,93 @@
+---
+title: "How to Create a Grant"
+sidebarTitle: "Create a Grant"
+description: "Step-by-step walkthrough for issuing a token grant to a recipient"
+---
+
+Issue a token grant from the TGA dashboard. You'll need at least one [grant configuration](/tga/client/grant-configurations) and an existing recipient before you start.
+
+<Steps>
+  <Step title="Navigate to Token Grants">
+    In the left sidebar, click **Token Grants** to expand the menu, then click **Grants**.
+
+    <Frame>
+      <img src="/images/tga/create-grant/create-grant-step-1.png" alt="Token Grants menu expanded in sidebar" />
+    </Frame>
+  </Step>
+
+  <Step title="View the grants list">
+    The grants list shows all existing grants in your organization — their status, recipient, amount, and vesting progress.
+
+    <Frame>
+      <img src="/images/tga/create-grant/create-grant-step-2.png" alt="Grants list showing existing grants" />
+    </Frame>
+  </Step>
+
+  <Step title="Click New Grant">
+    Click the **New Grant** button in the top-right corner to open the grant creation form.
+
+    <Frame>
+      <img src="/images/tga/create-grant/create-grant-step-3.png" alt="New Grant button highlighted" />
+    </Frame>
+  </Step>
+
+  <Step title="Select a grant configuration">
+    Choose the grant configuration that defines the token type and grant structure (RTU, RTA, TPA, or TOKEN_BONUS). If you don't have one yet, see [Setting Up Grant Types](/tga/client/how-to-grant-configurations).
+
+    <Frame>
+      <img src="/images/tga/create-grant/create-grant-step-4.png" alt="Grant configuration selector" />
+    </Frame>
+  </Step>
+
+  <Step title="Fill in grant details">
+    Complete the grant form:
+
+    - **Recipient** — Search by name or email
+    - **Grant Amount** — Number of tokens to award
+    - **Grant Name** — A descriptive label (e.g., `Q1 2026 Token Grant - Jane Smith`)
+    - **Grant Date** — When the grant was issued
+    - **Vesting Start Date** — When vesting begins
+    - **Vesting Schedule** — Select a template or enter custom cliff/period settings
+    - **Tags** — Optional labels for reporting and filtering
+
+    <Frame>
+      <img src="/images/tga/create-grant/create-grant-step-5.png" alt="Grant details form filled in" />
+    </Frame>
+  </Step>
+
+  <Step title="Review and create">
+    Review the grant summary, then click **Create Grant**. The grant moves to `PENDING` status and the recipient is notified to accept it.
+  </Step>
+</Steps>
+
+<Tip>
+After creation, the grant stays in `PENDING` until the recipient accepts it. You can edit the grant amount, vesting dates, and tags while it's still pending.
+</Tip>
+
+---
+
+## Grant Status Reference
+
+| Status | Meaning |
+|--------|---------|
+| `PENDING` | Awaiting recipient acceptance |
+| `ACCEPTED` | Active and vesting |
+| `COMPLETED` | Fully vested |
+| `TERMINATED` | Ended early by admin |
+
+---
+
+<CardGroup cols={2}>
+  <Card title="Grant Configurations" icon="gear" href="/tga/client/how-to-grant-configurations">
+    Set up grant types before creating grants
+  </Card>
+  <Card title="Vesting Schedules" icon="calendar" href="/tga/client/managing-vesting-schedules">
+    Configure vesting templates
+  </Card>
+  <Card title="Bulk Upload Grants" icon="upload" href="/tga/client/bulk-upload-grants">
+    Create many grants at once via CSV
+  </Card>
+  <Card title="Processing Distributions" icon="send" href="/tga/client/how-to-distributions">
+    Run vesting events and distributions
+  </Card>
+</CardGroup>

@@ -12,30 +12,34 @@ Custody integrations enable automated token settlement through institutional-gra
 
 ## Supported Providers
 
-<CardGroup cols={3}>
-  <Card title="Fireblocks" icon="fire">
-    Enterprise-grade digital asset infrastructure with MPC key management and policy engine.
+<CardGroup cols={2}>
+  <Card title="Anchorage Digital" icon="shield-halved">
+    Institutional-grade custody for digital assets with Anchorage Digital.
   </Card>
-  <Card title="Anchorage" icon="shield-halved">
-    Institutional digital asset platform with qualified custody and staking.
+  <Card title="Fireblocks" icon="fire">
+    Secure digital asset infrastructure for custody, transfer, and settlement.
   </Card>
   <Card title="Safe (Gnosis)" icon="vault">
-    Multisig smart contract wallets with customizable signer thresholds.
+    Multi-signature smart contract wallet for secure on-chain custody.
+  </Card>
+  <Card title="Off Platform" icon="building">
+    Manage custody independently outside of the Toku platform. No API credentials required.
   </Card>
 </CardGroup>
-
-Additional providers available:
-- **Squads** — Solana multisig
-- **Coinbase Prime** — Institutional trading and custody
-- **Galaxy** — Trading and custody services
 
 ---
 
 ## Connecting a Provider
 
+### During Onboarding
+
+During the initial setup checklist, click **Connect** next to "Connect custody integration" on the dashboard. A modal presents the four provider options — select one to begin the setup flow.
+
+### From Settings
+
 <Steps>
   <Step title="Navigate to Integrations">
-    Go to **Admin** → **Integrations** from the sidebar.
+    Go to **Integrations** from the sidebar.
   </Step>
   <Step title="Select your provider">
     Click on the custody provider you want to connect.
@@ -44,10 +48,11 @@ Additional providers available:
     Provide the required API keys and configuration:
     - **Fireblocks**: API key, secret key, vault account ID
     - **Anchorage**: API key, organization ID
-    - **Safe**: Safe wallet address
+    - **Safe (Gnosis)**: Safe wallet address
+    - **Off Platform**: No credentials required — select to acknowledge custody is managed externally
   </Step>
   <Step title="Test connection">
-    The system verifies connectivity before saving.
+    For Fireblocks, Anchorage, and Safe, the system verifies connectivity before saving.
   </Step>
   <Step title="Configure settlement settings">
     Set default vault accounts, signing policies, and notification preferences.

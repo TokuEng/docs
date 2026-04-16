@@ -11,7 +11,10 @@
   },
   "navbar": {
     "links": [
-      { "label": "Support", "href": "https://www.toku.com/contact" }
+      {
+        "label": "Support",
+        "href": "https://www.toku.com/contact"
+      }
     ],
     "primary": {
       "type": "button",
@@ -19,7 +22,9 @@
       "href": "https://app.toku.com"
     }
   },
-  "openapi": ["openapi.json"],
+  "openapi": [
+    "openapi.json"
+  ],
   "api": {
     "baseUrl": "https://app.toku.com/api/tokuApi/v1",
     "playground": {
@@ -53,7 +58,9 @@
         "groups": [
           {
             "group": "Overview",
-            "pages": ["contractor/overview"]
+            "pages": [
+              "contractor/overview"
+            ]
           },
           {
             "group": "Client Guides",
@@ -75,7 +82,45 @@
           },
           {
             "group": "FAQ",
-            "pages": ["contractor/faq"]
+            "pages": [
+              "contractor/faq"
+            ]
+          },
+          {
+            "group": "API Overview",
+            "pages": [
+              "api/overview",
+              "api/authentication",
+              "api/quickstart",
+              "api/errors"
+            ]
+          },
+          {
+            "group": "API Guides",
+            "pages": [
+              "api/guides/build-a-dashboard",
+              "api/guides/grant-lifecycle",
+              "api/guides/wallet-verification-flow",
+              "api/guides/rbac-permissions",
+              "api/guides/best-practices",
+              "api/guides/distribution-workflow",
+              "api/guides/custody-setup"
+            ]
+          },
+          {
+            "group": "Authentication",
+            "pages": [
+              "api/endpoints/authentication/create-api-token",
+              "api/endpoints/authentication/refresh-api-token",
+              "api/endpoints/authentication/generate-auth-nonce"
+            ]
+          },
+          {
+            "group": "Invoices",
+            "pages": [
+              "api/endpoints/invoices/submit-bulk-payments",
+              "api/endpoints/invoices/mark-payment-settled"
+            ]
           }
         ]
       },
@@ -85,7 +130,9 @@
         "groups": [
           {
             "group": "Overview",
-            "pages": ["payroll/overview"]
+            "pages": [
+              "payroll/overview"
+            ]
           },
           {
             "group": "Client Guides",
@@ -117,7 +164,38 @@
           },
           {
             "group": "FAQ",
-            "pages": ["payroll/faq"]
+            "pages": [
+              "payroll/faq"
+            ]
+          },
+          {
+            "group": "API Overview",
+            "pages": [
+              "api/overview",
+              "api/authentication",
+              "api/quickstart",
+              "api/errors"
+            ]
+          },
+          {
+            "group": "API Guides",
+            "pages": [
+              "api/guides/build-a-dashboard",
+              "api/guides/grant-lifecycle",
+              "api/guides/wallet-verification-flow",
+              "api/guides/rbac-permissions",
+              "api/guides/best-practices",
+              "api/guides/distribution-workflow",
+              "api/guides/custody-setup"
+            ]
+          },
+          {
+            "group": "Authentication",
+            "pages": [
+              "api/endpoints/authentication/create-api-token",
+              "api/endpoints/authentication/refresh-api-token",
+              "api/endpoints/authentication/generate-auth-nonce"
+            ]
           }
         ]
       },
@@ -127,7 +205,9 @@
         "groups": [
           {
             "group": "Overview",
-            "pages": ["tga/overview"]
+            "pages": [
+              "tga/overview"
+            ]
           },
           {
             "group": "Getting Started",
@@ -195,87 +275,281 @@
           },
           {
             "group": "FAQ",
-            "pages": ["tga/faq"]
+            "pages": [
+              "tga/faq"
+            ]
+          },
+          {
+            "group": "API Overview",
+            "pages": [
+              "api/overview",
+              "api/authentication",
+              "api/quickstart",
+              "api/errors"
+            ]
+          },
+          {
+            "group": "API Guides",
+            "pages": [
+              "api/guides/build-a-dashboard",
+              "api/guides/grant-lifecycle",
+              "api/guides/wallet-verification-flow",
+              "api/guides/rbac-permissions",
+              "api/guides/best-practices",
+              "api/guides/distribution-workflow",
+              "api/guides/custody-setup"
+            ]
+          },
+          {
+            "group": "Authentication",
+            "pages": [
+              "api/endpoints/authentication/create-api-token",
+              "api/endpoints/authentication/refresh-api-token",
+              "api/endpoints/authentication/generate-auth-nonce"
+            ]
+          },
+          {
+            "group": "Grants",
+            "pages": [
+              "api/endpoints/grants/list-grants",
+              "api/endpoints/grants/list-grant-configurations",
+              "api/endpoints/grants/get-employee-grants",
+              "api/endpoints/grants/get-payroll-employee-id",
+              "api/endpoints/grants/add-single-grant",
+              "api/endpoints/grants/create-grant-for-new-hire",
+              "api/endpoints/grants/terminate-grant",
+              "api/endpoints/grants/terminate-grants",
+              "api/endpoints/grants/terminate-employee-grants",
+              "api/endpoints/grants/revert-grant-termination",
+              "api/endpoints/grants/revert-employee-grant-termination",
+              "api/endpoints/grants/revert-employee-grants",
+              "api/endpoints/grants/get-grant-by-id",
+              "api/endpoints/grants/get-grant-vesting-data",
+              "api/endpoints/grants/create-grant-configuration",
+              "api/endpoints/grants/update-pending-grant",
+              "api/endpoints/grants/bulk-add-grants",
+              "api/endpoints/grants/get-grant-templates",
+              "api/endpoints/grants/create-grant-template"
+            ]
+          },
+          {
+            "group": "Wallets",
+            "pages": [
+              "api/endpoints/wallets/get-all-wallets",
+              "api/endpoints/wallets/get-current-wallet",
+              "api/endpoints/wallets/get-user-current-wallets",
+              "api/endpoints/wallets/get-historical-wallets",
+              "api/endpoints/wallets/get-all-historical-wallets",
+              "api/endpoints/wallets/get-employee-wallets",
+              "api/endpoints/wallets/get-employee-historical-wallets",
+              "api/endpoints/wallets/get-all-wallets-for-recipients",
+              "api/endpoints/wallets/get-pending-wallets",
+              "api/endpoints/wallets/get-pending-wallet-request",
+              "api/endpoints/wallets/get-pending-wallet-requests",
+              "api/endpoints/wallets/add-wallet",
+              "api/endpoints/wallets/update-wallet",
+              "api/endpoints/wallets/mark-wallet-not-current",
+              "api/endpoints/wallets/reactivate-wallet",
+              "api/endpoints/wallets/approve-wallet",
+              "api/endpoints/wallets/reject-wallet",
+              "api/endpoints/wallets/approve-wallet-request",
+              "api/endpoints/wallets/reject-wallet-request",
+              "api/endpoints/wallets/cancel-wallet-request",
+              "api/endpoints/wallets/bulk-upload-wallets"
+            ]
+          },
+          {
+            "group": "Wallet Verification",
+            "pages": [
+              "api/endpoints/wallet-verification/get-test-txn-pending",
+              "api/endpoints/wallet-verification/get-verified-test-requests",
+              "api/endpoints/wallet-verification/get-pending-test-requests",
+              "api/endpoints/wallet-verification/add-test-transaction",
+              "api/endpoints/wallet-verification/send-test-transaction",
+              "api/endpoints/wallet-verification/add-test-txn-to-wallet",
+              "api/endpoints/wallet-verification/resend-test-email",
+              "api/endpoints/wallet-verification/process-bulk-test"
+            ]
+          },
+          {
+            "group": "Wallet Distribution",
+            "pages": [
+              "api/endpoints/wallet-distribution/get-wallet-refs-grants",
+              "api/endpoints/wallet-distribution/get-wallet-refs-networks",
+              "api/endpoints/wallet-distribution/configure-grant-distribution",
+              "api/endpoints/wallet-distribution/set-token-distribution"
+            ]
+          },
+          {
+            "group": "Employees",
+            "pages": [
+              "api/endpoints/employees/get-user-role",
+              "api/endpoints/employees/create-user-role",
+              "api/endpoints/employees/update-user-role",
+              "api/endpoints/employees/batch-update-roles"
+            ]
+          },
+          {
+            "group": "Tokens & Networks",
+            "pages": [
+              "api/endpoints/tokens-networks/get-wallet-types",
+              "api/endpoints/tokens-networks/get-token-types",
+              "api/endpoints/tokens-networks/get-token-types-new",
+              "api/endpoints/tokens-networks/get-networks",
+              "api/endpoints/tokens-networks/get-networks-new",
+              "api/endpoints/tokens-networks/delete-wallet-type",
+              "api/endpoints/tokens-networks/delete-network"
+            ]
+          },
+          {
+            "group": "Organization",
+            "pages": [
+              "api/endpoints/organization/hello",
+              "api/endpoints/organization/get-org-wallet-info",
+              "api/endpoints/organization/update-org-token-address",
+              "api/endpoints/organization/update-test-txn-config",
+              "api/endpoints/organization/send-onboarding-email",
+              "api/endpoints/organization/send-client-admin-onboarding-email",
+              "api/endpoints/organization/get-documents-admin",
+              "api/endpoints/organization/get-my-documents",
+              "api/endpoints/organization/create-document"
+            ]
+          },
+          {
+            "group": "Custody",
+            "pages": [
+              "api/endpoints/custody/get-all-custody-wallets",
+              "api/endpoints/custody/get-custody-wallet-count",
+              "api/endpoints/custody/get-custody-wallets-for-grant",
+              "api/endpoints/custody/add-custody-allocations",
+              "api/endpoints/custody/update-custody-allocations",
+              "api/endpoints/custody/delete-custody-allocations",
+              "api/endpoints/custody/refresh-custody-balances",
+              "api/endpoints/custody/get-fireblocks-integration",
+              "api/endpoints/custody/get-fireblocks-vaults",
+              "api/endpoints/custody/save-fireblocks-integration",
+              "api/endpoints/custody/delete-fireblocks-integration",
+              "api/endpoints/custody/create-fireblocks-wallet",
+              "api/endpoints/custody/link-fireblocks-wallet",
+              "api/endpoints/custody/get-anchorage-public-key",
+              "api/endpoints/custody/get-anchorage-vaults",
+              "api/endpoints/custody/configure-anchorage",
+              "api/endpoints/custody/delete-anchorage",
+              "api/endpoints/custody/create-anchorage-wallet",
+              "api/endpoints/custody/link-anchorage-wallet",
+              "api/endpoints/custody/get-safe-integration",
+              "api/endpoints/custody/test-safe-connection",
+              "api/endpoints/custody/delete-safe-integration",
+              "api/endpoints/custody/get-safe-wallets"
+            ]
+          },
+          {
+            "group": "Distributions",
+            "pages": [
+              "api/endpoints/distributions/get-pending-schedules",
+              "api/endpoints/distributions/batch-approve-schedules",
+              "api/endpoints/distributions/revert-schedule-approval",
+              "api/endpoints/distributions/get-tax-grouping",
+              "api/endpoints/distributions/add-no-tax-details",
+              "api/endpoints/distributions/add-manual-tax-details",
+              "api/endpoints/distributions/batch-update-fmv",
+              "api/endpoints/distributions/get-tax-finalization",
+              "api/endpoints/distributions/batch-finalize-tax",
+              "api/endpoints/distributions/batch-reject-tax",
+              "api/endpoints/distributions/get-pending-settlement",
+              "api/endpoints/distributions/submit-settlement",
+              "api/endpoints/distributions/retry-settlement",
+              "api/endpoints/distributions/get-settlement-status",
+              "api/endpoints/distributions/get-all-settlements",
+              "api/endpoints/distributions/record-settlement",
+              "api/endpoints/distributions/batch-record-settlements",
+              "api/endpoints/distributions/revert-tax-details",
+              "api/endpoints/distributions/bulk-distribution-processing",
+              "api/endpoints/distributions/get-processing-count",
+              "api/endpoints/distributions/can-submit-settlement"
+            ]
           }
-         ]
-       },
-       {
-         "tab": "Integration Guide",
-         "url": "integration-guide",
-         "groups": [
-           {
-             "group": "Overview",
-             "pages": ["integration-guide/overview"]
-           },
-            {
-              "group": "Authentication",
-              "pages": [
-                "integration-guide/guides/authentication",
-                "integration-guide/endpoints/auth/create-api-token",
-                "integration-guide/endpoints/auth/refresh-api-token",
-                "integration-guide/endpoints/auth/generate-auth-nonce"
-              ]
-            },
-           {
-              "group": "Payroll",
-              "pages": [
-                "integration-guide/guides/payroll",
-                "integration-guide/endpoints/payroll/get-all-payroll",
-                "integration-guide/endpoints/payroll/create-payroll",
-                "integration-guide/endpoints/payroll/get-payroll",
-                "integration-guide/endpoints/payroll/update-payroll-state",
-                "integration-guide/endpoints/payroll/validate-calculate-payroll"
-              ]
-            },
-            {
-              "group": "EOR",
-              "pages": [
-                "integration-guide/guides/eor",
-                "integration-guide/endpoints/eor/get-hris-people",
-                "integration-guide/endpoints/eor/create-hris-person",
-                "integration-guide/endpoints/eor/get-hris-person",
-                "integration-guide/endpoints/eor/update-hris-person",
-                "integration-guide/endpoints/eor/get-onboarding-overview",
-                "integration-guide/endpoints/eor/get-onboarding-progress",
-                "integration-guide/endpoints/eor/update-hris-employee-profile"
-              ]
-            },
-            {
-              "group": "Payslips & Documents",
-              "pages": [
-                "integration-guide/guides/payslips",
-                "integration-guide/endpoints/payslips/create-hris-payslip-file-upload",
-                "integration-guide/endpoints/payslips/create-hris-payslip",
-                "integration-guide/endpoints/payslips/get-hris-payslips-for-org",
-                "integration-guide/endpoints/payslips/get-hris-payslips-for-employee",
-                "integration-guide/endpoints/payslips/get-hris-payslip-download-url"
-              ]
-            },
-            {
-              "group": "Webhooks",
-              "pages": [
-                "integration-guide/guides/webhooks",
-                "integration-guide/endpoints/webhooks/list-webhook-endpoints",
-                "integration-guide/endpoints/webhooks/create-webhook-endpoint",
-                "integration-guide/endpoints/webhooks/delete-webhook-endpoint",
-                "integration-guide/endpoints/webhooks/list-webhook-deliveries"
-              ]
-            },
-           {
-             "group": "Stablecoin Funding",
-             "pages": [
-               "integration-guide/guides/stablecoin-funding",
-               "integration-guide/endpoints/stablecoin/get-all-token-payrolls",
-               "integration-guide/endpoints/stablecoin/create-token-payroll",
-               "integration-guide/endpoints/stablecoin/get-token-payroll-by-id",
-               "integration-guide/endpoints/stablecoin/update-token-payroll-state",
-               "integration-guide/endpoints/stablecoin/compute-pending-settlements",
-               "integration-guide/endpoints/stablecoin/approve-token-payroll-settlements",
-               "integration-guide/endpoints/stablecoin/get-token-payroll-breakdown"
-             ]
-           }
-         ]
-        }
+        ]
+      },
+      {
+        "tab": "Integration Guide",
+        "url": "integration-guide",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "integration-guide/overview"
+            ]
+          },
+          {
+            "group": "Authentication",
+            "pages": [
+              "integration-guide/guides/authentication",
+              "integration-guide/endpoints/auth/create-api-token",
+              "integration-guide/endpoints/auth/refresh-api-token",
+              "integration-guide/endpoints/auth/generate-auth-nonce"
+            ]
+          },
+          {
+            "group": "Payroll",
+            "pages": [
+              "integration-guide/guides/payroll",
+              "integration-guide/endpoints/payroll/get-all-payroll",
+              "integration-guide/endpoints/payroll/create-payroll",
+              "integration-guide/endpoints/payroll/get-payroll",
+              "integration-guide/endpoints/payroll/update-payroll-state",
+              "integration-guide/endpoints/payroll/validate-calculate-payroll"
+            ]
+          },
+          {
+            "group": "EOR",
+            "pages": [
+              "integration-guide/guides/eor",
+              "integration-guide/endpoints/eor/get-hris-people",
+              "integration-guide/endpoints/eor/create-hris-person",
+              "integration-guide/endpoints/eor/get-hris-person",
+              "integration-guide/endpoints/eor/update-hris-person",
+              "integration-guide/endpoints/eor/get-onboarding-overview",
+              "integration-guide/endpoints/eor/get-onboarding-progress",
+              "integration-guide/endpoints/eor/update-hris-employee-profile"
+            ]
+          },
+          {
+            "group": "Payslips & Documents",
+            "pages": [
+              "integration-guide/guides/payslips",
+              "integration-guide/endpoints/payslips/create-hris-payslip-file-upload",
+              "integration-guide/endpoints/payslips/create-hris-payslip",
+              "integration-guide/endpoints/payslips/get-hris-payslips-for-org",
+              "integration-guide/endpoints/payslips/get-hris-payslips-for-employee",
+              "integration-guide/endpoints/payslips/get-hris-payslip-download-url"
+            ]
+          },
+          {
+            "group": "Webhooks",
+            "pages": [
+              "integration-guide/guides/webhooks",
+              "integration-guide/endpoints/webhooks/list-webhook-endpoints",
+              "integration-guide/endpoints/webhooks/create-webhook-endpoint",
+              "integration-guide/endpoints/webhooks/delete-webhook-endpoint",
+              "integration-guide/endpoints/webhooks/list-webhook-deliveries"
+            ]
+          },
+          {
+            "group": "Stablecoin Funding",
+            "pages": [
+              "integration-guide/guides/stablecoin-funding",
+              "integration-guide/endpoints/stablecoin/get-all-token-payrolls",
+              "integration-guide/endpoints/stablecoin/create-token-payroll",
+              "integration-guide/endpoints/stablecoin/get-token-payroll-by-id",
+              "integration-guide/endpoints/stablecoin/update-token-payroll-state",
+              "integration-guide/endpoints/stablecoin/compute-pending-settlements",
+              "integration-guide/endpoints/stablecoin/approve-token-payroll-settlements",
+              "integration-guide/endpoints/stablecoin/get-token-payroll-breakdown"
+            ]
+          }
+        ]
+      }
     ]
   },
   "footerSocials": {
