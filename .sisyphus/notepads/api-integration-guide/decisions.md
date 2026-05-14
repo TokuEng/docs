@@ -6,7 +6,7 @@
 - Partner onboarding: placeholder "Contact Toku" — no actual credential details
 - Auth docs: link to existing api/authentication.mdx, don't duplicate
 - Webhook events: name + description + one example payload only (full schemas deferred)
-- KAST is referenced only in callout blocks as named example; all prose uses generic "your platform"
+- Partner-specific names are omitted; all prose uses generic "your platform"
 - Out-of-scope domains: Reporting, Contractor Payments, Employee Self-Service, Employee Management
 - Only external operations (from external-api-injectors.ts) are documented
 - Preserved existing Authentication tag entry and appended the requested partner-facing Authentication tag block to keep the diff additive while satisfying the required tag set.
