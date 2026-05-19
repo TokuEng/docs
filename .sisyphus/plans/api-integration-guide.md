@@ -19,12 +19,12 @@
 ## Context
 
 ### Original Request
-Add a new documentation section to ~/docs/ (Mintlify site) that serves as a dedicated integration guide with API references, modeled after the KAST integration requirements PDF. The guide should be generic for any partner embedding Toku payroll/EOR, with KAST as an example use case. All APIs referenced in the KAST spec are already implemented in ~/TGA/.
+Add a new documentation section to ~/docs/ (Mintlify site) that serves as a dedicated integration guide with API references, modeled after partner integration requirements. The guide should be generic for any partner embedding Toku payroll/EOR. All APIs referenced in the partner spec are already implemented in ~/TGA/.
 
 ### Interview Summary
 **Key Discussions**:
 - **Placement**: New top-level tab (not subgroup of existing API Reference)
-- **Audience**: Generic partner guide — "your platform" language, KAST referenced as example
+- **Audience**: Generic partner guide — "your platform" language
 - **OpenAPI coverage**: Yes — update openapi.json to enable auto-generated endpoint pages
 - **Scope**: Core 6 domains (Auth, Payroll, EOR, Payslips, Webhooks, Stablecoin Funding)
 
@@ -51,7 +51,7 @@ Add a new documentation section to ~/docs/ (Mintlify site) that serves as a dedi
 ## Work Objectives
 
 ### Core Objective
-Create a self-contained "Integration Guide" documentation tab that enables any partner (like KAST) to understand and integrate with Toku's payroll/EOR platform through 6 API domains: Auth, Payroll, EOR, Payslips, Webhooks, and Stablecoin Funding.
+Create a self-contained "Integration Guide" documentation tab that enables any partner to understand and integrate with Toku's payroll/EOR platform through 6 API domains: Auth, Payroll, EOR, Payslips, Webhooks, and Stablecoin Funding.
 
 ### Concrete Deliverables
 - `~/docs/integration-guide/` directory with ~40 MDX files
@@ -78,7 +78,7 @@ Create a self-contained "Integration Guide" documentation tab that enables any p
 - **NO duplicated auth docs**: Link to existing `api/authentication.mdx` for base auth concepts; only add partner-specific token exchange flow
 - **NO invented example payloads**: All examples derived from actual TGA operation input/output types
 - **NO prose bloat**: Max 200 lines per guide MDX, max 8 Steps per workflow section
-- **NO KAST-specific language**: Write generically ("your platform"), use KAST only as a named example in callout blocks
+- **No partner-specific language**: Write generically ("your platform")
 - **NO scope expansion**: Do not document Reporting, Contractor Payments, Employee Self-Service, or Employee Management domains
 
 ---
@@ -571,7 +571,7 @@ Wave FINAL (4 parallel reviews, then user okay):
   **Must NOT do**:
   - Do NOT rewrite the existing authentication guide content — link to it
   - Do NOT exceed 200 lines for the prose guide
-  - Do NOT include KAST-specific credential details
+  - Do NOT include partner-specific credential details
 
   **Recommended Agent Profile**:
   - **Category**: `quick`
@@ -1056,7 +1056,7 @@ Wave FINAL (4 parallel reviews, then user okay):
   **What to do**:
   - Rewrite `~/docs/integration-guide/overview.mdx` (replacing the T1 placeholder) with:
     - Title: "Integration Guide" with description: "Embed Toku's payroll, EOR, and stablecoin payment platform into your product"
-    - Architecture overview: explain the 3 integration options (iframe, SSO redirect, headless API) with a brief description of each — reference KAST as a named example in a callout
+    - Architecture overview: explain the 3 integration options (iframe, SSO redirect, headless API) with a brief description of each
     - `<CardGroup cols={2}>` linking to each of the 6 domain guides with icons and short descriptions
     - Partner onboarding section: "Getting Started" with steps to (1) contact Toku, (2) receive org credentials, (3) create API token, (4) configure webhooks, (5) start integrating
     - Quick reference table: domains, what each covers, link to guide
@@ -1065,7 +1065,7 @@ Wave FINAL (4 parallel reviews, then user okay):
   - Use `<CardGroup>`, `<Card>`, and `<Steps>` components following existing patterns
 
   **Must NOT do**:
-  - Do NOT write KAST-specific content outside of callout/example blocks
+  - Do NOT write partner-specific content
   - Do NOT exceed 200 lines
   - Do NOT duplicate domain content — only link to domain guide pages
 
@@ -1293,7 +1293,7 @@ Wave FINAL (4 parallel reviews, then user okay):
   Output: `Pages [N/N render] | Navigation [PASS/FAIL] | Playground [N/N functional] | VERDICT`
 
 - [x] F4. **Scope Fidelity Check** — `deep`
-  For each task: read "What to do", verify actual output matches spec. Check: only 6 domains documented (no scope creep into Reporting/Contractors/etc), only external operations documented (cross-reference against external-api-injectors.ts), no modifications to existing openapi.json schemas, no KAST-specific language outside callout blocks. Flag any unaccounted files.
+  For each task: read "What to do", verify actual output matches spec. Check: only 6 domains documented (no scope creep into Reporting/Contractors/etc), only external operations documented (cross-reference against external-api-injectors.ts), no modifications to existing openapi.json schemas, no partner-specific language. Flag any unaccounted files.
   Output: `Tasks [N/N compliant] | Scope [CLEAN/N issues] | Unaccounted [CLEAN/N files] | VERDICT`
 
 ---
@@ -1326,6 +1326,6 @@ find ~/docs/integration-guide -name "*.mdx" | wc -l          # Expected: ~40 fil
 - [ ] OpenAPI spec is valid (swagger-cli)
 - [ ] Mintlify builds successfully
 - [ ] No orphaned pages (every MDX in docs.json)
-- [ ] No KAST-specific language outside callout examples
+- [ ] No partner-specific language
 - [ ] No internal operations documented
 - [ ] No existing schemas modified
