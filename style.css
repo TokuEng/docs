@@ -1,0 +1,129 @@
+:root {
+  --toku-ink: #111827;
+  --toku-surface: #f9fafb;
+  --toku-border: #e5e7eb;
+  --toku-blue-start: #3d65d6;
+  --toku-blue-end: #1646ce;
+  --toku-blue-shadow: rgba(17, 24, 39, 0.08);
+}
+
+#topbar-cta-button {
+  border: 0 !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+#topbar-cta-button > a {
+  padding: 12px 16px !important;
+  border: 1px solid rgba(255, 255, 255, 0.24) !important;
+  border-radius: 8px !important;
+  background: linear-gradient(180deg, var(--toku-blue-start) 0%, var(--toku-blue-end) 100%) !important;
+  color: #ffffff !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  line-height: 21px !important;
+  box-shadow: 0 1px 2px var(--toku-blue-shadow) !important;
+}
+
+#topbar-cta-button > a > span.absolute {
+  display: none !important;
+}
+
+#topbar-cta-button > a span,
+#topbar-cta-button > a svg {
+  color: #ffffff !important;
+}
+
+#topbar-cta-button > a:hover {
+  background: linear-gradient(180deg, #466ee2 0%, #1d4fd6 100%) !important;
+}
+
+.toku-overview-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 16px;
+  padding: 32px;
+  border: 0;
+  border-radius: 16px;
+  background: linear-gradient(180deg, var(--toku-blue-start) 0%, var(--toku-blue-end) 100%);
+  box-shadow: none;
+}
+
+.toku-overview-cta h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+.toku-overview-cta p {
+  max-width: 520px;
+  margin: 8px 0 0;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.toku-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 58px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  text-decoration: none !important;
+  white-space: nowrap;
+  box-shadow: none;
+}
+
+.toku-button-secondary {
+  border: 1px solid var(--toku-border);
+  background: var(--toku-surface);
+  color: var(--toku-ink) !important;
+}
+
+.toku-button-secondary:hover {
+  background: #ffffff;
+}
+
+.toku-home-hero {
+  max-width: min(920px, calc(100vw - 64px));
+  margin: 0 auto;
+  padding: 4rem 1.5rem 2.5rem;
+  text-align: center;
+}
+
+.toku-home-content {
+  max-width: min(1120px, calc(100vw - 64px));
+  margin: 0 auto;
+  padding: 0 24px 56px;
+}
+
+.toku-home-cta-wrap {
+  margin-top: 48px;
+}
+
+@media (max-width: 768px) {
+  .toku-overview-cta {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 24px;
+  }
+
+  .toku-button {
+    width: 100%;
+  }
+
+  .toku-home-hero,
+  .toku-home-content {
+    max-width: 100%;
+    padding-right: 24px;
+    padding-left: 24px;
+  }
+}
