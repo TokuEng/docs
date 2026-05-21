@@ -48,7 +48,8 @@
               "getting-started/onboarding-checklist",
               "getting-started/key-concepts",
               "getting-started/support"
-            ]
+            ],
+            "public": true
           }
         ]
       },
@@ -60,7 +61,8 @@
             "group": "Overview",
             "pages": [
               "contractor/overview"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Client Guides",
@@ -69,7 +71,8 @@
               "contractor/client/managing-contractors",
               "contractor/client/payments-and-invoicing",
               "contractor/client/compliance-basics"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Contractor Guides",
@@ -78,13 +81,15 @@
               "contractor/user/submitting-invoices",
               "contractor/user/receiving-payments",
               "contractor/user/tax-information"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "FAQ",
             "pages": [
               "contractor/faq"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "API Overview",
@@ -93,7 +98,8 @@
               "api/authentication",
               "api/quickstart",
               "api/errors"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "API Guides",
@@ -105,7 +111,8 @@
               "api/guides/best-practices",
               "api/guides/distribution-workflow",
               "api/guides/custody-setup"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Authentication",
@@ -120,7 +127,8 @@
             "pages": [
               "api/endpoints/invoices/submit-bulk-payments",
               "api/endpoints/invoices/mark-payment-settled"
-            ]
+            ],
+            "public": true
           }
         ]
       },
@@ -132,7 +140,8 @@
             "group": "Overview",
             "pages": [
               "payroll/overview"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Client Guides",
@@ -142,7 +151,8 @@
               "payroll/client/payroll-integration-setup",
               "payroll/client/running-payroll",
               "payroll/client/reporting"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Employee Guides",
@@ -150,7 +160,8 @@
               "payroll/user/choosing-payout-method",
               "payroll/user/setting-up-wallet",
               "payroll/user/understanding-payslip"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Integrations",
@@ -166,7 +177,8 @@
             "group": "FAQ",
             "pages": [
               "payroll/faq"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "API Overview",
@@ -175,7 +187,8 @@
               "api/authentication",
               "api/quickstart",
               "api/errors"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "API Guides",
@@ -187,7 +200,8 @@
               "api/guides/best-practices",
               "api/guides/distribution-workflow",
               "api/guides/custody-setup"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Authentication",
@@ -207,14 +221,16 @@
             "group": "Overview",
             "pages": [
               "tga/overview"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Getting Started",
             "pages": [
               "tga/client/onboarding-checklist",
               "tga/client/setting-up-your-account"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Grant Management",
@@ -222,46 +238,53 @@
               "tga/client/creating-grants",
               "tga/client/grant-configurations",
               "tga/client/bulk-upload-grants"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Vesting & Schedules",
             "pages": [
               "tga/client/managing-vesting-schedules"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Distributions",
             "pages": [
               "tga/client/token-distributions",
               "tga/client/settlements"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Wallets",
             "pages": [
               "tga/client/wallet-setup"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Custody Integrations",
             "pages": [
               "tga/client/custody-overview"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Recipients & Employees",
             "pages": [
               "tga/client/adding-recipients",
               "tga/client/terminations"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Settings & Reports",
             "pages": [
               "tga/client/reporting-and-compliance",
               "tga/client/cap-table-management"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "User Guides",
@@ -271,13 +294,15 @@
               "tga/user/understanding-vesting",
               "tga/user/wallet-setup",
               "tga/user/tax-documents"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "FAQ",
             "pages": [
               "tga/faq"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "API Overview",
@@ -286,7 +311,8 @@
               "api/authentication",
               "api/quickstart",
               "api/errors"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "API Guides",
@@ -298,7 +324,8 @@
               "api/guides/best-practices",
               "api/guides/distribution-workflow",
               "api/guides/custody-setup"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Authentication",
@@ -330,7 +357,8 @@
               "api/endpoints/grants/bulk-add-grants",
               "api/endpoints/grants/get-grant-templates",
               "api/endpoints/grants/create-grant-template"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Wallets",
@@ -356,7 +384,8 @@
               "api/endpoints/wallets/reject-wallet-request",
               "api/endpoints/wallets/cancel-wallet-request",
               "api/endpoints/wallets/bulk-upload-wallets"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Wallet Verification",
@@ -369,7 +398,8 @@
               "api/endpoints/wallet-verification/add-test-txn-to-wallet",
               "api/endpoints/wallet-verification/resend-test-email",
               "api/endpoints/wallet-verification/process-bulk-test"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Wallet Distribution",
@@ -378,7 +408,8 @@
               "api/endpoints/wallet-distribution/get-wallet-refs-networks",
               "api/endpoints/wallet-distribution/configure-grant-distribution",
               "api/endpoints/wallet-distribution/set-token-distribution"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Employees",
@@ -387,7 +418,8 @@
               "api/endpoints/employees/create-user-role",
               "api/endpoints/employees/update-user-role",
               "api/endpoints/employees/batch-update-roles"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Tokens & Networks",
@@ -399,7 +431,8 @@
               "api/endpoints/tokens-networks/get-networks-new",
               "api/endpoints/tokens-networks/delete-wallet-type",
               "api/endpoints/tokens-networks/delete-network"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Organization",
@@ -413,7 +446,8 @@
               "api/endpoints/organization/get-documents-admin",
               "api/endpoints/organization/get-my-documents",
               "api/endpoints/organization/create-document"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Custody",
@@ -441,7 +475,8 @@
               "api/endpoints/custody/test-safe-connection",
               "api/endpoints/custody/delete-safe-integration",
               "api/endpoints/custody/get-safe-wallets"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Distributions",
@@ -467,7 +502,8 @@
               "api/endpoints/distributions/bulk-distribution-processing",
               "api/endpoints/distributions/get-processing-count",
               "api/endpoints/distributions/can-submit-settlement"
-            ]
+            ],
+            "public": true
           }
         ]
       },
@@ -479,12 +515,16 @@
             "group": "Overview",
             "pages": [
               "integration-guide/overview"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Authentication",
             "pages": [
-              "integration-guide/guides/authentication",
+              {
+                "page": "integration-guide/guides/authentication",
+                "public": true
+              },
               "integration-guide/endpoints/auth/create-api-token",
               "integration-guide/endpoints/auth/refresh-api-token",
               "integration-guide/endpoints/auth/generate-auth-nonce"
@@ -499,7 +539,8 @@
               "integration-guide/endpoints/payroll/get-payroll",
               "integration-guide/endpoints/payroll/update-payroll-state",
               "integration-guide/endpoints/payroll/validate-calculate-payroll"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "EOR",
@@ -512,7 +553,8 @@
               "integration-guide/endpoints/eor/get-onboarding-overview",
               "integration-guide/endpoints/eor/get-onboarding-progress",
               "integration-guide/endpoints/eor/update-hris-employee-profile"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Payslips & Documents",
@@ -523,7 +565,8 @@
               "integration-guide/endpoints/payslips/get-hris-payslips-for-org",
               "integration-guide/endpoints/payslips/get-hris-payslips-for-employee",
               "integration-guide/endpoints/payslips/get-hris-payslip-download-url"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Webhooks",
@@ -533,7 +576,8 @@
               "integration-guide/endpoints/webhooks/create-webhook-endpoint",
               "integration-guide/endpoints/webhooks/delete-webhook-endpoint",
               "integration-guide/endpoints/webhooks/list-webhook-deliveries"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Stablecoin Funding",
@@ -546,7 +590,8 @@
               "integration-guide/endpoints/stablecoin/compute-pending-settlements",
               "integration-guide/endpoints/stablecoin/approve-token-payroll-settlements",
               "integration-guide/endpoints/stablecoin/get-token-payroll-breakdown"
-            ]
+            ],
+            "public": true
           }
         ]
       }
