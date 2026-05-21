@@ -5,7 +5,7 @@ description: "Token grants, contractor management, and stablecoin payroll infras
 mode: "custom"
 ---
 
-<div style={{ textAlign: 'center', padding: '4rem 1rem 2rem', maxWidth: '42rem', margin: '0 auto' }}>
+<div className="toku-home-hero">
   <h1 className="text-gray-900 dark:text-white" style={{ fontSize: '2.5rem', fontWeight: 700, marginBottom: '1rem' }}>What is Toku?</h1>
 
   <p className="text-gray-700 dark:text-gray-200" style={{ fontSize: '1.125rem', lineHeight: 1.75, marginBottom: '2rem' }}>
@@ -20,7 +20,7 @@ mode: "custom"
   </div>
 </div>
 
-<div className="max-w-3xl px-4 mx-auto lg:px-8 pb-10">
+<div className="toku-home-content">
   <div className="text-center text-sm mb-6">
     <h2 className="text-gray-700 dark:text-gray-300" style={{ fontSize: '1rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Products</h2>
   </div>
@@ -70,9 +70,23 @@ mode: "custom"
     <h2 className="text-gray-700 dark:text-gray-300" style={{ fontSize: '1rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Integration</h2>
   </div>
 
-  <CardGroup cols={2}>
+  <CardGroup cols={1}>
     <Card title="Integration Guide" icon="plug" href="/integration-guide/overview">
       Embed Toku payroll, EOR, and stablecoin payments into your platform
     </Card>
   </CardGroup>
+
+  <div className="toku-home-cta-wrap">
+    <div className="toku-overview-cta">
+      <div>
+        <h3>Discover why leading companies choose Toku</h3>
+        <p>
+          No matter your use case, connect with our team and we'll help match you with the right Toku solution.
+        </p>
+      </div>
+      <a className="toku-button toku-button-secondary" href="https://www.toku.com/stablecoin-payroll">
+        Sign up for Toku
+      </a>
+    </div>
+  </div>
 </div>
