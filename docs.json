@@ -55,7 +55,7 @@
       },
       {
         "tab": "Contractor",
-        "url": "contractor/overview",
+        "url": "contractor",
         "groups": [
           {
             "group": "Overview",
@@ -134,7 +134,7 @@
       },
       {
         "tab": "Payroll",
-        "url": "payroll/overview",
+        "url": "payroll",
         "groups": [
           {
             "group": "Overview",
@@ -215,7 +215,7 @@
       },
       {
         "tab": "TGA",
-        "url": "tga/overview",
+        "url": "tga",
         "groups": [
           {
             "group": "Overview",
