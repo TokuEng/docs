@@ -509,7 +509,7 @@
       },
       {
         "tab": "Integration Guide",
-        "url": "integration-guide",
+        "url": "integration-guide/overview",
         "groups": [
           {
             "group": "Overview",
