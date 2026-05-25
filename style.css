@@ -74,16 +74,18 @@
 
 .toku-access-copy {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
   width: 100%;
-  gap: 32px;
+  gap: 8px;
+  text-align: center;
 }
 
 .toku-access-copy p {
-  max-width: 560px;
+  max-width: 680px;
   margin-top: 0;
-  text-align: right;
+  text-align: center;
 }
 
 .toku-access-actions {
@@ -144,12 +146,7 @@
   }
 
   .toku-access-copy {
-    flex-direction: column;
     gap: 8px;
-  }
-
-  .toku-access-copy p {
-    text-align: left;
   }
 
   .toku-access-actions {
