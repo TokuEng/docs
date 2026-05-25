@@ -23,7 +23,12 @@
       return true;
     }
 
-    var authLinks = document.querySelectorAll("a, button, logout-link");
+    var navbar = document.querySelector("#navbar");
+    if (!navbar) {
+      return false;
+    }
+
+    var authLinks = navbar.querySelectorAll("a, button");
     for (var i = 0; i < authLinks.length; i += 1) {
       if (/^\s*log\s*out\s*$/i.test(authLinks[i].textContent || "")) {
         return true;
