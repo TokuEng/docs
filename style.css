@@ -67,6 +67,33 @@
   line-height: 24px;
 }
 
+.toku-access-cta {
+  align-items: stretch;
+  flex-direction: column;
+}
+
+.toku-access-copy {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  gap: 32px;
+}
+
+.toku-access-copy p {
+  max-width: 560px;
+  margin-top: 0;
+  text-align: right;
+}
+
+.toku-access-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
 .toku-button {
   display: inline-flex;
   align-items: center;
@@ -114,6 +141,20 @@
     align-items: flex-start;
     flex-direction: column;
     padding: 24px;
+  }
+
+  .toku-access-copy {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .toku-access-copy p {
+    text-align: left;
+  }
+
+  .toku-access-actions {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .toku-button {
