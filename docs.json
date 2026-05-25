@@ -117,9 +117,9 @@
           {
             "group": "Authentication",
             "pages": [
-              "api/endpoints/authentication/create-api-token",
-              "api/endpoints/authentication/refresh-api-token",
-              "api/endpoints/authentication/generate-auth-nonce"
+              "api/protected-links/create-api-token",
+              "api/protected-links/refresh-api-token",
+              "api/protected-links/generate-auth-nonce"
             ]
           },
           {
@@ -166,11 +166,11 @@
           {
             "group": "Integrations",
             "pages": [
-              "integrations/adp",
-              "integrations/adp-token-deduction",
-              "integrations/adp-export-employees",
-              "integrations/workday",
-              "integrations/ukg"
+              "integrations/protected-links/adp",
+              "integrations/protected-links/adp-token-deduction",
+              "integrations/protected-links/adp-export-employees",
+              "integrations/protected-links/workday",
+              "integrations/protected-links/ukg"
             ]
           },
           {
@@ -206,9 +206,9 @@
           {
             "group": "Authentication",
             "pages": [
-              "api/endpoints/authentication/create-api-token",
-              "api/endpoints/authentication/refresh-api-token",
-              "api/endpoints/authentication/generate-auth-nonce"
+              "api/protected-links/create-api-token",
+              "api/protected-links/refresh-api-token",
+              "api/protected-links/generate-auth-nonce"
             ]
           }
         ]
@@ -330,9 +330,9 @@
           {
             "group": "Authentication",
             "pages": [
-              "api/endpoints/authentication/create-api-token",
-              "api/endpoints/authentication/refresh-api-token",
-              "api/endpoints/authentication/generate-auth-nonce"
+              "api/protected-links/create-api-token",
+              "api/protected-links/refresh-api-token",
+              "api/protected-links/generate-auth-nonce"
             ]
           },
           {
@@ -512,9 +512,9 @@
         "pages": [
           "integration-guide/overview",
           "integration-guide/guides/authentication",
-          "integration-guide/endpoints/auth/create-api-token",
-          "integration-guide/endpoints/auth/refresh-api-token",
-          "integration-guide/endpoints/auth/generate-auth-nonce",
+          "integration-guide/protected-links/create-api-token",
+          "integration-guide/protected-links/refresh-api-token",
+          "integration-guide/protected-links/generate-auth-nonce",
           "integration-guide/guides/payroll",
           "integration-guide/endpoints/payroll/get-all-payroll",
           "integration-guide/endpoints/payroll/create-payroll",
