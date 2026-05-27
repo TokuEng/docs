@@ -12,6 +12,14 @@
     "/integrations/protected-links/workday": "/integrations/workday",
     "/integrations/protected-links/ukg": "/integrations/ukg",
   };
+  var endpointMethods = {
+    "/api/protected-links/create-api-token": "POST",
+    "/api/protected-links/refresh-api-token": "POST",
+    "/api/protected-links/generate-auth-nonce": "POST",
+    "/integration-guide/protected-links/create-api-token": "POST",
+    "/integration-guide/protected-links/refresh-api-token": "POST",
+    "/integration-guide/protected-links/generate-auth-nonce": "POST",
+  };
 
   function normalizePath(pathname) {
     var normalized = pathname.replace(/\/+$/, "");
@@ -57,6 +65,30 @@
     }
   }
 
+  function addEndpointMethodBadges() {
+    var links = document.querySelectorAll("a[href]");
+    for (var i = 0; i < links.length; i += 1) {
+      var link = links[i];
+      var linkUrl;
+
+      try {
+        linkUrl = new URL(link.href, window.location.origin);
+      } catch (error) {
+        continue;
+      }
+
+      var method = endpointMethods[normalizePath(linkUrl.pathname)];
+      if (!method || link.querySelector(".toku-method-badge")) {
+        continue;
+      }
+
+      var badge = document.createElement("span");
+      badge.className = "toku-method-badge toku-method-badge-" + method.toLowerCase();
+      badge.textContent = method;
+      link.insertBefore(badge, link.firstChild);
+    }
+  }
+
   function redirectFromPlaceholder() {
     var currentPath = normalizePath(window.location.pathname);
     var target = protectedTargets[currentPath];
@@ -69,6 +101,8 @@
   }
 
   function applyAuthenticatedRouting() {
+    addEndpointMethodBadges();
+
     if (!hasLogoutLink()) {
       return false;
     }
@@ -76,6 +110,8 @@
     rewriteProtectedPlaceholderLinks();
     return redirectFromPlaceholder();
   }
+
+  addEndpointMethodBadges();
 
   if (applyAuthenticatedRouting()) {
     return;
